@@ -24,6 +24,7 @@ package com.kopysoft.wifiselector.Adapter;
 
 import android.content.Context;
 import android.net.wifi.WifiConfiguration;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -35,6 +36,7 @@ public class WifiAdapter extends BaseAdapter {
 
     List<WifiConfiguration> gWifiList;
     Context gContext;
+    private static final String TAG = "Wifi Selector - Adapter";
 
     public WifiAdapter(List<WifiConfiguration> wifiList, Context context){
 
@@ -55,6 +57,10 @@ public class WifiAdapter extends BaseAdapter {
     }
 
     public View getView(int i, View view, ViewGroup viewGroup) {
+
+        Log.d(TAG, "Position: " + i);
+
+
         Row curRow;
         if(view == null)
             curRow = new Row(gContext);
