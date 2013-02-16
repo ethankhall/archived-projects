@@ -38,11 +38,22 @@ public class JsonCheckFormat {
     private String jsonToBeValidated;
     private String formatString;
 
+    /**
+     * Create the JsonCheckFormat
+     * @param jsonToBeValidated JSON that needs to be validated
+     * @param formatString The JSON contianing the validation information
+     */
     JsonCheckFormat(String jsonToBeValidated, String formatString){
         this.jsonToBeValidated = jsonToBeValidated;
         this.formatString = formatString;
     }
 
+    /**
+     * Checks to see if the input JSON is within the expected range.
+     *
+     * @return true if valid, else false
+     * @throws IOException
+     */
     public Boolean isJsonValid() throws IOException {
         JsonValidationMap hashMapOfJsonToBeValidated = new JsonValidationMap(jsonToBeValidated);
         JsonEntryMap jsonEntryMap = new JsonEntryMap(formatString);
