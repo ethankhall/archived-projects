@@ -14,9 +14,11 @@ class ApiSinEntryController {
         }
 
         entry.group = group
+        def sinCount = SinEntry.countByGroup(group)
+
         if(entry.save(failOnError: true)) {
             def resultMap = [
-                    count: SinEntry.countByGroup(group)
+                    count: sinCount + 1
             ]
             render resultMap as JSON
         } else {
