@@ -30,11 +30,14 @@ class ApiSinEntryController {
     def getAllEntries() {
         def jsonResponse = []
         SinEntry.findAllWhere([ group: Group.findWhere([ lookup: params.groupId ]) ]).each {
-            jsonResponse.add([
+            def map = [
                     sinner: it.sinner,
-                    sin: it.sin,
-                    misc: it.misc
-            ])
+                    sin: it.sin
+            ]
+            if(!it.misc.isEmpty())
+                map.put("misc", it.misc)
+
+            jsonResponse.add(map)
         }
         def resultMap = [
                 count: jsonResponse.size(),
