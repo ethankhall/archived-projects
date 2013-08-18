@@ -16,7 +16,7 @@ class ApiSinEntryController {
         entry.group = group
         if(entry.save(failOnError: true)) {
             def resultMap = [
-                    count: SinEntry.findWhere([group: group]).count()
+                    count: SinEntry.countByGroup(group)
             ]
             render resultMap as JSON
         } else {
