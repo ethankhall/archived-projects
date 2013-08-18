@@ -1,10 +1,13 @@
 package publicshame
+
+import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
 import groovy.json.JsonSlurper
 import org.junit.Before
 import org.junit.Test
 
 @TestFor(ApiSinEntryController)
+@Mock([SinEntry, Group])
 class ApiSinEntryControllerTests {
 
     ApiSinEntryController sinController
@@ -29,16 +32,35 @@ class ApiSinEntryControllerTests {
 
     @Test
     void testGetCount() {
-        def group = createGroup("123", "1")
+        def group = createGroup("1234", "12")
         createSin("Ethan", "", group)
+        createSin("Ethan1", "", group)
 
         sinController.request.contentType = 'type/json'
-        sinController.request.content = "{\"sinner\" : \"Ethan\"}" as byte[]
+        sinController.params.groupId = group.lookup
+        sinController.getAllEntries()
+        def jsonObject = new JsonSlurper().parseText(sinController.response.contentAsString)
+        assert jsonObject.count == 2
+    }
+
+    @Test
+    void testPasswordProtectedBadPassword() {
+        def group = createGroup("1", "12345", "someone")
+        sinController.request.contentType = 'type/json'
+        sinController.request.content = "{\"sinner\" : \"Ethan\", \"passphrase\" : \"somethingwrong\"}" as byte[]
         sinController.params.groupId = group.lookup
         sinController.createEntry()
-        def jsonObject = new JsonSlurper().parseText(sinController.response.contentAsString)
-        assert jsonObject != null
-        assert jsonObject.count == 1
+        assert sinController.response.getStatus() == 403
+    }
+
+    @Test
+    void testPasswordProtectedGoodPassword() {
+        def group = createGroup("1", "12345", "someone")
+        sinController.request.contentType = 'type/json'
+        sinController.request.content = "{\"sinner\" : \"Ethan\", \"passphrase\" : \"someone\"}" as byte[]
+        sinController.params.groupId = group.lookup
+        sinController.createEntry()
+        assert sinController.response.getStatus() == 200
     }
 
     private void createSin(name, sinName, group){
@@ -46,14 +68,15 @@ class ApiSinEntryControllerTests {
         sin.sinner = name
         sin.sin = sinName
         sin.group = group
-        sin.save()
+        sin.save(failOnError: true)
     }
 
-    private Group createGroup(name, lookup) {
+    private Group createGroup(name, lookup, password = "") {
         def group = new Group()
         group.name = name
         group.lookup = lookup
-        group.save()
+        group.passphrase = password
+        group.save(failOnError: true)
         return group
     }
 }

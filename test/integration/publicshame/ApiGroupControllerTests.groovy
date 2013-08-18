@@ -1,10 +1,14 @@
 package publicshame
 
+import grails.test.mixin.Mock
+import grails.test.mixin.TestFor
 import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
 import org.junit.Before
 import org.junit.Test
 
+@TestFor(ApiGroupController)
+@Mock([Group, SinEntry])
 class ApiGroupControllerTests {
 
     ApiGroupController controller
