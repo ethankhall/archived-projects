@@ -30,28 +30,35 @@ class ApiSinEntryController {
     }
 
     def getAllEntries() {
-        def jsonResponse = []
         def teamUsed = Team.findWhere([lookup: params.teamId])
         if(!teamUsed){
             response.sendError(404)
             return;
         }
 
-        SinEntry.findAllWhere([ group: teamUsed]).each {
+        def sinnerList = generateSinnerList(teamUsed)
+        def resultMap = [
+                name: teamUsed.name,
+                count: sinnerList.size(),
+                sins: sinnerList,
+                refreshLink: request.getRequestURL(),
+        ]
+        render resultMap as JSON
+    }
+
+    def generateSinnerList(Team teamUsed) {
+        def sinnerList = []
+        SinEntry.findAllWhere([group: teamUsed]).each {
             def map = [
                     sinner: it.sinner,
                     sin: it.sin
             ]
-            if(!it.misc.isEmpty())
+            if (!it.misc.isEmpty())
                 map.put("misc", it.misc)
 
-            jsonResponse.add(map)
+            sinnerList.add(map)
         }
-        def resultMap = [
-                name: teamUsed.name,
-                count: jsonResponse.size(),
-                sins: jsonResponse
-        ]
-        render resultMap as JSON
+
+        return sinnerList
     }
 }
