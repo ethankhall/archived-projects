@@ -1,6 +1,6 @@
 package publicshame
 
-class Group {
+class Team {
 
     String name
     String lookup
@@ -9,10 +9,6 @@ class Group {
     static constraints = {
         name(blank: false)
         lookup(blank: false, unique: true)
-    }
-
-    static mapping = {
-        table 'group_holder'
     }
 
     static hasMany = [entries: SinEntry]

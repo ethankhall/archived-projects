@@ -6,9 +6,11 @@ class ApiSinEntryController {
 
     def createEntry() {
         def entry = new SinEntry(request.JSON)
-        def group = Group.findWhere([lookup: params.groupId as String])
-
-        if(!group.passphrase?.isEmpty() && request.JSON.passphrase != group.passphrase) {
+        def group = Team.findWhere([lookup: params.teamId as String])
+        if(!group) {
+            response.sendError(404)
+            return
+        } else if(!group.passphrase?.isEmpty() && request.JSON.passphrase != group.passphrase) {
             response.sendError(403)
             return
         }
@@ -29,7 +31,13 @@ class ApiSinEntryController {
 
     def getAllEntries() {
         def jsonResponse = []
-        SinEntry.findAllWhere([ group: Group.findWhere([ lookup: params.groupId ]) ]).each {
+        def teamUsed = Team.findWhere([lookup: params.teamId])
+        if(!teamUsed){
+            response.sendError(404)
+            return;
+        }
+
+        SinEntry.findAllWhere([ group: teamUsed]).each {
             def map = [
                     sinner: it.sinner,
                     sin: it.sin
@@ -40,6 +48,7 @@ class ApiSinEntryController {
             jsonResponse.add(map)
         }
         def resultMap = [
+                name: teamUsed.name,
                 count: jsonResponse.size(),
                 sins: jsonResponse
         ]

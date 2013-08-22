@@ -11,5 +11,5 @@ class SinEntry {
         group(blank: false)
     }
 
-    static belongsTo = [ group: Group ]
+    static belongsTo = [ group: Team ]
 }

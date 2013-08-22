@@ -7,7 +7,7 @@ import org.junit.Before
 import org.junit.Test
 
 @TestFor(ApiSinEntryController)
-@Mock([SinEntry, Group])
+@Mock([SinEntry, Team])
 class ApiSinEntryControllerTests {
 
     ApiSinEntryController sinController
@@ -23,7 +23,7 @@ class ApiSinEntryControllerTests {
 
         sinController.request.contentType = 'type/json'
         sinController.request.content = "{\"sinner\" : \"Ethan\"}" as byte[]
-        sinController.params.groupId = group.lookup
+        sinController.params.teamId = group.lookup
         sinController.createEntry()
         def jsonObject = new JsonSlurper().parseText(sinController.response.contentAsString)
         assert jsonObject != null
@@ -37,7 +37,7 @@ class ApiSinEntryControllerTests {
         createSin("Ethan1", "", group)
 
         sinController.request.contentType = 'type/json'
-        sinController.params.groupId = group.lookup
+        sinController.params.teamId = group.lookup
         sinController.getAllEntries()
         def jsonObject = new JsonSlurper().parseText(sinController.response.contentAsString)
         assert jsonObject.count == 2
@@ -48,7 +48,7 @@ class ApiSinEntryControllerTests {
         def group = createGroup("1", "12345", "someone")
         sinController.request.contentType = 'type/json'
         sinController.request.content = "{\"sinner\" : \"Ethan\", \"passphrase\" : \"somethingwrong\"}" as byte[]
-        sinController.params.groupId = group.lookup
+        sinController.params.teamId = group.lookup
         sinController.createEntry()
         assert sinController.response.getStatus() == 403
     }
@@ -58,9 +58,27 @@ class ApiSinEntryControllerTests {
         def group = createGroup("1", "12345", "someone")
         sinController.request.contentType = 'type/json'
         sinController.request.content = "{\"sinner\" : \"Ethan\", \"passphrase\" : \"someone\"}" as byte[]
-        sinController.params.groupId = group.lookup
+        sinController.params.teamId = group.lookup
         sinController.createEntry()
         assert sinController.response.getStatus() == 200
+    }
+
+    @Test
+    void testThatNameIsPassedBackProperly() {
+        def group = createGroup("1", "12345", "someone")
+        sinController.request.contentType = 'type/json'
+        sinController.params.teamId = group.lookup
+        sinController.getAllEntries()
+        def jsonObject = new JsonSlurper().parseText(sinController.response.contentAsString)
+        assert jsonObject.name == group.name
+    }
+
+    @Test
+    void testThatInvalidTeamFailsWith404() {
+        sinController.request.contentType = 'type/json'
+        sinController.params.teamId = '1'
+        sinController.getAllEntries()
+        assert sinController.response.getStatus() ==  404
     }
 
     private void createSin(name, sinName, group){
@@ -71,8 +89,8 @@ class ApiSinEntryControllerTests {
         sin.save(failOnError: true)
     }
 
-    private Group createGroup(name, lookup, password = "") {
-        def group = new Group()
+    private Team createGroup(name, lookup, password = "") {
+        def group = new Team()
         group.name = name
         group.lookup = lookup
         group.passphrase = password

@@ -6,7 +6,7 @@ class ApiGroupController {
 
     def getAllGroups(){
         def mapHash = []
-        Group.findAll().each {
+        Team.findAll().each {
             mapHash.add([
                     id: it.lookup,
                     name: it.name,
@@ -21,7 +21,7 @@ class ApiGroupController {
 
     def postGroup() {
         log.debug(request)
-        def group = new Group(request.JSON)
+        def group = new Team(request.JSON)
         createRandomString(group)
 
         if(group.save()) {
@@ -35,9 +35,9 @@ class ApiGroupController {
         }
     }
 
-    private void createRandomString(Group group) {
+    private void createRandomString(Team group) {
         def randomString = RandomStringUtils.random(5, true, true)
-        while ( 0 != Group.findAllWhere(lookup: randomString).size() ) {
+        while ( 0 != Team.findAllWhere(lookup: randomString).size() ) {
             randomString = RandomStringUtils.random(5, true, true)
         }
         group.lookup = randomString

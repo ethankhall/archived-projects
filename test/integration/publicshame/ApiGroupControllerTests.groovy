@@ -8,7 +8,7 @@ import org.junit.Before
 import org.junit.Test
 
 @TestFor(ApiGroupController)
-@Mock([Group, SinEntry])
+@Mock([Team, SinEntry])
 class ApiGroupControllerTests {
 
     ApiGroupController controller
