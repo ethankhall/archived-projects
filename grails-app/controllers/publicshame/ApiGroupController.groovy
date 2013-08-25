@@ -14,15 +14,12 @@ class ApiGroupController {
             ])
         }
 
-        log.error(mapHash as JSON)
-
         render mapHash as JSON
     }
 
     def postGroup() {
-        log.debug(request)
         def group = new Team(request.JSON)
-        createRandomString(group)
+        group.lookup = createRandomString()
 
         if(group.save()) {
             def resp = [
@@ -35,11 +32,13 @@ class ApiGroupController {
         }
     }
 
-    private void createRandomString(Team group) {
+    def createRandomString() {
         def randomString = RandomStringUtils.random(5, true, true)
         while ( 0 != Team.findAllWhere(lookup: randomString).size() ) {
             randomString = RandomStringUtils.random(5, true, true)
         }
-        group.lookup = randomString
+
+        return randomString
+
     }
 }
