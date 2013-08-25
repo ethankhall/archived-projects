@@ -6,8 +6,12 @@ class UrlMappings {
             action = [POST: "postGroup", GET: "getAllGroups"]
         }
 
-        "/api/group/${groupId}"(controller: "apiSinEntry") {
+        "/api/group/${teamId}"(controller: "apiSinEntry") {
             action = [POST: "createEntry", GET: "getAllEntries"]
+        }
+
+        "/api/post/${sinId}"(controller: "apiSinEntry") {
+            action = [ DELETE: "deleteEntry", GET: "showEntry"]
         }
 
 		"/"(view:"/index")

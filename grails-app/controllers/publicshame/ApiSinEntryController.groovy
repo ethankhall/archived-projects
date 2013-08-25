@@ -60,6 +60,44 @@ class ApiSinEntryController {
         render resultMap as JSON
     }
 
+    def deleteEntry() {
+        def sinUsed = SinEntry.findWhere([lookup: params.sinId])
+        if(!sinUsed){
+            def errorMessage = [
+                    error: "Post not found"
+            ] as JSON
+            response.sendError(404, errorMessage as String)
+            return
+        }
+
+        sinUsed.delete()
+
+        def response = [
+                "status" : "OK"
+        ]
+
+        render response as JSON
+    }
+
+    def showEntry() {
+        def sinUsed = SinEntry.findWhere([lookup: params.sinId])
+        if(!sinUsed){
+            def errorMessage = [
+                    error: "Post not found"
+            ] as JSON
+            response.sendError(404, errorMessage as String)
+            return
+        }
+
+        def resultMap = [
+                sinner: sinUsed.sinner,
+                sin: sinUsed.sin,
+                id: sinUsed.id,
+                refreshLink: request.getRequestURL(),
+        ]
+        render resultMap as JSON
+    }
+
     /**
      * This method will take a team and create a list of all sins
      *
@@ -71,8 +109,9 @@ class ApiSinEntryController {
         def sinnerList = []
         SinEntry.findAllWhere([group: teamUsed]).each {
             def map = [
+                    id: it.id,
                     sinner: it.sinner,
-                    sin: it.sin
+                    sin: it.sin,
             ]
             if (!it.misc.isEmpty())
                 map.put("misc", it.misc)
