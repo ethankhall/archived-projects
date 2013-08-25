@@ -81,6 +81,21 @@ class ApiSinEntryControllerTests {
         assert sinController.response.getStatus() ==  404
     }
 
+    @Test
+    void testThatWillReturn400WhenNoSinnerIsGiven() {
+
+        def group = createGroup("123", "1")
+
+        sinController.request.contentType = 'type/json'
+        sinController.request.content = "{\"foobar\" : \"Ethan\"}" as byte[]
+        sinController.params.teamId = group.lookup
+        sinController.createEntry()
+        def jsonObject = new JsonSlurper().parseText(sinController.response.contentAsString)
+        assert jsonObject != null
+        assert jsonObject.error == "Invalid input"
+        assert sinController.response.getStatus() == 400
+    }
+
     private void createSin(name, sinName, group){
         def sin = new SinEntry()
         sin.sinner = name

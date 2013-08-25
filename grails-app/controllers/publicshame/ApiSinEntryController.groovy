@@ -4,6 +4,9 @@ import grails.converters.JSON
 
 class ApiSinEntryController {
 
+    /**
+     * Create a new sin. If the team doesn't exists return a 404
+     */
     def createEntry() {
         def entry = new SinEntry(request.JSON)
         def group = Team.findWhere([lookup: params.teamId as String])
@@ -12,6 +15,11 @@ class ApiSinEntryController {
             return
         } else if(!group.passphrase?.isEmpty() && request.JSON.passphrase != group.passphrase) {
             response.sendError(403)
+            return
+        } else if(null == entry.sinner) {
+            final def responseMessage = [ error : "Invalid input", message: "Need to name a sinner."]
+            response.sendError(400)
+            render responseMessage as JSON
             return
         }
 
@@ -29,6 +37,12 @@ class ApiSinEntryController {
         }
     }
 
+    /**
+     * Get all the sin entries for this group.
+     *
+     * IF the group doesn't exists return 404
+     *
+     */
     def getAllEntries() {
         def teamUsed = Team.findWhere([lookup: params.teamId])
         if(!teamUsed){
@@ -46,6 +60,13 @@ class ApiSinEntryController {
         render resultMap as JSON
     }
 
+    /**
+     * This method will take a team and create a list of all sins
+     *
+     * @param teamUsed
+     * @return list of all sins assigned no this team
+     *
+     */
     def generateSinnerList(Team teamUsed) {
         def sinnerList = []
         SinEntry.findAllWhere([group: teamUsed]).each {

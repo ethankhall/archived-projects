@@ -7,7 +7,7 @@ class SinEntry {
     String misc = ""
 
     static constraints = {
-        sinner(blank: false)
+        sinner(blank: false, nullable: false)
         group(blank: false)
     }
 
