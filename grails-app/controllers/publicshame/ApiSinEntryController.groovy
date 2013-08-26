@@ -56,6 +56,7 @@ class ApiSinEntryController {
                 name: teamUsed.name,
                 count: sinnerList.size(),
                 sins: sinnerList,
+                hasPassphrase: teamUsed.passphrase.isEmpty(),
                 refreshLink: request.getRequestURL(),
         ]
         render resultMap as JSON
