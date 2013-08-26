@@ -7,11 +7,6 @@ Welcome to the our sample API documentation. All comments can be written in (sup
 ---
 
 --
-Shopping Cart Resources
-The following is a section of resources related to the shopping cart
---
-
---
 Team Resourses
 The following section contains the operations that can be preformed on the team object
 --
@@ -71,6 +66,10 @@ POST /api/team/{teamId}
     "error": "Team not found"
 }
 
+--
+Post specific actions. You can delete and get operations
+--
+Get the data for a post
 GET /api/post/{postId}
 < 200
 < Content-type: application/json
@@ -80,6 +79,7 @@ GET /api/post/{postId}
 < Content-type: application/json
 {"error":"Post not found"}
 
+Deletes a post
 DELETE /api/post/{postId}
 < 200
 < Content-Type: application/json
