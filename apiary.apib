@@ -11,6 +11,70 @@ Shopping Cart Resources
 The following is a section of resources related to the shopping cart
 --
 
+--
+Team Resourses
+The following section contains the operations that can be preformed on the team object
+--
+
+Get all the teams that are avalible
+GET /api/team
+< 200
+< Content-Type: application/json
+[{"key":"qa","name":"QA","count":0},{"key":"umz0i","name":"The A Team","count":0}]
+
+Create a new team with a passphrase to prevent unauthorized writes
+POST /api/team
+> Content-Type: application/json
+{
+"name" : "The A Team",
+"passphrase" : "Shut up, fool."
+}
+< 200
+< Content-Type: application/json
+{"key":"umz0i","name":"The A Team"}
+
+--
+Specific Team Operations
+This section is the contains the operations that can preformed on a specific team
+--
+Get all the posts on a team
+GET /api/team/{teamId}
+< 200
+< Content-Type: application/json
+{
+    "name":"QA",
+    "count":3,
+    "sins":[
+        {"sinner":"ethan","sin":"broke the build","id":1},
+        {"sinner":"james","sin":"broke the build","id":2},
+        {"sinner":"andrew","sin":"broke the build","id":3}
+        ],
+        "hasPassphrase":false,
+        "refreshLink":"/api/team/{teamId}"}
+
+Create a new post on a team with no passphrase needed
+POST /api/team/{teamId}
+> Content-Type: application/json
+{"sinner":"ethan", "sin":"broke the build"}
+< 200
+< Content-Type: application/json
+{"count":1,"refreshLink":"/api/team/{teamId}"}
+
+> Content Type: application/json
+{"sinner":"ethan", "sin":"broke the build", "passphrase" : "Shut up, fool"}
+< 403
+
+
+
+
+---
+
+        "/api/post/${sinId}"(controller: "apiSinEntry") {
+            action = [ DELETE: "deleteEntry", GET: "showEntry"]
+        }
+---
+
+
 List products added into your shopping-cart. (comment block again in Markdown)
 GET /shopping-cart
 < 200
