@@ -59,42 +59,32 @@ POST /api/team/{teamId}
 < 200
 < Content-Type: application/json
 {"count":1,"refreshLink":"/api/team/{teamId}"}
-
-> Content Type: application/json
-{"sinner":"ethan", "sin":"broke the build", "passphrase" : "Shut up, fool"}
++++++
 < 403
+< Content-Type: application/json
+{
+    "error": "Passphrase invalid"
+}
++++++
+< 404
+{
+    "error": "Team not found"
+}
 
+GET /api/post/{postId}
+< 200
+< Content-type: application/json
+{"sinner":"ethan","sin":"broke the build","id":6}
++++++
+< 404
+< Content-type: application/json
+{"error":"Post not found"}
 
-
-
----
-
-        "/api/post/${sinId}"(controller: "apiSinEntry") {
-            action = [ DELETE: "deleteEntry", GET: "showEntry"]
-        }
----
-
-
-List products added into your shopping-cart. (comment block again in Markdown)
-GET /shopping-cart
+DELETE /api/post/{postId}
 < 200
 < Content-Type: application/json
-{ "items": [
-{ "url": "/shopping-cart/1", "product":"2ZY48XPZ", "quantity": 1, "name": "New socks", "price": 1.25 }
-] }
-
-Save new products in your shopping cart
-POST /shopping-cart
-> Content-Type: application/json
-{ "product":"1AB23ORM", "quantity": 2 }
-< 201
+{"status":"OK"}
++++++
+< 404
 < Content-Type: application/json
-{ "status": "created", "url": "/shopping-cart/2" }
-
--- Payment Resources --
-
-This resource allows you to submit payment information to process your *shopping cart* items
-POST /payment
-{ "cc": "12345678900", "cvc": "123", "expiry": "0112" }
-< 200
-{ "receipt": "/payment/receipt/1" }
+{"error":"Post not found"}
