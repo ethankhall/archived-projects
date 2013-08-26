@@ -110,9 +110,7 @@ class ApiSinEntryController {
     }
 
     def createEntryMapWithRefreshLink(SinEntry sinUsed) {
-        def result = createEntryMap(sinUsed)
-        result << [refreshLink: request.getRequestURL()]
-        result
+        createEntryMap(sinUsed) + [refreshLink: request.getRequestURL()]
     }
 
     def createEntryMap(SinEntry sinUsed) {
