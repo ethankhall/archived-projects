@@ -11,9 +11,17 @@ class ApiSinEntryController {
         def entry = new SinEntry(request.JSON)
         def group = Team.findWhere([lookup: params.teamId as String])
         if(!group) {
-            response.sendError(404)
+            def teamNotFound = [
+                    error: "Team not found"
+            ]
+            response.status = 404
+            render teamNotFound as JSON
         } else if(!group.passphrase?.isEmpty() && request.JSON.passphrase != group.passphrase) {
-            response.sendError(403)
+            def jsonResponse = [
+                    error: "Passphrase invalid"
+            ] as JSON
+            response.status = 403
+            render jsonResponse
         } else if(null == entry.sinner) {
             final def responseMessage = [ error : "Invalid input", message: "Need to name a sinner."]
             response.sendError(400)
@@ -22,7 +30,16 @@ class ApiSinEntryController {
             entry.team = group
             def sinCount = SinEntry.countByTeam(group)
 
-            render saveNewSin(entry, sinCount)
+            if (entry.save(failOnError: true)) {
+                def resultMap = [
+                        count: sinCount + 1,
+                        refreshLink: "http://" + request.serverName + "/api/team/" + params.teamId
+                ]
+                render resultMap as JSON
+            } else {
+                log.error(entry.errors)
+                render entry.errors
+            }
         }
     }
 
@@ -31,7 +48,7 @@ class ApiSinEntryController {
             def resultMap = [
                     count: sinCount + 1
             ]
-            return resultMap as JSON
+            return resultMap
         } else {
             log.error(entry.errors)
             return entry.errors
@@ -56,41 +73,46 @@ class ApiSinEntryController {
                 name: teamUsed.name,
                 count: sinnerList.size(),
                 sins: sinnerList,
-                hasPassphrase: teamUsed.passphrase.isEmpty(),
-                refreshLink: request.getRequestURL(),
+                hasPassphrase: !teamUsed.passphrase.isEmpty(),
+                refreshLink: "http://" + request.serverName + "/api/team/" + teamUsed.lookup
         ]
         render resultMap as JSON
     }
 
     def deleteEntry() {
-        def sinUsed = SinEntry.findWhere([lookup: params.sinId])
-        if(!sinUsed){
-            def errorMessage = [
-                    error: "Post not found"
-            ] as JSON
-            response.sendError(404, errorMessage as String)
-            return
+        if( params.sinId.isNumber() && SinEntry.findWhere([id: params.sinId as Long]) ) {
+            SinEntry.findWhere([id: params.sinId as Long]).delete()
+            def response = [
+                    "status" : "OK"
+                ]
+
+            render response as JSON
+        } else {
+            sendPostNotFound()
         }
 
-        sinUsed.delete()
 
-        def response = [
-                "status" : "OK"
-        ]
-
-        render response as JSON
     }
 
     def showEntry() {
-        def sinUsed = SinEntry.findWhere([lookup: params.sinId])
-        if(!sinUsed){
-            def errorMessage = [
-                    error: "Post not found"
-            ] as JSON
-            response.sendError(404, errorMessage as String)
+        if( params.sinId.isNumber()) {
+            def sinUsed = SinEntry.findWhere([id: params.sinId as Long])
+            if(!sinUsed){
+                sendPostNotFound()
+            } else {
+                render createEntryMap(sinUsed) as JSON
+            }
         } else {
-            render createEntryMapWithRefreshLink(sinUsed) as JSON
+            sendPostNotFound()
         }
+    }
+
+    private void sendPostNotFound() {
+        def errorMessage = [
+                error: "Post not found"
+        ] as JSON
+        response.status = 404
+        render errorMessage
     }
 
     /**
@@ -110,7 +132,7 @@ class ApiSinEntryController {
     }
 
     def createEntryMapWithRefreshLink(SinEntry sinUsed) {
-        createEntryMap(sinUsed) + [refreshLink: request.getRequestURL()]
+        createEntryMap(sinUsed) << [refreshLink: request.getRequestURL()]
     }
 
     def createEntryMap(SinEntry sinUsed) {

@@ -14,7 +14,7 @@ class UrlMappings {
             action = [ DELETE: "deleteEntry", GET: "showEntry"]
         }
 
-        "/seed"(controller: "qaController") {
+        "/seed"(controller: "apiQa") {
             action: [ GET: "seed"]
         }
 

@@ -8,7 +8,7 @@ class ApiGroupController {
         def mapHash = []
         Team.findAll().each {
             mapHash.add([
-                    id: it.lookup,
+                    key: it.lookup,
                     name: it.name,
                     count: SinEntry.countByTeam(it)
             ])
@@ -23,7 +23,7 @@ class ApiGroupController {
 
         if(group.save()) {
             def resp = [
-                    id: group.lookup,
+                    key: group.lookup,
                     name: group.name
             ]
             render resp as JSON
