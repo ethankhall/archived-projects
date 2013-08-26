@@ -12,35 +12,36 @@ class ApiSinEntryController {
         def group = Team.findWhere([lookup: params.teamId as String])
         if(!group) {
             response.sendError(404)
-            return
         } else if(!group.passphrase?.isEmpty() && request.JSON.passphrase != group.passphrase) {
             response.sendError(403)
-            return
         } else if(null == entry.sinner) {
             final def responseMessage = [ error : "Invalid input", message: "Need to name a sinner."]
             response.sendError(400)
             render responseMessage as JSON
-            return
+        } else {
+            entry.team = group
+            def sinCount = SinEntry.countByTeam(group)
+
+            render saveNewSin(entry, sinCount)
         }
+    }
 
-        entry.group = group
-        def sinCount = SinEntry.countByGroup(group)
-
-        if(entry.save(failOnError: true)) {
+    def saveNewSin(SinEntry entry, int sinCount) {
+        if (entry.save(failOnError: true)) {
             def resultMap = [
                     count: sinCount + 1
             ]
-            render resultMap as JSON
+            return resultMap as JSON
         } else {
             log.error(entry.errors)
-            render entry.errors
+            return entry.errors
         }
     }
 
     /**
-     * Get all the sin entries for this group.
+     * Get all the sin entries for this team.
      *
-     * IF the group doesn't exists return 404
+     * IF the team doesn't exists return 404
      *
      */
     def getAllEntries() {
@@ -86,16 +87,9 @@ class ApiSinEntryController {
                     error: "Post not found"
             ] as JSON
             response.sendError(404, errorMessage as String)
-            return
+        } else {
+            render createEntryMapWithRefreshLink(sinUsed) as JSON
         }
-
-        def resultMap = [
-                sinner: sinUsed.sinner,
-                sin: sinUsed.sin,
-                id: sinUsed.id,
-                refreshLink: request.getRequestURL(),
-        ]
-        render resultMap as JSON
     }
 
     /**
@@ -107,18 +101,28 @@ class ApiSinEntryController {
      */
     def generateSinnerList(Team teamUsed) {
         def sinnerList = []
-        SinEntry.findAllWhere([group: teamUsed]).each {
-            def map = [
-                    id: it.id,
-                    sinner: it.sinner,
-                    sin: it.sin,
-            ]
-            if (!it.misc.isEmpty())
-                map.put("misc", it.misc)
-
-            sinnerList.add(map)
+        SinEntry.findAllWhere([team: teamUsed]).each {
+            sinnerList << createEntryMap(it)
         }
 
         return sinnerList
+    }
+
+    def createEntryMapWithRefreshLink(SinEntry sinUsed) {
+        def result = createEntryMap(sinUsed)
+        result << [refreshLink: request.getRequestURL()]
+        result
+    }
+
+    def createEntryMap(SinEntry sinUsed) {
+        def resultMap = [
+                sinner: sinUsed.sinner,
+                sin: sinUsed.sin,
+                id: sinUsed.id,
+        ]
+
+        if (sinUsed.misc)
+            resultMap <<  ["misc", sinUsed.misc]
+        resultMap
     }
 }

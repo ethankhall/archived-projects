@@ -8,8 +8,8 @@ class SinEntry {
 
     static constraints = {
         sinner(blank: false, nullable: false)
-        group(blank: false)
+        team(blank: false)
     }
 
-    static belongsTo = [ group: Team ]
+    static belongsTo = [ team: Team ]
 }

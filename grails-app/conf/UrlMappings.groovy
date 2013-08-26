@@ -2,16 +2,20 @@ class UrlMappings {
 
 	static mappings = {
 
-        "/api/group"(controller: "apiGroup", parseRequest:true) {
+        "/api/team"(controller: "apiGroup", parseRequest:true) {
             action = [POST: "postGroup", GET: "getAllGroups"]
         }
 
-        "/api/group/${teamId}"(controller: "apiSinEntry") {
+        "/api/team/${teamId}"(controller: "apiSinEntry") {
             action = [POST: "createEntry", GET: "getAllEntries"]
         }
 
         "/api/post/${sinId}"(controller: "apiSinEntry") {
             action = [ DELETE: "deleteEntry", GET: "showEntry"]
+        }
+
+        "/seed"(controller: "qaController") {
+            action: [ GET: "seed"]
         }
 
 		"/"(view:"/index")

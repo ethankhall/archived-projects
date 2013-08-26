@@ -100,7 +100,7 @@ class ApiSinEntryControllerTests {
         def sin = new SinEntry()
         sin.sinner = name
         sin.sin = sinName
-        sin.group = group
+        sin.team = group
         sin.save(failOnError: true)
     }
 

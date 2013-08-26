@@ -10,7 +10,7 @@ class ApiGroupController {
             mapHash.add([
                     id: it.lookup,
                     name: it.name,
-                    count: SinEntry.countByGroup(it)
+                    count: SinEntry.countByTeam(it)
             ])
         }
 
