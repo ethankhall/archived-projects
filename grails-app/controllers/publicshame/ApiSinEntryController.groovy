@@ -2,6 +2,8 @@ package publicshame
 
 import grails.converters.JSON
 
+import java.security.MessageDigest
+
 class ApiSinEntryController {
 
     private static final int MAX_STEP = 15
@@ -31,6 +33,7 @@ class ApiSinEntryController {
         } else {
             entry.team = group
             def sinCount = SinEntry.countByTeam(group)
+            processImage(entry)
 
             if (entry.save(failOnError: true)) {
                 def resultMap = [
@@ -42,6 +45,18 @@ class ApiSinEntryController {
                 log.error(entry.errors)
                 render entry.errors
             }
+        }
+    }
+
+    def processImage(SinEntry sinEntry) {
+        def f = request.getFile('image')
+        if (!f.empty) {
+            def messageDigest = MessageDigest.getInstance("SHA1")
+            messageDigest.update(f)
+            def filename = new BigInteger(1, messageDigest.digest()).toString(16).padLeft( 40, '0' )
+            def newFile = new File("${filename}.png")
+            f.transferTo(newFile)
+            sinEntry.pathToFile = newFile.getPath()
         }
     }
 
