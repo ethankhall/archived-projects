@@ -33,15 +33,91 @@ GET /api/team/{teamId}
 < 200
 < Content-Type: application/json
 {
-    "name":"QA",
-    "count":3,
-    "sins":[
-        {"sinner":"ethan","sin":"broke the build","id":1},
-        {"sinner":"james","sin":"broke the build","id":2},
-        {"sinner":"andrew","sin":"broke the build","id":3}
-        ],
-        "hasPassphrase":false,
-        "refreshLink":"/api/team/{teamId}"}
+    "name": "QA",
+    "hasPassphrase": false,
+    "totalCount": 22,
+    "size": 15,
+    "sins": [
+        {
+            "sinner": "ethan",
+            "sin": "broke the build",
+            "id": 5
+        },
+        {
+            "sinner": "ethan",
+            "sin": "broke the build",
+            "id": 6
+        },
+        {
+            "sinner": "ethan",
+            "sin": "broke the build",
+            "id": 7
+        },
+        {
+            "sinner": "ethan",
+            "sin": "broke the build",
+            "id": 8
+        },
+        {
+            "sinner": "ethan",
+            "sin": "broke the build",
+            "id": 9
+        },
+        {
+            "sinner": "ethan",
+            "sin": "broke the build",
+            "id": 10
+        },
+        {
+            "sinner": "ethan",
+            "sin": "broke the build",
+            "id": 11
+        },
+        {
+            "sinner": "ethan",
+            "sin": "broke the build",
+            "id": 12
+        },
+        {
+            "sinner": "ethan",
+            "sin": "broke the build",
+            "id": 13
+        },
+        {
+            "sinner": "ethan",
+            "sin": "broke the build",
+            "id": 14
+        },
+        {
+            "sinner": "ethan",
+            "sin": "broke the build",
+            "id": 15
+        },
+        {
+            "sinner": "ethan",
+            "sin": "broke the build",
+            "id": 16
+        },
+        {
+            "sinner": "ethan",
+            "sin": "broke the build",
+            "id": 17
+        },
+        {
+            "sinner": "ethan",
+            "sin": "broke the build",
+            "id": 18
+        },
+        {
+            "sinner": "ethan",
+            "sin": "broke the build",
+            "id": 19
+        }
+    ],
+    "refreshLink": "http://localhost:8080/PublicShame/api/team/qa?start=4",
+    "next": "http://localhost:8080/PublicShame/api/team/qa?start=19",
+    "prev": "http://localhost:8080/PublicShame/api/team/qa?start=0"
+}
 
 Create a new post on a team with no passphrase needed
 POST /api/team/{teamId}
