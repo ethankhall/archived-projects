@@ -18,7 +18,6 @@ class UrlMappings {
             action: [ GET: "seed"]
         }
 
-		"/"(view:"/index")
 		"500"(view:'/error')
 	}
 }
