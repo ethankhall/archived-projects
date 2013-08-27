@@ -4,6 +4,8 @@ import grails.converters.JSON
 
 class ApiSinEntryController {
 
+    private static final int MAX_STEP = 15
+
     /**
      * Create a new sin. If the team doesn't exists return a 404
      */
@@ -67,16 +69,43 @@ class ApiSinEntryController {
             response.sendError(404)
             return;
         }
-
-        def sinnerList = generateSinnerList(teamUsed)
         def resultMap = [
                 name: teamUsed.name,
-                count: sinnerList.size(),
-                sins: sinnerList,
                 hasPassphrase: !teamUsed.passphrase.isEmpty(),
-                refreshLink: "http://" + request.serverName + "/api/team/" + teamUsed.lookup
         ]
+
+        resultMap << getSinnerListForRequest(teamUsed, getStartPosition())
         render resultMap as JSON
+    }
+
+    private int getStartPosition() {
+        if(null == params.start)
+            return 0
+        else
+            return ((String)params.start).toInteger()
+    }
+
+    def getSinnerListForRequest(Team teamUsed, int startLocation) {
+        def sinnerList = generateSinnerList(teamUsed, startLocation)
+
+        def returnValue = [
+                totalCount: SinEntry.countByTeam(teamUsed),
+                size: sinnerList.size(),
+                sins: sinnerList,
+                refreshLink: "http://" + request.serverName + "/api/team/" + teamUsed.lookup + "?start=${startLocation}"
+        ]
+
+        if(sinnerList.size() == MAX_STEP) {
+            returnValue <<
+                    [ next: "http://" + request.serverName + "/api/team/" + teamUsed.lookup + "?start=${startLocation + MAX_STEP}" ]
+        }
+
+        if(startLocation != 0) {
+            returnValue <<
+                    [ prev: "http://" + request.serverName + "/api/team/" + teamUsed.lookup + "?start=${Math.max(startLocation - MAX_STEP, 0)}" ]
+        }
+
+        returnValue
     }
 
     def deleteEntry() {
@@ -122,9 +151,9 @@ class ApiSinEntryController {
      * @return list of all sins assigned no this team
      *
      */
-    def generateSinnerList(Team teamUsed) {
+    def generateSinnerList(Team teamUsed, int startPosition) {
         def sinnerList = []
-        SinEntry.findAllWhere([team: teamUsed]).each {
+        SinEntry.findAllByTeam(teamUsed,  [max: MAX_STEP, offset: startPosition]).each {
             sinnerList << createEntryMap(it)
         }
 
