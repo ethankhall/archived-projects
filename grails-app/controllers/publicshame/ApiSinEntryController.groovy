@@ -35,7 +35,7 @@ class ApiSinEntryController {
             if (entry.save(failOnError: true)) {
                 def resultMap = [
                         count: sinCount + 1,
-                        refreshLink: "http://" + request.serverName + "/api/team/" + params.teamId
+                        refreshLink: getBaseURL()
                 ]
                 render resultMap as JSON
             } else {
@@ -64,6 +64,7 @@ class ApiSinEntryController {
      *
      */
     def getAllEntries() {
+        getBaseURL()
         def teamUsed = Team.findWhere([lookup: params.teamId])
         if(!teamUsed){
             response.sendError(404)
@@ -92,17 +93,17 @@ class ApiSinEntryController {
                 totalCount: SinEntry.countByTeam(teamUsed),
                 size: sinnerList.size(),
                 sins: sinnerList,
-                refreshLink: "http://" + request.serverName + "/api/team/" + teamUsed.lookup + "?start=${startLocation}"
+                refreshLink: getBaseURL() + "?start=${startLocation}"
         ]
 
         if(sinnerList.size() == MAX_STEP) {
             returnValue <<
-                    [ next: "http://" + request.serverName + "/api/team/" + teamUsed.lookup + "?start=${startLocation + MAX_STEP}" ]
+                    [ next: getBaseURL() + "?start=${startLocation + MAX_STEP}" ]
         }
 
         if(startLocation != 0) {
             returnValue <<
-                    [ prev: "http://" + request.serverName + "/api/team/" + teamUsed.lookup + "?start=${Math.max(startLocation - MAX_STEP, 0)}" ]
+                    [ prev: getBaseURL() + "?start=${Math.max(startLocation - MAX_STEP, 0)}" ]
         }
 
         returnValue
@@ -174,5 +175,14 @@ class ApiSinEntryController {
         if (sinUsed.misc)
             resultMap <<  ["misc", sinUsed.misc]
         resultMap
+    }
+
+    def getBaseURL() {
+        def responseUrl = "http://" + request.getServerName()
+        if(80 != request.getServerPort()){
+            responseUrl += ":${request.getServerPort()}"
+        }
+        responseUrl += "${request.forwardURI}"
+        return responseUrl
     }
 }
