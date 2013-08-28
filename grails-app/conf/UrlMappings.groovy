@@ -18,6 +18,10 @@ class UrlMappings {
             action: [ GET: "seed"]
         }
 
+        "/api/team/update/${teamId}"(controller: "apiTimeBasedGroup") {
+            action: [GET: "getSinceLastTime" ]
+        }
+
 		"500"(view:'/error')
 	}
 }

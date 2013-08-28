@@ -3,8 +3,6 @@ import grails.converters.JSON
 
 class ApiSinEntryController {
 
-    private static final int MAX_STEP = 15
-
     /**
      * Create a new sin. If the team doesn't exists return a 404
      */
@@ -12,21 +10,12 @@ class ApiSinEntryController {
         def entry = new SinEntry(request.JSON)
         def group = Team.findWhere([lookup: params.teamId as String])
         if(!group) {
-            def teamNotFound = [
-                    error: "Team not found"
-            ]
-            response.status = 404
-            render teamNotFound as JSON
+            render ResponseHelper.getResponseForError([error: "Team not found"], 404, response)
         } else if(!group.passphrase?.isEmpty() && request.JSON.passphrase != group.passphrase) {
-            def jsonResponse = [
-                    error: "Passphrase invalid"
-            ] as JSON
-            response.status = 403
-            render jsonResponse
+            render ResponseHelper.getResponseForError([error: "Passphrase invalid"], 403, response)
         } else if(null == entry.sinner) {
-            final def responseMessage = [ error : "Invalid input", message: "Need to name a sinner."]
-            response.sendError(400)
-            render responseMessage as JSON
+            render ResponseHelper.getResponseForError(
+                    [ error : "Invalid input", message: "Need to name a sinner."], 403, response)
         } else {
             entry.team = group
             def sinCount = SinEntry.countByTeam(group)
@@ -86,7 +75,7 @@ class ApiSinEntryController {
     }
 
     def getSinnerListForRequest(Team teamUsed, int startLocation) {
-        def sinnerList = generateSinnerList(teamUsed, startLocation)
+        def sinnerList = SinEntryHelper.generateSinnerList(teamUsed, startLocation)
 
         def returnValue = [
                 totalCount: SinEntry.countByTeam(teamUsed),
@@ -97,12 +86,12 @@ class ApiSinEntryController {
 
         if(sinnerList.size() == MAX_STEP) {
             returnValue <<
-                    [ next: getBaseURL() + "?start=${startLocation + MAX_STEP}" ]
+                    [ next: getBaseURL() + "?start=${startLocation + SinEntryHelper.MAX_STEP}" ]
         }
 
         if(startLocation != 0) {
             returnValue <<
-                    [ prev: getBaseURL() + "?start=${Math.max(startLocation - MAX_STEP, 0)}" ]
+                    [ prev: getBaseURL() + "?start=${Math.max(startLocation - SinEntryHelper.MAX_STEP, 0)}" ]
         }
 
         returnValue
@@ -142,38 +131,6 @@ class ApiSinEntryController {
         ] as JSON
         response.status = 404
         render errorMessage
-    }
-
-    /**
-     * This method will take a team and create a list of all sins
-     *
-     * @param teamUsed
-     * @return list of all sins assigned no this team
-     *
-     */
-    def generateSinnerList(Team teamUsed, int startPosition) {
-        def sinnerList = []
-        SinEntry.findAllByTeam(teamUsed,  [max: MAX_STEP, offset: startPosition]).each {
-            sinnerList << createEntryMap(it)
-        }
-
-        return sinnerList
-    }
-
-    def createEntryMapWithRefreshLink(SinEntry sinUsed) {
-        createEntryMap(sinUsed) << [refreshLink: request.getRequestURL()]
-    }
-
-    def createEntryMap(SinEntry sinUsed) {
-        def resultMap = [
-                sinner: sinUsed.sinner,
-                sin: sinUsed.sin,
-                id: sinUsed.id,
-        ]
-
-        if (sinUsed.misc)
-            resultMap <<  ["misc", sinUsed.misc]
-        resultMap
     }
 
     def getBaseURL() {
