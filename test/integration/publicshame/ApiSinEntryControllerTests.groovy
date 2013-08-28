@@ -40,7 +40,7 @@ class ApiSinEntryControllerTests {
         sinController.params.teamId = group.lookup
         sinController.getAllEntries()
         def jsonObject = new JsonSlurper().parseText(sinController.response.contentAsString)
-        assert jsonObject.count == 2
+        assert jsonObject.size == 2
     }
 
     @Test

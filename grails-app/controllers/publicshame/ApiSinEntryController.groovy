@@ -15,7 +15,7 @@ class ApiSinEntryController {
             render ResponseHelper.getResponseForPassphraseNotCorrect(response)
         } else if(null == entry.sinner) {
             render ResponseHelper.getResponseForError(
-                    [ error : "Invalid input", message: "Need to name a sinner."], 403, response)
+                    [ error : "Invalid input", message: "Need to name a sinner."], 400, response)
         } else {
             entry.team = group
             def sinCount = SinEntry.countByTeam(group)

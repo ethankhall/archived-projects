@@ -33,7 +33,7 @@ class ApiGroupControllerTests {
 
         assert (jsonObject as ArrayList).size() == 2
         for(entry in jsonObject){
-            assert entry.id in idsCreated
+            assert entry.key in idsCreated
         }
     }
 
@@ -45,8 +45,8 @@ class ApiGroupControllerTests {
         def jsonObj = new JsonSlurper().parseText((String)controller.response.contentAsString)
         controller.response.reset()
 
-        assert jsonObj.id != null
-        return jsonObj.id
+        assert jsonObj.key != null
+        return jsonObj.key
     }
 }
 
