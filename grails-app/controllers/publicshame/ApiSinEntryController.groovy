@@ -10,9 +10,9 @@ class ApiSinEntryController {
         def entry = new SinEntry(request.JSON)
         def group = Team.findWhere([lookup: params.teamId as String])
         if(!group) {
-            render ResponseHelper.getResponseForError([error: "Team not found"], 404, response)
+            render ResponseHelper.getResponseForTeamNotFound(response)
         } else if(!group.passphrase?.isEmpty() && request.JSON.passphrase != group.passphrase) {
-            render ResponseHelper.getResponseForError([error: "Passphrase invalid"], 403, response)
+            render ResponseHelper.getResponseForPassphraseNotCorrect(response)
         } else if(null == entry.sinner) {
             render ResponseHelper.getResponseForError(
                     [ error : "Invalid input", message: "Need to name a sinner."], 403, response)
@@ -33,18 +33,6 @@ class ApiSinEntryController {
         }
     }
 
-    def saveNewSin(SinEntry entry, int sinCount) {
-        if (entry.save(failOnError: true)) {
-            def resultMap = [
-                    count: sinCount + 1
-            ]
-            return resultMap
-        } else {
-            log.error(entry.errors)
-            return entry.errors
-        }
-    }
-
     /**
      * Get all the sin entries for this team.
      *
@@ -55,16 +43,16 @@ class ApiSinEntryController {
         getBaseURL()
         def teamUsed = Team.findWhere([lookup: params.teamId])
         if(!teamUsed){
-            response.sendError(404)
-            return;
-        }
-        def resultMap = [
-                name: teamUsed.name,
-                hasPassphrase: !teamUsed.passphrase.isEmpty(),
-        ]
+            render ResponseHelper.getResponseForTeamNotFound(response)
+        } else {
+            def resultMap = [
+                    name: teamUsed.name,
+                    hasPassphrase: !teamUsed.passphrase.isEmpty(),
+            ]
 
-        resultMap << getSinnerListForRequest(teamUsed, getStartPosition())
-        render resultMap as JSON
+            resultMap << getSinnerListForRequest(teamUsed, getStartPosition())
+            render resultMap as JSON
+        }
     }
 
     private int getStartPosition() {
@@ -84,7 +72,7 @@ class ApiSinEntryController {
                 refreshLink: getBaseURL() + "?start=${startLocation}"
         ]
 
-        if(sinnerList.size() == MAX_STEP) {
+        if(sinnerList.size() == SinEntryHelper.MAX_STEP) {
             returnValue <<
                     [ next: getBaseURL() + "?start=${startLocation + SinEntryHelper.MAX_STEP}" ]
         }
@@ -100,37 +88,25 @@ class ApiSinEntryController {
     def deleteEntry() {
         if( params.sinId.isNumber() && SinEntry.findWhere([id: params.sinId as Long]) ) {
             SinEntry.findWhere([id: params.sinId as Long]).delete()
-            def response = [
-                    "status" : "OK"
-                ]
+            def response = [ "status" : "OK" ]
 
             render response as JSON
         } else {
-            sendPostNotFound()
+            render ResponseHelper.getResponseForPostNotFount(response)
         }
-
-
     }
 
     def showEntry() {
         if( params.sinId.isNumber()) {
             def sinUsed = SinEntry.findWhere([id: params.sinId as Long])
             if(!sinUsed){
-                sendPostNotFound()
+                render ResponseHelper.getResponseForPostNotFount(response)
             } else {
-                render createEntryMap(sinUsed) as JSON
+                render SinEntryHelper.createEntryMap(sinUsed) as JSON
             }
         } else {
-            sendPostNotFound()
+            render ResponseHelper.getResponseForPostNotFount(response)
         }
-    }
-
-    private void sendPostNotFound() {
-        def errorMessage = [
-                error: "Post not found"
-        ] as JSON
-        response.status = 404
-        render errorMessage
     }
 
     def getBaseURL() {
