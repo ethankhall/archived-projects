@@ -15,11 +15,11 @@ class UrlMappings {
         }
 
         "/seed"(controller: "apiQa") {
-            action: [ GET: "seed"]
+            action = [ GET: "seed"]
         }
 
         "/api/team/update/${teamId}"(controller: "apiTimeBasedGroup") {
-            action: [GET: "getSinceLastTime" ]
+            action = [GET: "getSinceLastTime" ]
         }
 
 		"500"(view:'/error')

@@ -9,18 +9,28 @@ class ApiTimeBasedGroupController {
         def teamFound = Team.findByLookup(teamId)
         if(!teamFound) {
             render ResponseHelper.getResponseForTeamNotFound(response)
-        } else if( !params.timestamp ){
-            render ResponseHelper.getResponseForError([error: "Missing Timestamp"], 400, response)
-        } else if( !((String)params.timestamp).isNumber() ){
-            render ResponseHelper.getResponseForError([error: "Timestamp Invalid"], 400, response)
+        } else if( !params.id ){
+            render ResponseHelper.getResponseForError([error: "Missing ID"], 400, response)
+        } else if( !((String)params.id).isNumber() ){
+            render ResponseHelper.getResponseForError([error: "Invalid ID"], 400, response)
         } else {
-            render getNewPostsSinceTimestamp(teamFound, ((String)params.timestamp).toInteger())
+            render getNewPostsSinceLastPost(teamFound, ((String)params.id).toInteger())
         }
     }
 
-    JSON getNewPostsSinceTimestamp(Team team, Integer timestamp) {
-        def responseObj = [ sins: SinEntry.findAllByTeamAndCreatedDateGreaterThan(team, new Date(timestamp)) ]
-        responseObj << [ refreshLink: RequestHelper.getBaseURL(request) ]
+    JSON getNewPostsSinceLastPost(Team team, Integer lastId) {
+        def sinList = []
+        def reuseId = lastId
+        SinEntry.findAllByTeamAndIdGreaterThan(team, lastId).each {
+            sinList << SinEntryHelper.createEntryMap(it)
+        }
+
+        if(sinList.size() != 0) {
+            reuseId = sinList[sinList.size() - 1].id
+        }
+
+        def responseObj = [ sins: sinList]
+        responseObj << [ refreshLink: RequestHelper.getBaseURL(request) + "?id=${reuseId}" ]
         return responseObj as JSON
     }
 }
