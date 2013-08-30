@@ -23,10 +23,7 @@ class ApiTimeBasedGroupController {
         def reuseId = lastId
         SinEntry.findAllByTeamAndIdGreaterThan(team, lastId).each {
             sinList << SinEntryHelper.createEntryMap(it)
-        }
-
-        if(sinList.size() != 0) {
-            reuseId = sinList[sinList.size() - 1].id
+            reuseId = reuseId < it.id ? it.id : reuseId
         }
 
         def responseObj = [ sins: sinList]
