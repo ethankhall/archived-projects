@@ -93,7 +93,8 @@ class ApiSinEntryController {
                 totalCount: SinEntry.countByTeam(teamUsed),
                 size: sinnerList.size(),
                 sins: sinnerList,
-                refreshLink: getBaseURL() + "?start=${startLocation}"
+                refreshLink: getBaseURL() + "?start=${startLocation}",
+                updateLink: "${getBaseURL().replace(teamUsed.lookup, "")}update/${teamUsed.lookup}?id=${sinnerList.first().id}"
         ]
 
         if(sinnerList.size() == SinEntryHelper.MAX_STEP) {
@@ -133,7 +134,7 @@ class ApiSinEntryController {
         }
     }
 
-    def getBaseURL() {
+    String getBaseURL() {
         def responseUrl = "http://" + request.getServerName()
         if(80 != request.getServerPort()){
             responseUrl += ":${request.getServerPort()}"

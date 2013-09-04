@@ -16,6 +16,8 @@ div.body {
 div.author-icon {
     float: left;
     max-width:50px;
+    max-height:50px;
+    padding: 0.1em;
 }
 
 img {
@@ -24,5 +26,6 @@ img {
 }
 
 div#post-list {
-    width: 70%;
+    width: 95%;
+    text-align:left;
 }
