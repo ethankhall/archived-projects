@@ -21,14 +21,14 @@ function setRefreshLink(link) {
 }
 
 function createPostAfter(sinner, sin, image) {
-    var postList = document.getElementById("post-list");
+    var postList = document.getElementById("past-post-list");
     postList.appendChild(__createPostInternal(sinner, sin, image));
     setNewColors(postList);
     $('div.post').corner();
 }
 
 function createPostBefore(sinner, sin, image) {
-    var postList = document.getElementById("post-list");
+    var postList = document.getElementById("past-post-list");
     postList.insertBefore(__createPostInternal(sinner, sin, image), postList.firstChild);
     setNewColors(postList);
     $('div.post').corner();
@@ -42,7 +42,6 @@ function setNewColors(postList) {
             continue;
         var newColor = "#" + Math.max(255 - postCount * 5, 0).toString(16) + "0000";
         postCount = postCount + 1;
-        console.log(i + "->" + postCount + ":" + newColor);
         childNodes[i].style.borderColor = newColor;
     }
 }
@@ -50,20 +49,11 @@ function setNewColors(postList) {
 function __createPostInternal(sinner, sin, image) {
     var postDiv = document.createElement('div');
     postDiv.className = 'post';
-    postDiv.appendChild(createImagePost(image, sinner));
-    postDiv.appendChild(createSinBody(sin));
-    postDiv.appendChild(createSinner(sinner));
+    var divWrapper = document.createElement('div');
+    divWrapper.appendChild(createSinBody(sin));
+    divWrapper.appendChild(createSinner(sinner));
+    postDiv.appendChild(divWrapper);
     return postDiv
-}
-
-function createImagePost(image, sinner) {
-    var imageDiv = document.createElement('div');
-    imageDiv.className = 'author-icon';
-    var imageTag = document.createElement('img');
-    imageTag.src = image;
-    imageTag.alt = sinner;
-    imageDiv.appendChild(imageTag)
-    return imageDiv;
 }
 
 function createSinBody(sin) {

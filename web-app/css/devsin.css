@@ -5,7 +5,7 @@ div.post {
 }
 
 div.sinner {
-    padding-left: 5em;
+    padding-left: 1em;
     font-size: 75%;
 }
 
@@ -25,7 +25,7 @@ img {
     height: auto;
 }
 
-div#post-list {
+div#past-post-list {
     width: 95%;
     text-align:left;
 }
