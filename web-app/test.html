@@ -9,9 +9,6 @@
 
     <script type="text/javascript">
 
-        var postCount = 0;
-        var refreshLink = "";
-
         /**
          * Initialization step
          */
@@ -22,16 +19,19 @@
                 dataType: "json",
                 url: teamURL,
                 success: function(data){
-                    postCount = 0;
                     $.each(data.sins, function (i, theItem) {
-                        createPost(theItem.sinner, theItem.sin, 'http://placekitten.com/g/50/40');
+                        createPostAfter(theItem.sinner, theItem.sin, 'http://placekitten.com/g/50/40');
                     });
 
-                    refreshLink = data.updateLink;
+                    setRefreshLink(data.updateLink);
                 }
             });
         });
 
+        setInterval(
+                function(){
+                    getAllPostsForTeam();
+                }, 1000);
 
     </script>
 
@@ -44,13 +44,13 @@
     <div id="post-list" style="width:95%;text-align:left">
         <div class="post">
             <div>
-            <div class="author-icon"><img src="images/stock/github.png" alt="Default Image"/></div>
-            <div class="body">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make</div>
-            <div class="sinner">Sinner: John Doe</div>
+                <div class="author-icon"><img src="images/stock/github.png" alt="Default Image"/></div>
+                <div class="body">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make</div>
+                <div class="sinner">Sinner: John Doe</div>
             </div>
         </div>
     </div>
 
-    <button onclick="createPost('John Doe', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make', 'images/stock/github.png');">add button</button>
+    <button onclick="createPostAfter('John Doe', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make', 'images/stock/github.png');">add button</button>
 </body>
 </html>

@@ -1,4 +1,7 @@
 
+var postCount = 0;
+var refreshLink = "";
+
 function getAllPostsForTeam() {
     $.ajax({
         type: "GET",
@@ -6,33 +9,51 @@ function getAllPostsForTeam() {
         url: refreshLink,
         success: function(data){
             $.each(data.sins, function (i, theItem) {
-                createPost(theItem.sinner, theItem.sin, 'images/stock/github.png');
+                createPostBefore(theItem.sinner, theItem.sin, 'images/stock/github.png');
             });
-            refreshLink = data.refreshLink;
+            setRefreshLink(data.refreshLink);
         }
     });
 }
 
-setInterval(
-    function(){
-        getAllPostsForTeam();
-    }, 1000);
+function setRefreshLink(link) {
+    refreshLink = link;
+}
 
-function createPost(sinner, sin, image) {
+function createPostAfter(sinner, sin, image) {
+    var postList = document.getElementById("post-list");
+    postList.appendChild(__createPostInternal(sinner, sin, image));
+    setNewColors(postList);
+    $('div.post').corner();
+}
+
+function createPostBefore(sinner, sin, image) {
+    var postList = document.getElementById("post-list");
+    postList.insertBefore(__createPostInternal(sinner, sin, image), postList.firstChild);
+    setNewColors(postList);
+    $('div.post').corner();
+}
+
+function setNewColors(postList) {
+    var childNodes = postList.childNodes;
+    var postCount = 0;
+    for(var i = 0; i < childNodes.length; i++) {
+        if(childNodes[i].nodeType != 1) //ELEMENT NODE
+            continue;
+        var newColor = "#" + Math.max(255 - postCount * 5, 0).toString(16) + "0000";
+        postCount = postCount + 1;
+        console.log(i + "->" + postCount + ":" + newColor);
+        childNodes[i].style.borderColor = newColor;
+    }
+}
+
+function __createPostInternal(sinner, sin, image) {
     var postDiv = document.createElement('div');
     postDiv.className = 'post';
     postDiv.appendChild(createImagePost(image, sinner));
     postDiv.appendChild(createSinBody(sin));
     postDiv.appendChild(createSinner(sinner));
-
-    const newColor = "#" + Math.max(255 - postCount * 10, 0).toString(16) + "0000";
-    postCount++;
-    console.log(newColor);
-
-    postDiv.style.borderColor= newColor;
-    var postList = document.getElementById("post-list");
-    postList.appendChild(postDiv);
-    $('div.post').corner();
+    return postDiv
 }
 
 function createImagePost(image, sinner) {
