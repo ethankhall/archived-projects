@@ -1,0 +1,28 @@
+div.post {
+    border: solid red;
+    padding: 0.5em;
+    margin-bottom: 1em;
+}
+
+div.sinner {
+    padding-left: 5em;
+    font-size: 75%;
+}
+
+div.body {
+
+}
+
+div.author-icon {
+    float: left;
+    max-width:50px;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+div#post-list {
+    width: 70%;
+}
