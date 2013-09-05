@@ -2,6 +2,7 @@ div.post {
     border: solid red;
     padding: 0.5em;
     margin-bottom: 1em;
+    width: 90%;
 }
 
 div.sinner {
@@ -18,11 +19,13 @@ div.author-icon {
     max-width:50px;
     max-height:50px;
     padding: 0.1em;
+    width: 10%;
 }
 
 img {
     max-width: 100%;
     height: auto;
+    vertical-align:middle;
 }
 
 div#past-post-list {
