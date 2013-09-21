@@ -5,7 +5,13 @@ Best of luck! Let me know if you run into any troubles with this. I am testing t
 
 If/when you see a commit tree, it was done using this command:
 
-`git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --      date=relative --all`
+```
+git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --all
+```
+
+without color
+
+```git log --graph '--pretty=format:%h -%d %s (%cr) <%an>' --abbrev-commit '--date=relative' --all```
 
 Any / All pull requests are much appreciated
 
