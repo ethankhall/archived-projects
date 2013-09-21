@@ -1,0 +1,36 @@
+From 952493c397eeba89e168396be51688886b8b3837 Mon Sep 17 00:00:00 2001
+From: Ethan Hall <ethan@ehdev.io>
+Date: Fri, 20 Sep 2013 19:34:30 -0500
+Subject: [PATCH] Fixing typo
+
+---
+ src/main/java/com/example/git/SomeClass.java     | 2 +-
+ src/test/java/com/example/git/SomeClassTest.java | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/main/java/com/example/git/SomeClass.java b/src/main/java/com/example/git/SomeClass.java
+index 8be654e..6821efe 100644
+--- a/src/main/java/com/example/git/SomeClass.java
++++ b/src/main/java/com/example/git/SomeClass.java
+@@ -3,6 +3,6 @@ package com.example.git;
+ public class SomeClass {
+ 
+     public int addTwoValue(int val1, int val2) {
+-        return val1 - val2;
++        return val1 + val2;
+     }
+ }
+diff --git a/src/test/java/com/example/git/SomeClassTest.java b/src/test/java/com/example/git/SomeClassTest.java
+index 635457b..49ef288 100644
+--- a/src/test/java/com/example/git/SomeClassTest.java
++++ b/src/test/java/com/example/git/SomeClassTest.java
+@@ -11,5 +11,6 @@ public class SomeClassTest {
+         SomeClass sc = new SomeClass();
+         assertEquals(0, sc.addTwoValue(0, 0));
+         assertEquals(2, sc.addTwoValue(2, 0));
++        assertEquals(4, sc.addTwoValue(2, 2));
+     }
+ }
+-- 
+1.8.4
+

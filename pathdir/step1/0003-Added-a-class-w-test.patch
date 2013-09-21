@@ -1,0 +1,72 @@
+From 580e2d70d85c869d3c4675a9735e616d66f7a09c Mon Sep 17 00:00:00 2001
+From: Ethan Hall <ethan@ehdev.io>
+Date: Fri, 20 Sep 2013 19:28:20 -0500
+Subject: [PATCH 1/4] Added a class w/ test
+
+---
+ build.gradle                                     | 11 ++++++++++-
+ src/main/java/com/example/git/SomeClass.java     |  8 ++++++++
+ src/test/java/com/example/git/SomeClassTest.java | 15 +++++++++++++++
+ 3 files changed, 33 insertions(+), 1 deletion(-)
+ create mode 100644 src/main/java/com/example/git/SomeClass.java
+ create mode 100644 src/test/java/com/example/git/SomeClassTest.java
+
+diff --git a/build.gradle b/build.gradle
+index e5c77e8..eb6dfd7 100644
+--- a/build.gradle
++++ b/build.gradle
+@@ -1,5 +1,14 @@
+ apply plugin: "java"
+ 
++repositories {
++    mavenCentral()
++}
++
++dependencies {
++    testCompile 'junit:junit:4.11'
++}
++
++
+ task wrapper(type: Wrapper) {
+     gradleVersion = '1.7'
+-}
++}
+\ No newline at end of file
+diff --git a/src/main/java/com/example/git/SomeClass.java b/src/main/java/com/example/git/SomeClass.java
+new file mode 100644
+index 0000000..8be654e
+--- /dev/null
++++ b/src/main/java/com/example/git/SomeClass.java
+@@ -0,0 +1,8 @@
++package com.example.git;
++
++public class SomeClass {
++
++    public int addTwoValue(int val1, int val2) {
++        return val1 - val2;
++    }
++}
+diff --git a/src/test/java/com/example/git/SomeClassTest.java b/src/test/java/com/example/git/SomeClassTest.java
+new file mode 100644
+index 0000000..635457b
+--- /dev/null
++++ b/src/test/java/com/example/git/SomeClassTest.java
+@@ -0,0 +1,15 @@
++package com.example.git;
++
++import org.junit.Test;
++
++import static org.junit.Assert.*;
++
++public class SomeClassTest {
++
++    @Test
++    public void testAddTwo() throws Exception {
++        SomeClass sc = new SomeClass();
++        assertEquals(0, sc.addTwoValue(0, 0));
++        assertEquals(2, sc.addTwoValue(2, 0));
++    }
++}
+-- 
+1.8.4
+
