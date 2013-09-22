@@ -1,9 +1,9 @@
-## Step 1
+## Exercise 1
 
 ### Setup
-Run `./scripts/step1.sh`
+Run `./scripts/exercise1.sh`
 
-Change directory into `workspace/step1`. This is where this exercise will take place.
+Change directory into `workspace/exercise1`. This is where this exercise will take place.
 
 ### Info
 There are three branches: master, bugfix, dev
