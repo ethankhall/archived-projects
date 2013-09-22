@@ -45,3 +45,5 @@ popd
 #Add the rest of the books to "upstream"
 git am < $EXERCISE_PATCH_DIR/0003-adding-rest-of-books.patch
 git push origin master
+
+rm -rf $WIP_REPO

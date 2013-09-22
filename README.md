@@ -11,11 +11,19 @@ git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(
 
 without color
 
-```git log --graph '--pretty=format:%h -%d %s (%cr) <%an>' --abbrev-commit '--date=relative' --all```
+```
+git log --graph '--pretty=format:%h -%d %s (%cr) <%an>' --abbrev-commit '--date=relative' --all
+```
 
 Any / All pull requests are much appreciated
 
 ## Exercise 1
 This excersise it to try and merge a 'hotfix' branch into master (prod) then, we need to be able to fast-forward merge dev into master. So we need to merge into master to keep the shared node between master ( and hotfix ) the most recent in their branch. To do this, we have to merge!
 
-[ Instructions and more details for Step 1](docs/Exercise1.md)
+[Instructions and more details for Exercise 1](docs/Exercise1.md)
+
+## Exercise 2
+This excersise will show you how to do handle when people commit to a remote. You will learn how to rebase.
+
+[Instructions and more details for Exercise 2](docs/Exercise2.md)
+
