@@ -1,10 +1,10 @@
 ## Exercise 2 - Rebase from origin
 
-So, intent behind this exercise is going to simulate when you have a remote server (like [GitHub][http://github.com]) where others commit to the repo.
+So, intent behind this exercise is going to simulate when you have a remote server (like [GitHub](http://github.com)) where others commit to the repo.
 
 After you run `scripts/exercise2.sh` you will have a repository set up in `workspace/exercise2`. This repo was cloned from `repo/exercise2`. So that would mean that the remote origin points to `repo/exercise2`. So the setup script creates origin repo, after 2 commits `workspace/exercise2` was cloned. Then another commit was made to origin.
 
-There is a typo in filename `workspace/exercise2/books/Pirde_and_Predudice.txt`. Fix the spelling, then add another book from [Gutenberg][http://www.gutenberg.org/], a place to get free books. Add the link to the book you added to README.md, like the other books are.
+There is a typo in filename `workspace/exercise2/books/Pirde_and_Predudice.txt`. Fix the spelling, then add another book from [Gutenberg](http://www.gutenberg.org/), a place to get free books. Add the link to the book you added to README.md, like the other books are.
 
 ### Solution
 ```
@@ -54,8 +54,8 @@ hint: See the 'Note about fast-forwards' in 'git push --help' for details.
 ```
 
 So you see how 57a8fbe (master) has a parent node of 26eb569, Well origin/master (where GitHub could be) is da6e559. orign/master has the same parent node. So for there to be a fast-forward you need to make 57a8fbe have a parent node of da6e559. There are two ways to do this:
-- [Rebase][http://git-scm.com/book/en/Git-Branching-Rebasing].
-- [Merge][http://git-scm.com/book/en/Git-Branching-Basic-Branching-and-Merging#Basic-Merging].
+- [Rebase](http://git-scm.com/book/en/Git-Branching-Rebasing).
+- [Merge](http://git-scm.com/book/en/Git-Branching-Basic-Branching-and-Merging#Basic-Merging).
 This tutorial will only go though the rebase. It's up to you to do the merge.
 
 *DO NOT REBASE A BRANCH PUSHED TO A REMOTE*. It will mess everything up for any other users.

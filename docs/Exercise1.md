@@ -12,7 +12,7 @@ There are three branches: master, bugfix, dev
 - Dev is where dev should be merged into.
 
 ### Goal
-We need to take the bugfix branch, merge it onto master. This commit should be a fast-forward ( Ref: [git-scm.com][http://git-scm.com/book/en/Git-Branching-Basic-Branching-and-Merging#Basic-Branching] )
+We need to take the bugfix branch, merge it onto master. This commit should be a fast-forward ( Ref: [git-scm.com](http://git-scm.com/book/en/Git-Branching-Basic-Branching-and-Merging#Basic-Branching) )
 Next, we need to merge master into dev. Let's take a look at the current structure of the repo. Please note, the sha1 hashes may be different.
 
 ```
