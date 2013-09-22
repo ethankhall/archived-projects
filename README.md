@@ -15,7 +15,7 @@ without color
 
 Any / All pull requests are much appreciated
 
-## Step 1
+## Exercise 1
 This excersise it to try and merge a 'hotfix' branch into master (prod) then, we need to be able to fast-forward merge dev into master. So we need to merge into master to keep the shared node between master ( and hotfix ) the most recent in their branch. To do this, we have to merge!
 
-[ Instructions and more details for Step 1](docs/Step1.md)
+[ Instructions and more details for Step 1](docs/Exercise1.md)
