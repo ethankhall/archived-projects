@@ -1,0 +1,41 @@
+From 16853a6455470b3ebda258a3e4091a6a080689bf Mon Sep 17 00:00:00 2001
+From: Ethan Hall <ethan@ehdev.io>
+Date: Sat, 21 Sep 2013 14:51:57 -0500
+Subject: [PATCH 1/2] making class static
+
+---
+ src/main/java/com/example/git/SomeClass.java     | 2 +-
+ src/test/java/com/example/git/SomeClassTest.java | 5 ++---
+ 2 files changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/src/main/java/com/example/git/SomeClass.java b/src/main/java/com/example/git/SomeClass.java
+index 8be654e..b84b18c 100644
+--- a/src/main/java/com/example/git/SomeClass.java
++++ b/src/main/java/com/example/git/SomeClass.java
+@@ -2,7 +2,7 @@ package com.example.git;
+ 
+ public class SomeClass {
+ 
+-    public int addTwoValue(int val1, int val2) {
++    public static int addTwoValue(int val1, int val2) {
+         return val1 - val2;
+     }
+ }
+diff --git a/src/test/java/com/example/git/SomeClassTest.java b/src/test/java/com/example/git/SomeClassTest.java
+index 635457b..707f0fa 100644
+--- a/src/test/java/com/example/git/SomeClassTest.java
++++ b/src/test/java/com/example/git/SomeClassTest.java
+@@ -8,8 +8,7 @@ public class SomeClassTest {
+ 
+     @Test
+     public void testAddTwo() throws Exception {
+-        SomeClass sc = new SomeClass();
+-        assertEquals(0, sc.addTwoValue(0, 0));
+-        assertEquals(2, sc.addTwoValue(2, 0));
++        assertEquals(0, SomeClass.addTwoValue(0, 0));
++        assertEquals(2, SomeClass.addTwoValue(2, 0));
+     }
+ }
+-- 
+1.8.4
+

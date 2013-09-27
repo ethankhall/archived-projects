@@ -1,0 +1,24 @@
+From 45d3aeaddac35e474c7e2dfc1079c7f573b3afe3 Mon Sep 17 00:00:00 2001
+From: Ethan Hall <ethan@ehdev.io>
+Date: Sat, 21 Sep 2013 15:38:04 -0500
+Subject: [PATCH] adding build.gradle
+
+---
+ build.gradle | 5 +++++
+ 1 file changed, 5 insertions(+)
+ create mode 100644 build.gradle
+
+diff --git a/build.gradle b/build.gradle
+new file mode 100644
+index 0000000..e5c77e8
+--- /dev/null
++++ b/build.gradle
+@@ -0,0 +1,5 @@
++apply plugin: "java"
++
++task wrapper(type: Wrapper) {
++    gradleVersion = '1.7'
++}
+-- 
+1.8.4
+
