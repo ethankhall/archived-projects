@@ -23,7 +23,11 @@ This excersise it to try and merge a 'hotfix' branch into master (prod) then, we
 [Instructions and more details for Exercise 1](docs/Exercise1.md)
 
 ## Exercise 2
-This excersise will show you how to do handle when people commit to a remote. You will learn how to rebase.
+This exercise will show you how to do handle when people commit to a remote. You will learn how to rebase.
 
 [Instructions and more details for Exercise 2](docs/Exercise2.md)
 
+## Exercise 3
+This exercise will show you how to [cherry pick](http://git-scm.com/docs/git-cherry-pick) a commit from one branch to another. You would use this when you have a fix on one branch, and only want to pull the fix into another. (Bug fixes on prod)
+
+[Instructions and more details for Exercise 3](docs/Exercise3.md)
