@@ -1,4 +1,4 @@
-# Exercise 3 - Cherry Picking
+# Exercise 3 - [Cherry Picking](http://git-scm.com/docs/git-cherry-pick)
 
 In this exercise we are going to have two branches. Master and dev. They will have the contents of [Exercise 1](Exercise1.md).
 
@@ -14,5 +14,8 @@ Let say that you have a branch (dev) where you want to do all your work. This wo
 
 #### What would you do.
 In this situation I would make a new branch off master, cherry pick the commit onto that branch. QA the new branch, then merge it into master and dev (like in Exercise 1).
+
+#### Can I do this with only one commit?
+Nope. Check out the documentation!
 
 ### [Solution](Exercise3_solutions.md)
