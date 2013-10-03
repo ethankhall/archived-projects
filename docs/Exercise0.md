@@ -29,7 +29,7 @@ So this is just a normal directory, like any other on your computer. Let's creat
 git init
 ```
 
-This command will create a .git directory in this folder. That is where git will store everything. Create a new file `touch README` then edit the file. If you ran the status command, it will look like this.
+This command will create a .git directory in this folder. That is where git will store everything. Create a new file `echo "Line 1" > README`. If you ran the status command, it will look like this.
 ```
 > git status
 # On branch master
@@ -43,4 +43,43 @@ This command will create a .git directory in this folder. That is where git will
 nothing added to commit but untracked files present (use "git add" to track)
 ```
 
-Git commands are very good at saying what is going on. Git reconizes that there is a file in it's repo. So we are going to need to tell git that it needs to track it. To do this you just run `git add README`.
+Git commands are very good at saying what is going on. Git reconizes that there is a file in it's repo. So we are going to need to tell git that it needs to track it. To do this you just run `git add README`. Now if you run `git status` you will see that there is a new file.
+```
+# On branch master
+#
+# Initial commit
+#
+# Changes to be committed:
+#   (use "git rm --cached <file>..." to unstage)
+#
+#       new file:   README
+#
+```
+
+Excellent! Now you have told git about the file. This command does two things:
+
+1. Add an untracked file to the repo, causing it to be tracked.
+2. Create a change log between the last commit and the repositories current state. More about this later (LINK).
+
+Now we can run `git commit`. This will open up your systems default editor (VIM or emacs). Type something in the editor (can't start with a #). Save and quit. The editor will look like this:
+```
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+#
+# Initial commit
+#
+# Changes to be committed:
+#   (use "git rm --cached <file>..." to unstage)
+#
+#       new file:   README
+#
+```
+After the save you will see a message like this:
+```
+> git commit
+[master (root-commit) 24f92fc] First commit
+ 1 file changed, 1 insertion(+)
+  create mode 100644 README
+```
