@@ -24,13 +24,13 @@ Let's create a new repository. First let's run a setup scrip to help later along
 
 This won't do anything for us now. But we will use it in a few steps. Change directories to `workspace/exercise0`.
 
-#### Create git repo
+#### [Create git repo](http://git-scm.com/book/en/Git-Basics-Getting-a-Git-Repository#Initializing-a-Repository-in-an-Existing-Directory)
 So this is just a normal directory, like any other on your computer. Let's create a git repo.
 ```
 git init
 ```
 
-#### Repo Status
+#### [Repo Status](http://git-scm.com/book/en/Git-Basics-Recording-Changes-to-the-Repository#Checking-the-Status-of-Your-Files)
 This command will create a .git directory in this folder. That is where git will store everything. Create a new file `echo "Line 1" > README`. If you run `git status` command, it will look like this.
 ```
 > git status
