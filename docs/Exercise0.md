@@ -24,12 +24,14 @@ Let's create a new repository. First let's run a setup scrip to help later along
 
 This won't do anything for us now. But we will use it in a few steps. Change directories to `workspace/exercise0`.
 
+#### Create git repo
 So this is just a normal directory, like any other on your computer. Let's create a git repo.
 ```
 git init
 ```
 
-This command will create a .git directory in this folder. That is where git will store everything. Create a new file `echo "Line 1" > README`. If you ran the status command, it will look like this.
+#### Repo Status
+This command will create a .git directory in this folder. That is where git will store everything. Create a new file `echo "Line 1" > README`. If you run `git status` command, it will look like this.
 ```
 > git status
 # On branch master
@@ -43,6 +45,7 @@ This command will create a .git directory in this folder. That is where git will
 nothing added to commit but untracked files present (use "git add" to track)
 ```
 
+#### Adding files (See [Staging](http://git-scm.com/book/en/Git-Basics-Recording-Changes-to-the-Repository#Staging-Modified-Files))
 Git commands are very good at saying what is going on. Git reconizes that there is a file in it's repo. So we are going to need to tell git that it needs to track it. To do this you just run `git add README`. Now if you run `git status` you will see that there is a new file.
 ```
 # On branch master
@@ -61,6 +64,7 @@ Excellent! Now you have told git about the file. This command does two things:
 1. Add an untracked file to the repo, causing it to be tracked.
 2. Create a change log between the last commit and the repositories current state. More about this later (LINK).
 
+#### [Commiting](http://git-scm.com/book/en/Git-Basics-Recording-Changes-to-the-Repository#Committing-Your-Changes)
 Now we can run `git commit`. This will open up your systems default editor (VIM or emacs). Type something in the editor (can't start with a #). Save and quit. The editor will look like this:
 ```
 
@@ -81,5 +85,7 @@ After the save you will see a message like this:
 > git commit
 [master (root-commit) 24f92fc] First commit
  1 file changed, 1 insertion(+)
-  create mode 100644 README
+ create mode 100644 README
 ```
+
+
