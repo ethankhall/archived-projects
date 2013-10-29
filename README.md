@@ -17,6 +17,11 @@ git log --graph '--pretty=format:%h -%d %s (%cr) <%an>' --abbrev-commit '--date=
 
 Any / All pull requests are much appreciated
 
+## Exercise 0
+Basics of Git. This exercise will introduce you to all the basic commands. This will be a walk through. You can use this to try new things and work on specific commands.
+
+[Instructions for Exercise 0](docs/Exercise0.md)
+
 ## Exercise 1
 This excersise it to try and merge a 'hotfix' branch into master (prod) then, we need to be able to fast-forward merge dev into master. So we need to merge into master to keep the shared node between master (and hotfix) the most recent in their branch. To do this, we have to merge!
 
