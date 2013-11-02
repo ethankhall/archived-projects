@@ -56,4 +56,12 @@ class InvoiceImplTest {
         assertThat(categories).contains("1")
         assertThat(categories).contains("2")
     }
+
+    @Test
+    public void testFindItemById() throws Exception {
+        def item = new LineItem(BigDecimal.TEN)
+        invoice.addLineItem(item)
+        invoice.getRemoveLineItem(item.getId());
+        assertThat(invoice.getLineItems()).hasSize(0);
+    }
 }

@@ -8,4 +8,6 @@ interface Invoice {
     List<LineItem> getLineItemsWithoutCategory()
 
     List<String> getCategories()
+
+    def getRemoveLineItem(String id)
 }

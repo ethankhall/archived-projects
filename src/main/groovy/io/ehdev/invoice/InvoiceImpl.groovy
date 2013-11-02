@@ -34,4 +34,11 @@ class InvoiceImpl implements Invoice {
             it.category
         }.unique() as List<String>
     }
+
+    @Override
+    def getRemoveLineItem(String id) {
+        lineItems.removeAll {
+            it.id.equals(id)
+        }
+    }
 }
