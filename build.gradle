@@ -1,0 +1,17 @@
+apply plugin: 'groovy'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.1.9'
+    compile 'joda-time:joda-time:2.3'
+
+    testCompile 'org.testng:testng:6.8.7'
+    testCompile 'org.easytesting:fest-assert:1.4'
+}
+
+test {
+    useTestNG()
+}
