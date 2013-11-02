@@ -1,13 +1,13 @@
 package io.ehdev.easyinvoice.invoice
 
-import io.ehdev.easyinvoice.lineitem.LineItem
+import io.ehdev.easyinvoice.lineitem.LineItemImpl
 
 interface Invoice {
-    def addLineItem(LineItem lineItem);
-    def addLineItems(List<LineItem> lineItems);
+    def addLineItem(LineItemImpl lineItem);
+    def addLineItems(List<LineItemImpl> lineItems);
 
-    List<LineItem> getLineItemsForCategory(String s)
-    List<LineItem> getLineItemsWithoutCategory()
+    List<LineItemImpl> getLineItemsForCategory(String s)
+    List<LineItemImpl> getLineItemsWithoutCategory()
 
     List<String> getCategories()
 

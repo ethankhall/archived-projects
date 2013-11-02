@@ -1,6 +1,6 @@
 package io.ehdev.easyinvoice.invoice
 
-import io.ehdev.easyinvoice.lineitem.LineItem
+import io.ehdev.easyinvoice.lineitem.LineItemImpl
 import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
 
@@ -17,14 +17,14 @@ class InvoiceImplTest {
 
     @Test
     public void testAddingLineItem() throws Exception {
-        invoice.addLineItem(new LineItem(BigDecimal.ONE))
+        invoice.addLineItem(new LineItemImpl(BigDecimal.ONE))
         assertThat(invoice.lineItems).hasSize(1)
     }
 
     @Test
     public void testAbleToFindByType() throws Exception {
-        def item1 = new LineItem(BigDecimal.ONE, "cat1")
-        def item2 = new LineItem(BigDecimal.ONE, "cat2")
+        def item1 = new LineItemImpl(BigDecimal.ONE, "cat1")
+        def item2 = new LineItemImpl(BigDecimal.ONE, "cat2")
         invoice.addLineItem(item1)
         invoice.addLineItem(item2)
         def foundCategory = invoice.getLineItemsForCategory("cat1")
@@ -39,7 +39,7 @@ class InvoiceImplTest {
 
     @Test
     public void testFindItemWithoutCategory() throws Exception {
-        invoice.addLineItem(new LineItem(BigDecimal.ONE))
+        invoice.addLineItem(new LineItemImpl(BigDecimal.ONE))
         assertThat(invoice.getLineItemsForCategory("")).hasSize(1)
     }
 
@@ -47,9 +47,9 @@ class InvoiceImplTest {
     public void testGettingCategoryItems() throws Exception {
         invoice.addLineItems(
                 [
-                        new LineItem(BigDecimal.ONE),
-                        new LineItem(BigDecimal.TEN,  "1"),
-                        new LineItem(BigDecimal.ZERO, "2")
+                        new LineItemImpl(BigDecimal.ONE),
+                        new LineItemImpl(BigDecimal.TEN,  "1"),
+                        new LineItemImpl(BigDecimal.ZERO, "2")
                 ] )
         def categories = invoice.getCategories()
         assertThat(categories).hasSize(3)
@@ -60,7 +60,7 @@ class InvoiceImplTest {
 
     @Test
     public void testFindItemById() throws Exception {
-        def item = new LineItem(BigDecimal.TEN)
+        def item = new LineItemImpl(BigDecimal.TEN)
         invoice.addLineItem(item)
         invoice.getRemoveLineItem(item.getId());
         assertThat(invoice.getLineItems()).hasSize(0);
