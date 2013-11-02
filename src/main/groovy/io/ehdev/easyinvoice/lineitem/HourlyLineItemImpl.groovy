@@ -18,11 +18,9 @@ class HourlyLineItemImpl extends LineItemImpl{
     }
 
     @Override
-    def BigDecimal getAmount(double taxPercentage){
+    BigDecimal getAmount() {
         def calculatedValue = hourlyRate.multiply(BigDecimal.valueOf(hours))
-        if(taxEnabled){
-            calculatedValue = calculateTaxedAmount(calculatedValue, taxPercentage)
-        }
-        return calculatedValue.setScale(3, RoundingMode.HALF_EVEN)
+        return calculatedValue.setScale(3, RoundingMode.HALF_EVEN);
     }
+
 }

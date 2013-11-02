@@ -18,4 +18,5 @@ interface Invoice {
     def setTaxRate(double taxPercentage)
 
     BigDecimal getAmount()
+    BigDecimal getTaxDue()
 }

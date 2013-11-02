@@ -5,7 +5,6 @@ import io.ehdev.easyinvoice.lineitem.LineItemImpl
 class InvoiceImpl implements Invoice {
 
     def lineItems = [];
-    def taxableMap =[:]
     def taxRateAsPercent
 
     @Override
@@ -72,7 +71,14 @@ class InvoiceImpl implements Invoice {
     @Override
     BigDecimal getAmount() {
         lineItems.sum{
-            it.getAmount(taxRateAsPercent)
+            it.getAmount()
+        } as BigDecimal
+    }
+
+    @Override
+    BigDecimal getTaxDue() {
+        lineItems.sum{
+            it.getAmountDueForTaxes(taxRateAsPercent)
         } as BigDecimal
     }
 }

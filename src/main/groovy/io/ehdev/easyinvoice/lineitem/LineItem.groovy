@@ -2,6 +2,7 @@ package io.ehdev.easyinvoice.lineitem
 
 public interface LineItem {
 
-    def BigDecimal getAmount(double taxPercentage);
+    def BigDecimal getAmountDueForTaxes(double taxPercentage);
+    def BigDecimal getAmount();
 
 }

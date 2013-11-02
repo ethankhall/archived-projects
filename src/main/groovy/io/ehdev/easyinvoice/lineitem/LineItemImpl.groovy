@@ -19,16 +19,21 @@ class LineItemImpl implements LineItem {
         this.category = category;
     }
 
-    def BigDecimal getAmount(double taxPercentage){
-        BigDecimal calculatedAmount = amount;
-
-        if(taxEnabled){
-            calculatedAmount = calculateTaxedAmount(calculatedAmount, taxPercentage);
-        }
-        return calculatedAmount.setScale(3, RoundingMode.HALF_EVEN);
+    static protected BigDecimal calculateTaxedAmount(BigDecimal calculatedAmount, double taxPercentage) {
+        calculatedAmount.multiply(BigDecimal.valueOf(taxPercentage / 100))
     }
 
-    static protected BigDecimal calculateTaxedAmount(BigDecimal calculatedAmount, double taxPercentage) {
-        calculatedAmount.multiply(BigDecimal.valueOf(1 + taxPercentage / 100))
+    @Override
+    BigDecimal getAmountDueForTaxes(double taxPercentage) {
+        if(!taxEnabled) {
+            return BigDecimal.ZERO.setScale(3)
+        } else {
+            return calculateTaxedAmount(getAmount(), taxPercentage).setScale(3, RoundingMode.HALF_EVEN);
+        }
+    }
+
+    @Override
+    BigDecimal getAmount() {
+        return amount.setScale(3, RoundingMode.HALF_EVEN);
     }
 }

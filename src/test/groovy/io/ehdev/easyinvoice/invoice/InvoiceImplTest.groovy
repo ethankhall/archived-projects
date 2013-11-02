@@ -75,10 +75,12 @@ class InvoiceImplTest {
                 ] )
         invoice.disableTaxForCategory("1")
         invoice.setTaxRate(10)
-        assertThat(invoice.getAmount()).isEqualTo(BigDecimal.valueOf(10 + 1.10).setScale(3))
+        assertThat(invoice.getAmount()).isEqualTo(BigDecimal.valueOf(11).setScale(3))
+        assertThat(invoice.getTaxDue()).isEqualTo(BigDecimal.valueOf(0.1).setScale(3))
 
         invoice.enableTaxForCategory("1")
         invoice.setTaxRate(20)
-        assertThat(invoice.getAmount()).isEqualTo(BigDecimal.valueOf(11 * 1.20).setScale(3))
+        assertThat(invoice.getAmount()).isEqualTo(BigDecimal.valueOf(11).setScale(3))
+        assertThat(invoice.getTaxDue()).isEqualTo(BigDecimal.valueOf(11 * 0.2).setScale(3))
     }
 }

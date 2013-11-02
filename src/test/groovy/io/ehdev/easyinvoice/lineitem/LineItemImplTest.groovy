@@ -18,14 +18,14 @@ public class LineItemImplTest {
 
     @Test
     public void testThatExtendedValueShouldBeTruncated() throws Exception {
-        assertThat(lineItem.getAmount(0)).isEqualTo(BigDecimal.valueOf(1.234))
+        assertThat(lineItem.getAmount()).isEqualTo(BigDecimal.valueOf(1.234))
     }
 
     @Test
     public void testSetTaxable() throws Exception {
         lineItem.setTaxEnabled(true)
         assertThat(lineItem.taxEnabled).is(true)
-        assertThat(lineItem.getAmount(12.3456)).isEqualTo(BigDecimal.valueOf(1.2345 * 1.123456).setScale(3, RoundingMode.HALF_EVEN))
+        assertThat(lineItem.getAmountDueForTaxes(12.3456)).isEqualTo(BigDecimal.valueOf(1.2345 * 0.123456).setScale(3, RoundingMode.HALF_EVEN))
         lineItem.setTaxEnabled(false)
         assertThat(lineItem.taxEnabled).is(false)
     }
