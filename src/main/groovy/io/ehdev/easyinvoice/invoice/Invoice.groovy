@@ -12,4 +12,10 @@ interface Invoice {
     List<String> getCategories()
 
     def getRemoveLineItem(String id)
+    def disableTaxForCategory(String category)
+    def enableTaxForCategory(String category)
+
+    def setTaxRate(double taxPercentage)
+
+    BigDecimal getAmount()
 }

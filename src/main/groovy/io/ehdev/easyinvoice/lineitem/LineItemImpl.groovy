@@ -4,7 +4,7 @@ import org.joda.time.DateTime
 import java.math.RoundingMode
 
 class LineItemImpl implements LineItem {
-    private def category = ""
+    def category = ""
     private def amount
     private def dateFinished = DateTime.now()
     def taxEnabled = true

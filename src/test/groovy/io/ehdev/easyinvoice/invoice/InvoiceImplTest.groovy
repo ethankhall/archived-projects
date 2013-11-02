@@ -1,5 +1,4 @@
 package io.ehdev.easyinvoice.invoice
-
 import io.ehdev.easyinvoice.lineitem.LineItemImpl
 import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
@@ -64,5 +63,22 @@ class InvoiceImplTest {
         invoice.addLineItem(item)
         invoice.getRemoveLineItem(item.getId());
         assertThat(invoice.getLineItems()).hasSize(0);
+    }
+
+    @Test
+    public void testConfigureTaxabilityForCategory() throws Exception {
+        invoice.addLineItems(
+                [
+                        new LineItemImpl(BigDecimal.ONE),
+                        new LineItemImpl(BigDecimal.TEN,  "1"),
+                        new LineItemImpl(BigDecimal.ZERO, "2")
+                ] )
+        invoice.disableTaxForCategory("1")
+        invoice.setTaxRate(10)
+        assertThat(invoice.getAmount()).isEqualTo(BigDecimal.valueOf(10 + 1.10).setScale(3))
+
+        invoice.enableTaxForCategory("1")
+        invoice.setTaxRate(20)
+        assertThat(invoice.getAmount()).isEqualTo(BigDecimal.valueOf(11 * 1.20).setScale(3))
     }
 }

@@ -5,6 +5,8 @@ import io.ehdev.easyinvoice.lineitem.LineItemImpl
 class InvoiceImpl implements Invoice {
 
     def lineItems = [];
+    def taxableMap =[:]
+    def taxRateAsPercent
 
     @Override
     def addLineItem(LineItemImpl lineItem) {
@@ -42,5 +44,35 @@ class InvoiceImpl implements Invoice {
         lineItems.removeAll {
             it.id.equals(id)
         }
+    }
+
+    @Override
+    def disableTaxForCategory(String category) {
+        lineItems.each {
+            if(it.category?.equals(category)){
+                it.setTaxEnabled(false)
+            }
+        }
+    }
+
+    @Override
+    def enableTaxForCategory(String category) {
+        lineItems.each {
+            if(it.category?.equals(category)){
+                it.setTaxEnabled(true)
+            }
+        }
+    }
+
+    @Override
+    def setTaxRate(double taxPercentage) {
+        taxRateAsPercent = taxPercentage
+    }
+
+    @Override
+    BigDecimal getAmount() {
+        lineItems.sum{
+            it.getAmount(taxRateAsPercent)
+        } as BigDecimal
     }
 }
