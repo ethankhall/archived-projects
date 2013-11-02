@@ -1,4 +1,6 @@
-package io.ehdev.invoice
+package io.ehdev.easyinvoice.invoice
+
+import io.ehdev.easyinvoice.lineitem.LineItem
 
 class InvoiceImpl implements Invoice {
 

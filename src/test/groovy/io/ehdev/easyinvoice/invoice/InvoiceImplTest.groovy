@@ -1,5 +1,6 @@
-package io.ehdev.invoice
+package io.ehdev.easyinvoice.invoice
 
+import io.ehdev.easyinvoice.lineitem.LineItem
 import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
 
