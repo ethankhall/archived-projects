@@ -1,0 +1,121 @@
+﻿/* ==========================================================================
+   Misc
+   ========================================================================== */
+
+body{
+	color:#333;
+	font-family: 'Open Sans', sans-serif;
+}
+
+.fll{
+	float:left;	
+}
+
+.flr{
+	float:right;	
+}
+
+.alignr{
+	text-align:right;
+}
+
+.alignc{
+	text-align:center;
+}
+
+.clear{
+	clear:both;
+}
+
+table {
+	border-collapse: collapse;
+	font-size:12px;
+}
+
+th{
+	background:#e8f1fa;
+	font-weight:600;	
+}
+
+th, td {
+	padding: 8px;
+	text-align: left;
+	border: 1px solid #e8e8e8;
+}
+
+/* ==========================================================================
+   Invoice
+   ========================================================================== */
+   
+.invoice{
+	border-radius:4px;
+	border: 1px solid #d3d3d3;
+	max-width:800px;
+	width:100%;
+	padding:40px 30px 10px 30px;
+	font-size:13px;
+}
+.invoice:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.invoice header{
+	min-height:90px;
+	margin-bottom:25px;
+}
+
+.invoice header div{
+	max-width:280px;
+	width:100%;
+}
+.invoice header div img{
+	max-width:100%;
+}
+
+.invoice footer{
+	color:#a7a7a7;
+	font-size:12px;
+	margin-top:40px;
+}
+
+.invoice-text{
+	color:#c7c7c7;
+	font-weight:700;
+	font-size:26px;
+}
+
+.contact-info:after {
+	content: "";
+	display: table;
+	clear: both;
+	margin:30px;
+}
+
+.invoice-info-table tr th{
+	padding-right:35px;
+}
+
+.pricing-table tr td:not(:first-child),.pricing-table tr th:not(:first-child){
+	width:10%;
+	text-align:right;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
