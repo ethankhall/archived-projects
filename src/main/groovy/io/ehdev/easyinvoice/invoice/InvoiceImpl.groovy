@@ -6,6 +6,8 @@ class InvoiceImpl implements Invoice {
 
     def lineItems = [];
     def taxRateAsPercent
+    def customerContact;
+    def merchantContact;
 
     @Override
     def addLineItem(LineItemImpl lineItem) {
