@@ -2,13 +2,16 @@ package io.ehdev.easyinvoice.invoice
 
 import io.ehdev.easyinvoice.contact.ContactInfo
 import io.ehdev.easyinvoice.lineitem.LineItemImpl
+import org.joda.time.DateTime
 
 class InvoiceImpl implements Invoice {
 
     def lineItems = [];
     def taxRateAsPercent
-    def customerContact;
-    def merchantContact;
+    ContactInfo customerInfo
+    ContactInfo merchantInfo
+    DateTime dueDate
+    DateTime issuedDate
 
     @Override
     def addLineItem(LineItemImpl lineItem) {
@@ -85,23 +88,4 @@ class InvoiceImpl implements Invoice {
         } as BigDecimal
     }
 
-    @Override
-    void setCustomerInfo(ContactInfo customerContact) {
-        customerInfo = customerContact
-    }
-
-    @Override
-    ContactInfo getCustomerInfo() {
-        return customerInfo
-    }
-
-    @Override
-    void setMerchantInfo(ContactInfo merchantInfo) {
-        this.merchantInfo = merchantInfo
-    }
-
-    @Override
-    ContactInfo getMerchantInfo() {
-        return merchantInfo
-    }
 }

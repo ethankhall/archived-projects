@@ -2,6 +2,7 @@ package io.ehdev.easyinvoice.invoice
 
 import io.ehdev.easyinvoice.contact.ContactInfo
 import io.ehdev.easyinvoice.lineitem.LineItemImpl
+import org.joda.time.DateTime
 
 interface Invoice {
     def addLineItem(LineItemImpl lineItem);
@@ -26,4 +27,10 @@ interface Invoice {
 
     void setMerchantInfo(ContactInfo customerContact)
     ContactInfo getMerchantInfo()
+
+    void setDueDate(DateTime dateDue)
+    DateTime getDueDate()
+
+    void setIssuedDate(DateTime dateDue)
+    DateTime getIssuedDate()
 }
