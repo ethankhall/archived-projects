@@ -12,6 +12,8 @@ class InvoiceImpl implements Invoice {
     ContactInfo merchantInfo
     DateTime dueDate
     DateTime issuedDate
+    String invoicePrefix
+    String invoiceNumber
 
     @Override
     def addLineItem(LineItemImpl lineItem) {

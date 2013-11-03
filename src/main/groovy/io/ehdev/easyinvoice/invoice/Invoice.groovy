@@ -33,4 +33,10 @@ interface Invoice {
 
     void setIssuedDate(DateTime dateDue)
     DateTime getIssuedDate()
+
+    void setInvoicePrefix(String prefix)
+    String getInvoicePrefix()
+
+    void setInvoiceNumber(String invoiceNumber)
+    String getInvoiceNumber();
 }
