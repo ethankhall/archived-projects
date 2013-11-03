@@ -1,5 +1,6 @@
 package io.ehdev.easyinvoice.invoice
 
+import io.ehdev.easyinvoice.contact.ContactInfo
 import io.ehdev.easyinvoice.lineitem.LineItemImpl
 
 interface Invoice {
@@ -19,4 +20,10 @@ interface Invoice {
 
     BigDecimal getAmount()
     BigDecimal getTaxDue()
+
+    void setCustomerInfo(ContactInfo customerContact)
+    ContactInfo getCustomerInfo()
+
+    void setMerchantInfo(ContactInfo customerContact)
+    ContactInfo getMerchantInfo()
 }

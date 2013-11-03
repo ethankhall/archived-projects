@@ -1,5 +1,6 @@
 package io.ehdev.easyinvoice.invoice
 
+import io.ehdev.easyinvoice.contact.ContactInfo
 import io.ehdev.easyinvoice.lineitem.LineItemImpl
 
 class InvoiceImpl implements Invoice {
@@ -82,5 +83,25 @@ class InvoiceImpl implements Invoice {
         lineItems.sum{
             it.getAmountDueForTaxes(taxRateAsPercent)
         } as BigDecimal
+    }
+
+    @Override
+    void setCustomerInfo(ContactInfo customerContact) {
+        customerInfo = customerContact
+    }
+
+    @Override
+    ContactInfo getCustomerInfo() {
+        return customerInfo
+    }
+
+    @Override
+    void setMerchantInfo(ContactInfo merchantInfo) {
+        this.merchantInfo = merchantInfo
+    }
+
+    @Override
+    ContactInfo getMerchantInfo() {
+        return merchantInfo
     }
 }
