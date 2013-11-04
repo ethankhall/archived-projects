@@ -43,6 +43,104 @@ th, td {
 	border: 1px solid #e8e8e8;
 }
 
+
+.cover-image{
+	background-image: url(../img/temporary-bg.jpg);
+	background-repeat: no-repeat;
+	background-position: center top;
+	background-size: cover;
+
+	height:100%;
+}
+
+/* ==========================================================================
+   Main Login Page
+   ========================================================================== */
+   
+h1{
+	font-family: 'Damion', cursive;
+	color:#fff;
+	font-size:80px;
+	font-weight:400;
+	text-align: center;	
+	margin-top:4rem;
+	text-shadow: 0px 3px 5px rgba(0,0,0,0.75);
+}
+
+h2{
+	font-family: 'Open Sans', sans-serif;
+	font-size:22px;
+	font-weight:300;
+	display:block;
+	text-align:center;
+	margin: 0 0 20px 0;
+}
+h2 span{
+	font-weight:700;
+}
+
+.login-container{
+	max-width:300px;
+	width:100%;
+	margin: 0 auto;	
+}
+
+.login-box{
+	background:#fff;
+	border-top: 6px solid Dodgerblue;
+	max-width:300px;
+	width:100%;
+	border-radius:5px;
+	padding:20px;
+	margin-bottom:6px;
+}
+
+.login-box ul{
+	margin:0;
+	padding:0;
+}
+
+.login-box a{
+	color:#9fb7ce;
+	text-decoration:none;
+	font-size:12px;
+	float:right;
+	position:relative;
+	top:-5px;
+}
+.login-box a:hover{
+	color:#276098;
+	text-decoration:underline;
+}
+   
+input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #CCC;
+    font-family: inherit;
+	font-size:16px;
+	font-weight:700;	
+}
+
+input[type="email"],input[type="password"] {
+    margin-bottom: 10px;
+	height:42px;
+	color:#333;
+
+}   
+input[type="submit"] {
+    width: 100%;
+	background:Dodgerblue;
+	color:#fff;
+	border-bottom:3px solid #1c7ddc;
+	margin-top:14px;
+	cursor:pointer;
+}
+input[type="submit"]:hover {
+	background:#44a1fc;
+}
+
 /* ==========================================================================
    Invoice
    ========================================================================== */
