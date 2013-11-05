@@ -20,13 +20,14 @@
 		}
 	});
 	
-	alerts.mouseover(function(e) {
+	alerts.click(function(e) {
 		e.preventDefault();
-		notifications.show();
+		notifications.toggle();
 	});
 	notifications.mouseleave(function(e) {
 		e.preventDefault();
 		notifications.hide();
-	});		
+	});
 
 });
+
