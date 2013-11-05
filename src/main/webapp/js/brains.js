@@ -1,8 +1,11 @@
 ﻿$(document).ready(function(){
 
-	
+	var alerts = $('.icon-alerts');
 	var sidebar = $('.sidebar');
 	var container = $('.container');
+	var notifications = $('.notifications');
+	
+	$('.notifications').hide();	
 	
 	// toggle sidebar on click
 	$('.toggle-aside').on('click',function(e){
@@ -16,5 +19,14 @@
 			container.removeClass('container-nomargin').addClass('container-margin');
 		}
 	});
+	
+	alerts.mouseover(function(e) {
+		e.preventDefault();
+		notifications.show();
+	});
+	notifications.mouseleave(function(e) {
+		e.preventDefault();
+		notifications.hide();
+	});		
 
 });

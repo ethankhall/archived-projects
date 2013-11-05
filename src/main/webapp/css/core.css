@@ -28,6 +28,16 @@ body{
 	clear:both;
 }
 
+.hidden{
+	display:none;
+	visibility:hidden;
+}
+
+.shown{
+	display:block;
+	visibility:visible;
+}
+
 table {
 	border-collapse: collapse;
 	font-size:12px;
@@ -258,7 +268,7 @@ aside  h1{
 }
 
 .container > header a{
-	margin-right:10px;
+	margin-right:20px;
 }
 
 .container > header .button{
@@ -266,9 +276,9 @@ aside  h1{
 	line-height:30px;
 	height:30px;
 	text-align:left;
-	padding: 0 30px 0 10px;
 	float:left;
-	position:relative;	
+	padding: 0 30px 0 10px;
+	position:relative;
 }
 
 .container > header .button i{
@@ -285,7 +295,7 @@ aside  h1{
 	
 }
 .container > header .button:hover{
-	background:#4d4d4d;
+	background:#464646;	
 }
 
 .button{
@@ -336,6 +346,86 @@ aside  h1{
 	background:#eee;
 	height:100%;
 }
+
+
+/* ==========================================================================
+   Notification Box
+   ========================================================================== */
+
+.notifications{
+	background:#fff;
+	padding:0;
+	margin:0;
+	border-radius:4px;
+	position:absolute;
+	top:44px;
+	left:45px;
+	width:220px;
+	-webkit-box-shadow: 0px 0px 15px -2px rgba(0,0,0,0.45);
+	-moz-box-shadow: 0px 0px 15px -2px rgba(0,0,0,0.45);
+	box-shadow: 0px 0px 15px -2px rgba(0,0,0,0.45);	
+}
+.notifications li{
+	display:block;
+	padding: 5px 10px;
+	position:relative;	
+}
+.notifications li:not(:last-child){
+	border-bottom:1px solid #dfdfdf;
+}
+
+.notifications li p{
+	margin:0;
+	padding:0;
+}
+.notification-name{
+	font-size:14px;
+	font-weight:800;
+	text-transform:uppercase;
+	height:25px;
+	line-height:25px;	
+}
+.notification-date{
+	font-size:11px;
+	color:#959595;
+	text-transform:uppercase;
+	position:relative;
+	top:-4px;
+	height:15px;
+	line-height:15px;	
+}
+.notification-status{
+	padding:4px;
+	text-align:center;
+	font-size:11px;
+	font-weight:700;
+	color:#fff;
+	border-radius:4px;
+	height:23px;
+	line-height:15px;
+	position:absolute;
+	right:10px;
+	top:14px;
+}
+
+.notification-green{
+	background: #65c946;
+}
+.notification-red{
+	background: #f92e2e;
+}
+
+.notification-arrow{
+	width: 0;
+	height: 0; 
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	border-bottom: 10px solid white;
+	position:absolute;
+	top:-10px;
+	left:30px;	
+}
+   
 /* ==========================================================================
    Invoice
    ========================================================================== */
