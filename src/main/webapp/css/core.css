@@ -167,11 +167,11 @@ input[type="submit"]:hover {
 }
    
 aside  h1{
-	font-family: 'Open Sans', sans-serif;
+	font-family: 'Damion', sans-serif;
 	color:#fff;
 	background:#333;
-	font-size:22px;
-	font-weight:800;
+	font-size:26px;
+	font-weight:400;
 	display:block;
 	width:100%;
 	text-align:center;
@@ -179,6 +179,9 @@ aside  h1{
 	height:50px;
 	line-height:50px;
 	margin:0;
+	position:absolute;
+	bottom:0;
+
 }
 
 .sidebar-list{
@@ -199,7 +202,7 @@ aside  h1{
 	position:relative;
 }
 .sidebar-list li a:hover{
-	background: rgba(0,0,0,0.2);
+	background: rgba(0,0,0,0.15);
 }
 
 .notification{
@@ -240,6 +243,9 @@ aside  h1{
 	border-bottom: 1px solid #ccc;
 	line-height:50px;
 	padding: 10px 10px;
+	position:fixed;
+	width:100%;
+	background:#fff;
 }
 
 .toggle-aside{
