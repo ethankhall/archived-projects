@@ -5,6 +5,7 @@
 body{
 	color:#333;
 	font-family: 'Open Sans', sans-serif;
+	margin:0;
 }
 
 .fll{
@@ -57,7 +58,7 @@ th, td {
    Main Login Page
    ========================================================================== */
    
-h1{
+.home h1{
 	font-family: 'Damion', cursive;
 	color:#fff;
 	font-size:80px;
@@ -141,6 +142,76 @@ input[type="submit"]:hover {
 	background:#44a1fc;
 }
 
+
+/* ==========================================================================
+   Dashboard
+   ========================================================================== */
+
+.sidebar {
+	width: 180px;
+	height: 100%;
+	position: fixed;
+	background: #333;
+}
+
+.sidebar-closed{
+	margin-left:-180px;
+}
+
+.container-margin{
+	margin-left:180px;
+}
+
+.container-full{
+	margin-left:0;
+}
+   
+aside  h1{
+	font-family: 'Open Sans', sans-serif;
+	color:#fff;
+	background:#333;
+	font-size:26px;
+	font-weight:800;
+	float:left;
+	display:block;
+	width:100%;
+	text-align:center;
+	padding:0;
+	margin: 25px 0;
+}
+.container header{
+	height:50px;
+	border-bottom: 1px solid #ccc;
+	line-height:50px;
+	padding: 10px 10px;
+}
+
+.toggle-aside{
+	float:left;
+	background: Dodgerblue;
+	display:block;
+	width:30px;
+	height:30px;
+	line-height:30px;
+	border-radius:2px;
+	text-align:center;
+	color:#fff;	
+}
+.toggle-aside i{
+	font-size:18px;
+	position:relative;
+	left:-1px;	
+}
+
+.container{
+	height:100%;	
+}
+
+.page{
+	padding:20px;
+	background:#eee;
+	height:100%;
+}
 /* ==========================================================================
    Invoice
    ========================================================================== */
