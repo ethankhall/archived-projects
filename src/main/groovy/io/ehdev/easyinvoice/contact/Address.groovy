@@ -1,13 +1,13 @@
 package io.ehdev.easyinvoice.contact
 
 class Address {
-    private String line1
-    private String line2
-    private String city;
-    private String state
-    private String postalCode
-    private String postalCodeExtension
-    private String countryCode;
+    String line1
+    String line2
+    String city;
+    String state
+    String postalCode
+    String postalCodeExtension
+    String countryCode;
 
     private Address() {}
 

@@ -1,15 +1,15 @@
 package io.ehdev.easyinvoice.invoice
 
 import io.ehdev.easyinvoice.contact.ContactInfo
-import io.ehdev.easyinvoice.lineitem.LineItemImpl
+import io.ehdev.easyinvoice.lineitem.LineItem
 import org.joda.time.DateTime
 
 interface Invoice {
-    def addLineItem(LineItemImpl lineItem);
-    def addLineItems(List<LineItemImpl> lineItems);
+    def addLineItem(LineItem lineItem);
+    def addLineItems(List<LineItem> lineItems);
 
-    List<LineItemImpl> getLineItemsForCategory(String s)
-    List<LineItemImpl> getLineItemsWithoutCategory()
+    List<LineItem> findLineItemsForCategory(String s)
+    List<LineItem> findLineItemsWithoutCategory()
 
     List<String> getCategories()
 
@@ -19,8 +19,8 @@ interface Invoice {
 
     def setTaxRate(double taxPercentage)
 
-    BigDecimal getAmount()
-    BigDecimal getTaxDue()
+    BigDecimal calculateAmount()
+    BigDecimal calculateTaxDue()
 
     void setCustomerInfo(ContactInfo customerContact)
     ContactInfo getCustomerInfo()

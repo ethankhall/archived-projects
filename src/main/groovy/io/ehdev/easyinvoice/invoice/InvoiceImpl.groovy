@@ -1,9 +1,11 @@
 package io.ehdev.easyinvoice.invoice
-
 import com.fasterxml.jackson.annotation.JsonAutoDetect
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.datatype.joda.ser.DateTimeSerializer
 import io.ehdev.easyinvoice.contact.ContactInfo
-import io.ehdev.easyinvoice.lineitem.LineItemImpl
+import io.ehdev.easyinvoice.lineitem.LineItem
+import io.ehdev.easyinvoice.lineitem.interactor.LineItemInteractor
 import org.joda.time.DateTime
 
 @JsonIgnoreProperties(ignoreUnknown=true)
@@ -14,33 +16,36 @@ class InvoiceImpl implements Invoice {
     def taxRateAsPercent
     ContactInfo customerInfo
     ContactInfo merchantInfo
+    @JsonSerialize(using=DateTimeSerializer.class)
     DateTime dueDate
+    @JsonSerialize(using=DateTimeSerializer.class)
     DateTime issuedDate
     String invoicePrefix
     String invoiceNumber
+    final def id = UUID.randomUUID() as String
 
     @Override
-    def addLineItem(LineItemImpl lineItem) {
+    def addLineItem(LineItem lineItem) {
         lineItems << lineItem
     }
 
     @Override
-    def addLineItems(List<LineItemImpl> lineItems) {
+    def addLineItems(List<LineItem> lineItems) {
         lineItems.each {
             addLineItem(it)
         }
     }
 
     @Override
-    List<LineItemImpl> getLineItemsForCategory(String category) {
+    List<LineItem> findLineItemsForCategory(String category) {
         return lineItems.findAll {
             it.category?.equals(category)
-        } as List<LineItemImpl>
+        } as List<LineItem>
     }
 
     @Override
-    List<LineItemImpl> getLineItemsWithoutCategory() {
-        return getLineItemsForCategory("")
+    List<LineItem> findLineItemsWithoutCategory() {
+        return findLineItemsForCategory("")
     }
 
     @Override
@@ -81,16 +86,16 @@ class InvoiceImpl implements Invoice {
     }
 
     @Override
-    BigDecimal getAmount() {
+    BigDecimal calculateAmount() {
         lineItems.sum{
-            it.getAmount()
+            LineItemInteractor.getInteractor(it).calculateAmount()
         } as BigDecimal
     }
 
     @Override
-    BigDecimal getTaxDue() {
+    BigDecimal calculateTaxDue() {
         lineItems.sum{
-            it.getAmountDueForTaxes(taxRateAsPercent)
+            LineItemInteractor.getInteractor(it).generateAmountDueForTaxes(taxRateAsPercent)
         } as BigDecimal
     }
 
