@@ -1,9 +1,13 @@
 package io.ehdev.easyinvoice.invoice
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import io.ehdev.easyinvoice.contact.ContactInfo
 import io.ehdev.easyinvoice.lineitem.LineItemImpl
 import org.joda.time.DateTime
 
+@JsonIgnoreProperties(ignoreUnknown=true)
+@JsonAutoDetect
 class InvoiceImpl implements Invoice {
 
     def lineItems = [];
