@@ -1,1 +1,10 @@
 language: groovy
+deploy:
+  provider: openshift
+  user: ethan@ehdev.io
+  password:
+    secure: IVWHKQ6EaSCN5ca0QhrJeMEDXHCtkYAc+gIsZ6tEsgIBriFYVvRw/e2nAcpaoUMXckqyZsFdzS8fBiD1JJys9vf/G1DaEo8RkWiXHJq+KvX0m/fnw/f3L/vpVEbn3wiGHtsrbXXAFG1pkoUnEJCsruOxFUzUYg8XeY6ntunJVxg=
+  app: easy-invoice
+  domain: ehdev
+  on:
+    repo: ethankhall/easy-invoice
