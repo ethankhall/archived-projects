@@ -7,18 +7,6 @@
 	
 	$('.notifications').hide();	
 	
-	// toggle sidebar on click
-	$('.toggle-aside').on('click',function(e){
-		e.preventDefault();
-		if(sidebar.hasClass('sidebar-open')){
-			sidebar.removeClass('sidebar-open').addClass('sidebar-closed');
-			container.removeClass('container-margin').addClass('container-nomargin');
-		}
-		else{
-			sidebar.removeClass('sidebar-closed').addClass('sidebar-open');
-			container.removeClass('container-nomargin').addClass('container-margin');
-		}
-	});
 	
 	alerts.click(function(e) {
 		e.preventDefault();
@@ -28,6 +16,11 @@
 		e.preventDefault();
 		notifications.hide();
 	});
+	
+    $('.toggle-aside').click(function() {
+        sidebar.toggleClass('slide-in');
+		container.toggleClass('slid');
+    });	
 
 });
 

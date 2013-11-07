@@ -152,6 +152,21 @@ input[type="submit"]:hover {
 	background:#44a1fc;
 }
 
+.slide-in {
+    transform: translate(-180px, 0);
+    -webkit-transform: translate(-180px, 0);
+    -moz-transform: translate(-180px, 0);
+    -ms-transform: translate(-180px, 0);
+    -o-transform: translate(-180px, 0);
+}
+
+.slid {
+    transform: translate(180px, 0);
+    -webkit-transform: translate(180px, 0);
+    -moz-transform: translate(180px, 0);
+    -ms-transform: translate(180px, 0);
+    -o-transform: translate(180px, 0);
+}
 
 /* ==========================================================================
    Dashboard
@@ -162,18 +177,7 @@ input[type="submit"]:hover {
 	height: 100%;
 	position: fixed;
 	background: #333;
-}
-
-.sidebar-closed{
-	margin-left:-175px;
-}
-
-.container-margin{
-	margin-left:180px;
-}
-
-.container-full{
-	margin-left:0;
+	z-index:1;
 }
    
 aside  h1{
@@ -256,6 +260,11 @@ aside  h1{
 }
 .shade-orange{
 	background:#ff9e40;
+}
+
+.container{
+	width:100%;
+	z-index:3;
 }
 
 .container > header{
