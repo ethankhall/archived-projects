@@ -17,16 +17,10 @@ import org.joda.time.DateTime
         isGetterVisibility=JsonAutoDetect.Visibility.NONE)
 abstract class LineItem {
 
+    def description
     def category = ""
     @JsonSerialize(using=DateTimeSerializer.class)
     def dateFinished = DateTime.now()
     def taxEnabled = true
     final def id = UUID.randomUUID() as String
-
-    LineItem() {
-    }
-
-    LineItem(def category) {
-        this.category = category;
-    }
 }

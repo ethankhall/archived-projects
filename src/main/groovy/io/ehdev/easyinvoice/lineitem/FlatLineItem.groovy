@@ -1,6 +1,5 @@
 package io.ehdev.easyinvoice.lineitem
 import com.fasterxml.jackson.annotation.JsonAutoDetect
-import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 
 @JsonTypeInfo(use=JsonTypeInfo.Id.NAME, include=JsonTypeInfo.As.PROPERTY, property="lineItemType")
@@ -10,15 +9,5 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
         isGetterVisibility=JsonAutoDetect.Visibility.NONE)
 class FlatLineItem extends LineItem{
 
-    @JsonProperty
     def amount
-
-    FlatLineItem(BigDecimal value) {
-        this(value, "")
-    }
-
-    FlatLineItem(BigDecimal value, def category) {
-        super(category)
-        amount = value
-    }
 }

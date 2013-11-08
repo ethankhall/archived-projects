@@ -11,7 +11,7 @@ public class HourlyLineItemTest {
 
     @Test
     public void testChangeHourValue() throws Exception {
-        HourlyLineItem lineItem = new HourlyLineItem(BigDecimal.ONE, 1);
+        HourlyLineItem lineItem = new HourlyLineItem(['hourlyRate' :BigDecimal.ONE, 'hours': 1]);
         def interactor = new HourlyLineItemInteractor(lineItem)
         assertThat(interactor.calculateAmount()).isEqualTo(BigDecimal.ONE.setScale(3));
         lineItem.setHours(100.234);

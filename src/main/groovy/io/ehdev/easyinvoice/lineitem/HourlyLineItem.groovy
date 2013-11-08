@@ -12,14 +12,4 @@ class HourlyLineItem extends LineItem{
     BigDecimal hourlyRate
     Double hours
 
-    public HourlyLineItem(BigDecimal hourlyRate, double hours) {
-        this(hourlyRate, hours, "")
-    }
-
-    public HourlyLineItem(BigDecimal hourlyRate, double hours, def category) {
-        super(category)
-        this.hourlyRate = hourlyRate
-        this.hours = hours
-    }
-
 }

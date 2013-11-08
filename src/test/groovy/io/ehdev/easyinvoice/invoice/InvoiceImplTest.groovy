@@ -16,14 +16,14 @@ class InvoiceImplTest {
 
     @Test
     public void testAddingLineItem() throws Exception {
-        invoice.addLineItem(new FlatLineItem(BigDecimal.ONE))
+        invoice.addLineItem(new FlatLineItem([amount: BigDecimal.ONE]))
         assertThat(invoice.lineItems).hasSize(1)
     }
 
     @Test
     public void testAbleToFindByType() throws Exception {
-        def item1 = new FlatLineItem(BigDecimal.ONE, "cat1")
-        def item2 = new FlatLineItem(BigDecimal.ONE, "cat2")
+        def item1 = new FlatLineItem(amount : BigDecimal.ONE, category:  "cat1")
+        def item2 = new FlatLineItem(amount:  BigDecimal.ONE, category:  "cat2")
         invoice.addLineItem(item1)
         invoice.addLineItem(item2)
         def foundCategory = invoice.findLineItemsForCategory("cat1")
@@ -38,7 +38,7 @@ class InvoiceImplTest {
 
     @Test
     public void testFindItemWithoutCategory() throws Exception {
-        invoice.addLineItem(new FlatLineItem(BigDecimal.ONE))
+        invoice.addLineItem(new FlatLineItem(['amount' : BigDecimal.ONE]))
         assertThat(invoice.findLineItemsForCategory("")).hasSize(1)
     }
 
@@ -46,9 +46,9 @@ class InvoiceImplTest {
     public void testGettingCategoryItems() throws Exception {
         invoice.addLineItems(
                 [
-                        new FlatLineItem(BigDecimal.ONE),
-                        new FlatLineItem(BigDecimal.TEN,  "1"),
-                        new FlatLineItem(BigDecimal.ZERO, "2")
+                        new FlatLineItem(['amount' : BigDecimal.ONE]),
+                        new FlatLineItem(['amount' : BigDecimal.TEN,  'category' : "1"]),
+                        new FlatLineItem(['amount' : BigDecimal.ZERO, 'category' : "2"])
                 ] )
         def categories = invoice.getCategories()
         assertThat(categories).hasSize(3)
@@ -59,7 +59,7 @@ class InvoiceImplTest {
 
     @Test
     public void testFindItemById() throws Exception {
-        def item = new FlatLineItem(BigDecimal.TEN)
+        def item = new FlatLineItem(['amount' : BigDecimal.TEN])
         invoice.addLineItem(item)
         invoice.getRemoveLineItem(item.getId());
         assertThat(invoice.getLineItems()).hasSize(0);
@@ -69,9 +69,9 @@ class InvoiceImplTest {
     public void testConfigureTaxabilityForCategory() throws Exception {
         invoice.addLineItems(
                 [
-                        new FlatLineItem(BigDecimal.ONE),
-                        new FlatLineItem(BigDecimal.TEN,  "1"),
-                        new FlatLineItem(BigDecimal.ZERO, "2")
+                        new FlatLineItem(['amount' : BigDecimal.ONE]),
+                        new FlatLineItem(['amount' : BigDecimal.TEN,  'category' : "1"]),
+                        new FlatLineItem(['amount' : BigDecimal.ZERO, 'category' : "2"])
                 ] )
         invoice.disableTaxForCategory("1")
         invoice.setTaxRate(10)

@@ -15,7 +15,7 @@ public class LineItemImplTest {
 
     @BeforeMethod
     void preTestSetup() {
-        lineItem = new FlatLineItem(BigDecimal.valueOf(1.2345));
+        lineItem = new FlatLineItem(['amount' :BigDecimal.valueOf(1.2345)]);
         lineItemInteractor = new FlatLineItemInteractor(lineItem)
     }
 

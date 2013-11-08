@@ -1,24 +1,17 @@
 package io.ehdev.easyinvoice.invoice
-import com.fasterxml.jackson.annotation.JsonAutoDetect
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.datatype.joda.ser.DateTimeSerializer
+
 import io.ehdev.easyinvoice.contact.ContactInfo
 import io.ehdev.easyinvoice.lineitem.LineItem
 import io.ehdev.easyinvoice.lineitem.interactor.LineItemInteractor
 import org.joda.time.DateTime
 
-@JsonIgnoreProperties(ignoreUnknown=true)
-@JsonAutoDetect
 class InvoiceImpl implements Invoice {
 
     def lineItems = [];
     def taxRateAsPercent
     ContactInfo customerInfo
     ContactInfo merchantInfo
-    @JsonSerialize(using=DateTimeSerializer.class)
     DateTime dueDate
-    @JsonSerialize(using=DateTimeSerializer.class)
     DateTime issuedDate
     String invoicePrefix
     String invoiceNumber

@@ -1,4 +1,4 @@
-package io.ehdev.easyinvoice.config.rest
+package io.ehdev.easyinvoice.config
 
 import groovy.json.JsonOutput
 import groovy.util.logging.Slf4j
