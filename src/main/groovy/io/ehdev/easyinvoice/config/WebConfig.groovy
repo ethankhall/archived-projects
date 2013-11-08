@@ -1,5 +1,8 @@
 package io.ehdev.easyinvoice.config
 
+import io.ehdev.easyinvoice.accessor.LineItemAccessor
+import io.ehdev.easyinvoice.accessor.LineItemInMemoryAccessor
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 import org.springframework.scheduling.annotation.EnableAsync
@@ -21,6 +24,11 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/img/**").addResourceLocations("/img/")
         registry.addResourceHandler("/js/**").addResourceLocations("/js/")
         registry.addResourceHandler("/html/**").addResourceLocations("/html/")
+    }
+
+    @Bean
+    public LineItemAccessor getLineItemAccessor(){
+        return new LineItemInMemoryAccessor();
     }
 
 }

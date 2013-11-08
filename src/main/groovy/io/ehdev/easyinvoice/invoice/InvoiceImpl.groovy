@@ -1,5 +1,7 @@
 package io.ehdev.easyinvoice.invoice
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.datatype.joda.ser.DateTimeSerializer
 import io.ehdev.easyinvoice.contact.ContactInfo
 import io.ehdev.easyinvoice.lineitem.LineItem
 import io.ehdev.easyinvoice.lineitem.interactor.LineItemInteractor
@@ -11,11 +13,13 @@ class InvoiceImpl implements Invoice {
     def taxRateAsPercent
     ContactInfo customerInfo
     ContactInfo merchantInfo
+    @JsonSerialize(using=DateTimeSerializer.class)
     DateTime dueDate
+    @JsonSerialize(using=DateTimeSerializer.class)
     DateTime issuedDate
     String invoicePrefix
     String invoiceNumber
-    final def id = UUID.randomUUID() as String
+    def id = UUID.randomUUID() as String
 
     @Override
     def addLineItem(LineItem lineItem) {

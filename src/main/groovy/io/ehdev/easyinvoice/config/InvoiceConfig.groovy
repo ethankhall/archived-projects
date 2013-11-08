@@ -22,8 +22,8 @@ public class InvoiceConfig {
     @ResponseBody
     public Invoice getInvoice(){
         def invoice = new InvoiceImpl()
-        invoice.addLineItem(new HourlyLineItem(BigDecimal.valueOf(40), 12))
-        invoice.addLineItem(new HourlyLineItem(BigDecimal.valueOf(45), 8))
+        invoice.lineItems << new HourlyLineItem(hourlyRate: BigDecimal.valueOf(40), hours: 12, description: "Desc 1")
+        invoice.lineItems << new HourlyLineItem(hourlyRate: BigDecimal.valueOf(45), hours: 8)
         invoice.setCustomerInfo(createCustomer())
         invoice.setMerchantInfo(createMerchant())
         invoice.setIssuedDate(DateTime.now())
@@ -64,7 +64,7 @@ public class InvoiceConfig {
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.CREATED)
     @ResponseBody
-    public def createNewPost(@RequestBody InvoiceImpl request){
+    public def createNewPost(@RequestBody Invoice request){
         log.info("'Saving' data")
         log.info(JsonOutput.toJson(request))
         return [ 'status' : 'accepted' ]
