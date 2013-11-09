@@ -2,6 +2,7 @@ package io.ehdev.easyinvoice.services
 import groovy.json.JsonOutput
 import groovy.util.logging.Slf4j
 import io.ehdev.easyinvoice.accessor.LineItemAccessor
+import io.ehdev.easyinvoice.lineitem.FlatLineItem
 import io.ehdev.easyinvoice.lineitem.HourlyLineItem
 import io.ehdev.easyinvoice.lineitem.LineItem
 import org.springframework.beans.factory.annotation.Autowired
@@ -36,9 +37,14 @@ class LineItemService {
         return [status: "created", id: lineItem.id]
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "template")
-    public @ResponseBody LineItem getTemplate(){
-        return new HourlyLineItem();
+    @RequestMapping(method = RequestMethod.GET, value = "template/{type}")
+    public @ResponseBody LineItem[] getTemplate(@PathVariable String type){
+        if(type.equalsIgnoreCase("hourly"))
+            return [new HourlyLineItem(), new HourlyLineItem()]
+        if(type.equalsIgnoreCase("flat"))
+            return [new FlatLineItem(), new FlatLineItem()]
+
+        return [ new HourlyLineItem(), new FlatLineItem() ]
     }
 
     @ExceptionHandler(NotFoundException.class)

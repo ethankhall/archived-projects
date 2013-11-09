@@ -9,7 +9,7 @@ import org.joda.time.DateTime
 
 class InvoiceImpl implements Invoice {
 
-    def lineItems = [];
+    List<LineItem> lineItems = [];
     def taxRateAsPercent
     ContactInfo customerInfo
     ContactInfo merchantInfo
