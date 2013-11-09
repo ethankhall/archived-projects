@@ -1,4 +1,4 @@
-package io.ehdev.easyinvoice.config
+package io.ehdev.easyinvoice.services
 import groovy.json.JsonOutput
 import groovy.util.logging.Slf4j
 import io.ehdev.easyinvoice.accessor.LineItemAccessor
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*
 @Component
 @RequestMapping("lineitem")
 @Slf4j
-class LineItemConfig {
+class LineItemService {
 
     @Autowired
     LineItemAccessor lineItemAccessor

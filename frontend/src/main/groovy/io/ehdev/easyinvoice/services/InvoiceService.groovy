@@ -1,4 +1,4 @@
-package io.ehdev.easyinvoice.config
+package io.ehdev.easyinvoice.services
 
 import groovy.json.JsonOutput
 import groovy.util.logging.Slf4j
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*
 @Component
 @RequestMapping("invoice")
 @Slf4j
-public class InvoiceConfig {
+public class InvoiceService {
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
