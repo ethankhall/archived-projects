@@ -20,6 +20,13 @@ class LineItemService {
     @Autowired
     LineItemAccessor lineItemAccessor
 
+    @RequestMapping(value = "seed")
+    @ResponseBody
+    public def seedDatabase(){
+        lineItemAccessor.prune()
+        lineItemAccessor.save(HourlyLineItemWrapper.createTestingHourlyLineItem())
+    }
+
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody LineItemWrapper getLineItem(@PathVariable String id){

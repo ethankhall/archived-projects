@@ -1,5 +1,9 @@
 package io.ehdev.easyinvoice.config
 
+import io.ehdev.easyinvoice.accessor.ContactInfoAccessor
+import io.ehdev.easyinvoice.accessor.ContactInfoInMemoryAccessor
+import io.ehdev.easyinvoice.accessor.InvoiceAccessor
+import io.ehdev.easyinvoice.accessor.InvoiceInMemoryAccessor
 import io.ehdev.easyinvoice.accessor.LineItemAccessor
 import io.ehdev.easyinvoice.accessor.LineItemInMemoryAccessor
 import org.springframework.context.annotation.Bean
@@ -29,6 +33,16 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Bean
     public LineItemAccessor getLineItemAccessor(){
         return new LineItemInMemoryAccessor();
+    }
+
+    @Bean
+    public ContactInfoAccessor getContactInfoAccessor() {
+        return new ContactInfoInMemoryAccessor();
+    }
+
+    @Bean
+    public InvoiceAccessor getInvoiceAccessor() {
+        return new InvoiceInMemoryAccessor();
     }
 
 }

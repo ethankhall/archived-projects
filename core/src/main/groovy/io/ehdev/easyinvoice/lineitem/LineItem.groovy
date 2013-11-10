@@ -12,5 +12,5 @@ abstract class LineItem {
     @JsonSerialize(using=DateTimeSerializer.class)
     def dateFinished = DateTime.now()
     def taxEnabled = true
-    final def id = UUID.randomUUID() as String
+    def id = UUID.randomUUID() as String
 }

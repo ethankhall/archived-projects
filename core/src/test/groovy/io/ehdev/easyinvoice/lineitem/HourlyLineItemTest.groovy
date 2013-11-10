@@ -1,6 +1,7 @@
 package io.ehdev.easyinvoice.lineitem
 
 import io.ehdev.easyinvoice.lineitem.interactor.HourlyLineItemInteractor
+import org.joda.time.Duration
 import org.testng.annotations.Test
 
 import java.math.RoundingMode
@@ -11,11 +12,11 @@ public class HourlyLineItemTest {
 
     @Test
     public void testChangeHourValue() throws Exception {
-        HourlyLineItem lineItem = new HourlyLineItem(['hourlyRate' :BigDecimal.ONE, 'hours': 1]);
+        HourlyLineItem lineItem = new HourlyLineItem(['hourlyRate' :BigDecimal.ONE, 'hours': Duration.standardHours(1)]);
         def interactor = new HourlyLineItemInteractor(lineItem)
         assertThat(interactor.calculateAmount()).isEqualTo(BigDecimal.ONE.setScale(3));
-        lineItem.setHours(100.234);
+        lineItem.setHours(Duration.standardMinutes(100 * 60 + 45));
         lineItem.setHourlyRate(BigDecimal.valueOf(2.1));
-        assertThat(interactor.calculateAmount()).isEqualTo(BigDecimal.valueOf(2.1 * 100.234).setScale(3, RoundingMode.HALF_EVEN));
+        assertThat(interactor.calculateAmount()).isEqualTo(BigDecimal.valueOf(2.1 * 6045 / 60).setScale(3, RoundingMode.HALF_EVEN));
     }
 }

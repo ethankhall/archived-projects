@@ -1,6 +1,7 @@
 package io.ehdev.easyinvoice.contact
 
 class ContactInfo {
+    String id
     String firstName;
     String lastName;
     String businessName;

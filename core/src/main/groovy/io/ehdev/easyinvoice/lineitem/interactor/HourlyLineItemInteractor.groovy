@@ -13,7 +13,7 @@ class HourlyLineItemInteractor extends LineItemInteractor {
 
     @Override
     BigDecimal calculateAmount() {
-        def calculatedValue = lineItem.hourlyRate.multiply(BigDecimal.valueOf(lineItem.hours))
+        def calculatedValue = lineItem.hourlyRate.multiply(BigDecimal.valueOf(lineItem.hours.getStandardMinutes() / 60))
         return calculatedValue.setScale(3, RoundingMode.HALF_EVEN);
     }
 
