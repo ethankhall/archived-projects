@@ -7,6 +7,8 @@ import io.ehdev.easyinvoice.interfaces.LineItemWrapper
 import io.ehdev.easyinvoice.lineitem.FlatLineItem
 import io.ehdev.easyinvoice.lineitem.HourlyLineItem
 import io.ehdev.easyinvoice.lineitem.LineItem
+import io.ehdev.easyinvoice.services.converter.BackendConverter
+import io.ehdev.easyinvoice.services.excpetions.NotFoundException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
@@ -20,6 +22,9 @@ class LineItemService {
     @Autowired
     LineItemAccessor lineItemAccessor
 
+    @Autowired
+    BackendConverter converter
+
     @RequestMapping(value = "seed")
     @ResponseBody
     public def seedDatabase(){
@@ -31,7 +36,7 @@ class LineItemService {
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody LineItemWrapper getLineItem(@PathVariable String id){
         log.info("Find line item $id")
-        HourlyLineItemWrapper.createTestingHourlyLineItem()
+        converter.getLineItemFromId(id)
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -53,6 +58,7 @@ class LineItemService {
     @ResponseBody
     public def deletePost(@PathVariable String id) {
         log.info("Deleting $id")
+        converter.deleteLineItem(id)
         [ status: "Deleted"]
     }
 
@@ -68,11 +74,8 @@ class LineItemService {
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public void sendNotFound(){
-
-    }
-
-    class NotFoundException extends RuntimeException {
-        ;
+    @ResponseBody
+    public def sendNotFound(NotFoundException data){
+        data.response
     }
 }

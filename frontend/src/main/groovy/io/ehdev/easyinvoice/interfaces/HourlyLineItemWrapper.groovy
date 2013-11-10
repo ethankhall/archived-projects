@@ -7,17 +7,17 @@ import org.joda.time.Duration
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "lineItemType")
 class HourlyLineItemWrapper extends LineItemWrapper{
 
-    def rate
+    def hourlyRate
     @JsonSerialize(using=DurationSerializer.class)
-    Duration time
+    Duration hours
 
     static HourlyLineItemWrapper  createTestingHourlyLineItem(){
         def hourlyWrapper = HourlyLineItemWrapper.newInstance()
         hourlyWrapper.with{
             id = UUID.randomUUID().toString().replace("-", "")
             description = "Humm.... "
-            rate = BigDecimal.valueOf(123)
-            time = Duration.standardHours(2)
+            hourlyRate = BigDecimal.valueOf(123)
+            hours = Duration.standardHours(2)
             amount = BigDecimal.valueOf(246)
         }
 
@@ -27,8 +27,8 @@ class HourlyLineItemWrapper extends LineItemWrapper{
     @Override
     public String toString() {
         return "HourlyLineItemWrapper{" +
-                "rate=" + rate +
-                ", time=" + time.getMillis() +
+                "hourlyRate=" + hourlyRate +
+                ", hours=" + hours.getMillis() +
                 ", super=" + super.toString() +
                 '}';
     }
@@ -40,16 +40,16 @@ class HourlyLineItemWrapper extends LineItemWrapper{
 
         HourlyLineItemWrapper that = (HourlyLineItemWrapper) o
 
-        if (rate != that.rate) return false
-        if (time != that.time) return false
+        if (hourlyRate != that.hourlyRate) return false
+        if (hours != that.hours) return false
 
         return true
     }
 
     int hashCode() {
         int result
-        result = (rate != null ? rate.hashCode() : 0)
-        result = 31 * result + (time != null ? time.hashCode() : 0)
+        result = (hourlyRate != null ? hourlyRate.hashCode() : 0)
+        result = 31 * result + (hours != null ? hours.hashCode() : 0)
         return result
     }
 }

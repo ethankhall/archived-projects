@@ -10,17 +10,17 @@ import org.testng.annotations.Test
 
 import static org.fest.assertions.Assertions.assertThat
 
-class BackendConverterTest {
+class LineItemConverterTest {
 
     LineItemInMemoryAccessor lineItemAccessor
-    BackendConverter backendConverter
+    LineItemConverter lineItemConverter
 
     @BeforeTest
     public void setup(){
         lineItemAccessor = LineItemInMemoryAccessor.newInstance()
 
-        backendConverter = BackendConverter.newInstance()
-        backendConverter.lineItemAccessor = lineItemAccessor
+        lineItemConverter = LineItemConverter.newInstance()
+        lineItemConverter.lineItemAccessor = lineItemAccessor
     }
 
     @Test
@@ -30,7 +30,7 @@ class BackendConverterTest {
         )
 
         lineItemAccessor.save(hourlyLineItem)
-        def convertedValue = backendConverter.convertToHourlyLineItemWrapper(lineItemAccessor.get("1"))
+        def convertedValue = lineItemConverter.convertToHourlyLineItemWrapper(lineItemAccessor.get("1"))
         assertThat(hourlyLineItem.id).isEqualTo(convertedValue.id)
         assertThat(convertedValue.amount).isEqualTo(hourlyLineItem.calculateAmount())
         assertThat(convertedValue.taxable).isEqualTo(hourlyLineItem.taxEnabled)
@@ -43,7 +43,7 @@ class BackendConverterTest {
         )
 
         lineItemAccessor.save(flatLineItem)
-        def convertedValue = backendConverter.convertToFlatLineItemWrapper(lineItemAccessor.get("1"))
+        def convertedValue = lineItemConverter.convertToFlatLineItemWrapper(lineItemAccessor.get("1"))
         assertThat(flatLineItem.id).isEqualTo(convertedValue.id)
         assertThat(convertedValue.amount).isEqualTo(flatLineItem.amount)
         assertThat(convertedValue.taxable).isEqualTo(flatLineItem.taxEnabled)
@@ -56,7 +56,15 @@ class BackendConverterTest {
         HourlyLineItem hourlyLineItem = HourlyLineItem.newInstance(
                 [id: "2", hourlyRate: BigDecimal.TEN, hours: Duration.standardMinutes(1234)] )
         lineItemAccessor.save(flatLineItem, hourlyLineItem)
-        assertThat(backendConverter.getLineItemFromId("1")).isInstanceOf(FlatLineItemWrapper.class)
-        assertThat(backendConverter.getLineItemFromId("2")).isInstanceOf(HourlyLineItemWrapper.class)
+        assertThat(lineItemConverter.getLineItemFromId("1")).isInstanceOf(FlatLineItemWrapper.class)
+        assertThat(lineItemConverter.getLineItemFromId("2")).isInstanceOf(HourlyLineItemWrapper.class)
+    }
+
+    @Test
+    public void testHourlyLineItemWrapperToLineItem() throws Exception {
+        def itemWrapper = HourlyLineItemWrapper.createTestingHourlyLineItem()
+        def lineItem = lineItemConverter.convertHourlyLineItemWrapperToLineItem(itemWrapper)
+        assertThat(lineItem).isInstanceOf(HourlyLineItem.class)
+        assertThat(lineItem.category).isEqualTo(itemWrapper.category)
     }
 }
