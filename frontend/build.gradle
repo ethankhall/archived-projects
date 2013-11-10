@@ -22,6 +22,9 @@ dependencies {
     compile 'org.slf4j:slf4j-api:1.7.5'
     compile 'org.slf4j:jcl-over-slf4j:1.7.5'
 
+    //testing
+    compile 'de.sven-jacobs:loremipsum:1.0'
+
     testCompile 'org.testng:testng:6.8.7'
     testCompile 'org.easytesting:fest-assert:1.4'
 
