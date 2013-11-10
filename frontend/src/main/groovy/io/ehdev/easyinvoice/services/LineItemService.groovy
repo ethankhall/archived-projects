@@ -2,6 +2,7 @@ package io.ehdev.easyinvoice.services
 import groovy.json.JsonOutput
 import groovy.util.logging.Slf4j
 import io.ehdev.easyinvoice.accessor.LineItemAccessor
+import io.ehdev.easyinvoice.interfaces.HourlyLineItemWrapper
 import io.ehdev.easyinvoice.interfaces.LineItemWrapper
 import io.ehdev.easyinvoice.lineitem.FlatLineItem
 import io.ehdev.easyinvoice.lineitem.HourlyLineItem
@@ -21,13 +22,9 @@ class LineItemService {
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody LineItem getLineItem(@RequestParam String id){
-        def lineItem = lineItemAccessor.get(id)
-        if(null == lineItem) {
-            throw new NotFoundException()
-        } else {
-            return lineItem
-        }
+    public @ResponseBody LineItemWrapper getLineItem(@PathVariable String id){
+        log.info("Find line item $id")
+        HourlyLineItemWrapper.createTestingHourlyLineItem()
     }
 
     @RequestMapping(method = RequestMethod.POST)
