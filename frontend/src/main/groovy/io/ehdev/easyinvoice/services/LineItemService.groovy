@@ -19,7 +19,7 @@ class LineItemService {
     @Autowired
     LineItemAccessor lineItemAccessor
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "{id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody LineItem getLineItem(@RequestParam String id){
         def lineItem = lineItemAccessor.get(id)
