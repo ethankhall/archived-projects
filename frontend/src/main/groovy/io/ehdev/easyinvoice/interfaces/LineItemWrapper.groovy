@@ -13,7 +13,6 @@ abstract class LineItemWrapper {
     def description
     def category = ""
     def taxable = true
-    def currency = [ "USD", "\$" ]
     def id
 
     boolean equals(o) {
@@ -24,7 +23,6 @@ abstract class LineItemWrapper {
 
         if (amount != that.amount) return false
         if (category != that.category) return false
-        if (currency != that.currency) return false
         if (description != that.description) return false
         if (id != that.id) return false
         if (taxable != that.taxable) return false
@@ -38,7 +36,6 @@ abstract class LineItemWrapper {
         result = 31 * result + (description != null ? description.hashCode() : 0)
         result = 31 * result + (category != null ? category.hashCode() : 0)
         result = 31 * result + (taxable != null ? taxable.hashCode() : 0)
-        result = 31 * result + (currency != null ? currency.hashCode() : 0)
         result = 31 * result + (id != null ? id.hashCode() : 0)
         return result
     }
@@ -51,7 +48,6 @@ abstract class LineItemWrapper {
                 ", description=" + description +
                 ", category=" + category +
                 ", taxable=" + taxable +
-                ", currency=" + currency +
                 ", id=" + id +
                 '}';
     }
