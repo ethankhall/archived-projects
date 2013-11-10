@@ -29,7 +29,7 @@ class ContactService {
     @ResponseBody
     public def createCustomerInfo(@RequestBody ContactInfoWrapper contactInfoWrapper) {
         log.info("Should save: {}", JsonOutput.toJson(contactInfoWrapper))
-        return [status: "created"]
+        return [status: "created", id: contactInfoWrapper.id]
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)

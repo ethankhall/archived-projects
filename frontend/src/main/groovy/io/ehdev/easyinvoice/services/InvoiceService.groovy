@@ -25,10 +25,10 @@ public class InvoiceService {
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.CREATED)
     @ResponseBody
-    public def createNewPost(@RequestBody InvoiceWrapper request){
+    public def createNewPost(@RequestBody InvoiceWrapper invoice){
         log.info("'Saving' data")
-        log.info(JsonOutput.toJson(request))
-        return [ 'status' : 'accepted' ]
+        log.info(JsonOutput.toJson(invoice))
+        return [ 'status' : 'accepted', id: invoice.id]
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)

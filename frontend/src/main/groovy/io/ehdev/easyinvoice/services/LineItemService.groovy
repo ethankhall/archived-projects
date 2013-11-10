@@ -2,6 +2,7 @@ package io.ehdev.easyinvoice.services
 import groovy.json.JsonOutput
 import groovy.util.logging.Slf4j
 import io.ehdev.easyinvoice.accessor.LineItemAccessor
+import io.ehdev.easyinvoice.interfaces.LineItemWrapper
 import io.ehdev.easyinvoice.lineitem.FlatLineItem
 import io.ehdev.easyinvoice.lineitem.HourlyLineItem
 import io.ehdev.easyinvoice.lineitem.LineItem
@@ -30,11 +31,25 @@ class LineItemService {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public @ResponseBody Map createLineItem(@RequestBody HourlyLineItem lineItem){
+    public @ResponseBody Map createLineItem(@RequestBody LineItemWrapper lineItem){
         log.info(JsonOutput.toJson(lineItem))
-        lineItemAccessor.save(lineItem)
+        //lineItemAccessor.save(lineItem)
 
         return [status: "created", id: lineItem.id]
+    }
+
+    @RequestMapping(value = "{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public def updatePost(@PathVariable String id, @RequestBody LineItemWrapper wrapper){
+        log.info("Updating post $id to ${JsonOutput.toJson(wrapper)}")
+        [ updated: "Updated lineItem"]
+    }
+
+    @RequestMapping(value = "{id}",  method = RequestMethod.DELETE)
+    @ResponseBody
+    public def deletePost(@PathVariable String id) {
+        log.info("Deleting $id")
+        [ status: "Deleted"]
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "template/{type}")
