@@ -5,4 +5,5 @@ interface BaseAccessor<T> {
     def save(T lineItem)
     def save(T... lineItem)
     def prune()
+    def delete(String id)
 }

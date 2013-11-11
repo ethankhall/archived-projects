@@ -36,7 +36,7 @@ class LineItemService {
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody LineItemWrapper getLineItem(@PathVariable String id){
         log.info("Find line item $id")
-        converter.getLineItemFromId(id)
+        converter.getWrapperFromId(id)
     }
 
     @RequestMapping(method = RequestMethod.POST)

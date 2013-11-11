@@ -30,7 +30,7 @@ class LineItemConverterTest {
         )
 
         lineItemAccessor.save(hourlyLineItem)
-        def convertedValue = lineItemConverter.convertToHourlyLineItemWrapper(lineItemAccessor.get("1"))
+        def convertedValue = lineItemConverter.convertLineItemToWrapper(lineItemAccessor.get("1"))
         assertThat(hourlyLineItem.id).isEqualTo(convertedValue.id)
         assertThat(convertedValue.amount).isEqualTo(hourlyLineItem.calculateAmount())
         assertThat(convertedValue.taxable).isEqualTo(hourlyLineItem.taxEnabled)
@@ -43,7 +43,7 @@ class LineItemConverterTest {
         )
 
         lineItemAccessor.save(flatLineItem)
-        def convertedValue = lineItemConverter.convertToFlatLineItemWrapper(lineItemAccessor.get("1"))
+        def convertedValue = lineItemConverter.convertLineItemToWrapper(lineItemAccessor.get("1"))
         assertThat(flatLineItem.id).isEqualTo(convertedValue.id)
         assertThat(convertedValue.amount).isEqualTo(flatLineItem.amount)
         assertThat(convertedValue.taxable).isEqualTo(flatLineItem.taxEnabled)
@@ -56,15 +56,40 @@ class LineItemConverterTest {
         HourlyLineItem hourlyLineItem = HourlyLineItem.newInstance(
                 [id: "2", hourlyRate: BigDecimal.TEN, hours: Duration.standardMinutes(1234)] )
         lineItemAccessor.save(flatLineItem, hourlyLineItem)
-        assertThat(lineItemConverter.getLineItemFromId("1")).isInstanceOf(FlatLineItemWrapper.class)
-        assertThat(lineItemConverter.getLineItemFromId("2")).isInstanceOf(HourlyLineItemWrapper.class)
+        assertThat(lineItemConverter.getWrapperFromId("1")).isInstanceOf(FlatLineItemWrapper.class)
+        assertThat(lineItemConverter.getWrapperFromId("2")).isInstanceOf(HourlyLineItemWrapper.class)
     }
 
     @Test
     public void testHourlyLineItemWrapperToLineItem() throws Exception {
         def itemWrapper = HourlyLineItemWrapper.createTestingHourlyLineItem()
-        def lineItem = lineItemConverter.convertHourlyLineItemWrapperToLineItem(itemWrapper)
+        def lineItem = lineItemConverter.convertWrapperToLineItem(itemWrapper)
         assertThat(lineItem).isInstanceOf(HourlyLineItem.class)
         assertThat(lineItem.category).isEqualTo(itemWrapper.category)
+        assertThat(lineItem.description).isEqualTo(itemWrapper.description)
+        assertThat(lineItem.taxEnabled).isEqualTo(itemWrapper.taxable)
+        assertThat(lineItem.hourlyRate).isEqualTo(itemWrapper.hourlyRate)
+        assertThat(lineItem.hours).isEqualTo(itemWrapper.hours)
+    }
+
+    @Test
+    public void testFlatLineItemWrapperToFlatItem() throws Exception {
+        def itemWrapper = FlatLineItemWrapper.createTestingFlatLineItem()
+        def lineItem = lineItemConverter.convertWrapperToLineItem(itemWrapper)
+        assertThat(lineItem).isInstanceOf(FlatLineItem.class)
+        assertThat(lineItem.category).isEqualTo(itemWrapper.category)
+        assertThat(lineItem.description).isEqualTo(itemWrapper.description)
+        assertThat(lineItem.taxEnabled).isEqualTo(itemWrapper.taxable)
+        assertThat(lineItem.amount).isEqualTo(itemWrapper.amount)
+    }
+
+    @Test
+    public void testSavingLineItem() throws Exception {
+        def item = HourlyLineItemWrapper.createTestingHourlyLineItem()
+        lineItemConverter.saveLineItem(item)
+        def retrieved = lineItemConverter.getLineItemFromId(item.id)
+        assertThat(retrieved).isInstanceOf(HourlyLineItem)
+        assertThat(retrieved.hours).isEqualTo(item.hours)
+        assertThat(retrieved.hourlyRate).isEqualTo(item.hourlyRate)
     }
 }

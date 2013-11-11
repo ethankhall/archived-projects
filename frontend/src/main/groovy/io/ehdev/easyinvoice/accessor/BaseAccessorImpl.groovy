@@ -20,4 +20,8 @@ abstract class BaseAccessorImpl<T> implements BaseAccessor<T>{
     def prune(){
         storage.clear()
     }
+
+    def delete(String id){
+        storage[id] = null
+    }
 }
