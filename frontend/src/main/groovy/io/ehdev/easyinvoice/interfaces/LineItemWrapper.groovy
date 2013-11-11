@@ -13,7 +13,7 @@ abstract class LineItemWrapper {
     def description
     def category = ""
     def taxable = true
-    def id
+    String id
 
     boolean equals(o) {
         if (this.is(o)) return true

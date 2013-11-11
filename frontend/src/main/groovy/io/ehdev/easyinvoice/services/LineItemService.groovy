@@ -27,7 +27,8 @@ class LineItemService {
         converter.prune()
         def item = HourlyLineItemWrapper.createTestingHourlyLineItem()
         converter.saveLineItem(item)
-        [ message: "Created item with id: ${item.id}" ]
+        log.info(JsonOutput.toJson(item))
+        [ message: "Created item with id: " + item.id ]
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
