@@ -1,7 +1,6 @@
 package io.ehdev.easyinvoice.services
 import groovy.json.JsonOutput
 import groovy.util.logging.Slf4j
-import io.ehdev.easyinvoice.accessor.LineItemAccessor
 import io.ehdev.easyinvoice.interfaces.HourlyLineItemWrapper
 import io.ehdev.easyinvoice.interfaces.LineItemWrapper
 import io.ehdev.easyinvoice.lineitem.FlatLineItem
@@ -20,16 +19,15 @@ import org.springframework.web.bind.annotation.*
 class LineItemService {
 
     @Autowired
-    LineItemAccessor lineItemAccessor
-
-    @Autowired
     BackendConverter converter
 
     @RequestMapping(value = "seed")
     @ResponseBody
     public def seedDatabase(){
-        lineItemAccessor.prune()
-        lineItemAccessor.save(HourlyLineItemWrapper.createTestingHourlyLineItem())
+        converter.prune()
+        def item = HourlyLineItemWrapper.createTestingHourlyLineItem()
+        converter.saveLineItem(item)
+        [ message: "Created item with id: ${item.id}" ]
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
@@ -42,7 +40,9 @@ class LineItemService {
     @RequestMapping(method = RequestMethod.POST)
     public @ResponseBody Map createLineItem(@RequestBody LineItemWrapper lineItem){
         log.info(JsonOutput.toJson(lineItem))
-        //lineItemAccessor.save(lineItem)
+
+        lineItem.id = UUID.randomUUID().toString().replace("-", "")
+        converter.saveLineItem(lineItem)
 
         return [status: "created", id: lineItem.id]
     }
@@ -51,6 +51,10 @@ class LineItemService {
     @ResponseBody
     public def updatePost(@PathVariable String id, @RequestBody LineItemWrapper wrapper){
         log.info("Updating post $id to ${JsonOutput.toJson(wrapper)}")
+
+        wrapper.id = id
+        converter.saveLineItem(wrapper)
+
         [ updated: "Updated lineItem"]
     }
 
