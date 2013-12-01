@@ -38,7 +38,7 @@ class DBTestCase {
         return rowResult
     }
 
-    public Object insertIntoDatabase(String name, args) {
+    private Object insertIntoDatabase(String name, args) {
         Map fields = getFieldMap(args)
         String insertStatement = createInsertString(fields, name)
         log.debug("Writing to table $name with parameters {}", fields)
@@ -46,16 +46,20 @@ class DBTestCase {
         rowResult
     }
 
-    public Object executeTransactionToDatabase(Map fields, String insertStatement) {
+    private Integer executeTransactionToDatabase(Map fields, String insertStatement) {
         try {
-            def insertValue = connection.executeInsert(fields, insertStatement)
-            if(null == insertValue[0] || null == insertValue[0][0]){
-                return null
-            } else {
-                return insertValue[0][0]
-            }
+            return doInsertReturnPrimaryKey(fields, insertStatement)
         } catch (ex) {
             throw new InvalidDatabaseOperationException(ex)
+        }
+    }
+
+    private Object doInsertReturnPrimaryKey(Map fields, String insertStatement) {
+        def insertValue = connection.executeInsert(fields, insertStatement)
+        if (null == insertValue[0] || null == insertValue[0][0]) {
+            return null
+        } else {
+            return insertValue[0][0]
         }
     }
 
