@@ -1,4 +1,4 @@
-package io.ehdev.testify.dbtestbuilder
+package io.ehdev.testify.dbbuilder
 import org.apache.commons.dbcp.BasicDataSource
 import org.springframework.jdbc.core.JdbcTemplate
 import org.testng.annotations.BeforeTest

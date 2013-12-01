@@ -1,4 +1,4 @@
-package io.ehdev.testify.dbtestbuilder
+package io.ehdev.testify.dbbuilder
 
 class TestCasePrimaryKeyResults {
     Map<String, Set<Integer>> tableToPrimaryKeyMap = [:]

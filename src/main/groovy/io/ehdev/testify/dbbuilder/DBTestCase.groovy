@@ -1,4 +1,4 @@
-package io.ehdev.testify.dbtestbuilder
+package io.ehdev.testify.dbbuilder
 
 import groovy.sql.Sql
 import groovy.util.logging.Slf4j

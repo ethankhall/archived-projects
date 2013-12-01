@@ -1,4 +1,4 @@
-package io.ehdev.testify.dbtestbuilder
+package io.ehdev.testify.dbbuilder
 import org.mockito.Mock
 import org.mockito.invocation.InvocationOnMock
 import org.mockito.stubbing.Answer
