@@ -4,8 +4,10 @@ class TestCaseContainer {
     Map<String, TestCasePrimaryKeyResults> testCases = [:]
 
     def addNewPrimaryKey(String currentTestName, String tableName, Integer rowResult){
-        def testResults = getTestCaseResultsForTestName(currentTestName)
-        testResults.addPrimaryKeyToTable(tableName, rowResult)
+        if(null != rowResult) {
+            def testResults = getTestCaseResultsForTestName(currentTestName)
+            testResults.addPrimaryKeyToTable(tableName, rowResult)
+        }
     }
 
     public TestCasePrimaryKeyResults getTestCaseResultsForTestName(String currentTestName) {
@@ -16,10 +18,10 @@ class TestCaseContainer {
     }
 
     public List<Integer> getResultsForTableName(String tableName) {
-        List<Integer> keys = []
+        List<Integer> primaryKeys = []
         testCases.each { key, value ->
-            keys.addAll(value.tableToPrimaryKeyMap[tableName])
+            primaryKeys.addAll(value.getPrimaryKeysForTable(tableName))
         }
-        return keys
+        return primaryKeys
     }
 }

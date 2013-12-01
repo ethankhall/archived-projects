@@ -5,12 +5,13 @@ class TestCasePrimaryKeyResults {
 
     def addPrimaryKeyToTable(String tableName, Integer primaryKey) {
         Set<Integer> keys = getPrimaryKeysForTable(tableName)
-        keys << primaryKey
+        keys.add(primaryKey)
+        tableToPrimaryKeyMap[tableName] = keys
     }
 
     Set<Integer> getPrimaryKeysForTable(String tableName) {
         if(null == tableToPrimaryKeyMap[tableName]) {
-            tableToPrimaryKeyMap[tableName] = new HashSet<Integer>()
+            tableToPrimaryKeyMap[tableName] = new LinkedHashSet<Integer>()
         }
         tableToPrimaryKeyMap[tableName]
     }

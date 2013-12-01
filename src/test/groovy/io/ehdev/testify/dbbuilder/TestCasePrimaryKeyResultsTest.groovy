@@ -1,5 +1,5 @@
 package io.ehdev.testify.dbbuilder
-import org.testng.annotations.BeforeTest
+import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
 
 import static org.fest.assertions.Assertions.assertThat
@@ -7,9 +7,11 @@ import static org.fest.assertions.Assertions.assertThat
 class TestCasePrimaryKeyResultsTest {
 
     def testCase
+    def id
 
-    @BeforeTest
+    @BeforeMethod
     public void setup() {
+        id = 0
         testCase = new TestCasePrimaryKeyResults()
     }
 
@@ -24,14 +26,14 @@ class TestCasePrimaryKeyResultsTest {
     @Test
     public void testValuesInMap() throws Exception {
         createTableIds("table1")
-        assertThat(testCase.getPrimaryKeysForTable('table1')).containsOnly(12, 13, 14)
+        assertThat(testCase.getPrimaryKeysForTable('table1')).containsOnly(1, 2, 3)
     }
 
 
     private void createTableIds(String tableName) {
-        testCase.addPrimaryKeyToTable(tableName, 12)
-        testCase.addPrimaryKeyToTable(tableName, 13)
-        testCase.addPrimaryKeyToTable(tableName, 14)
-        testCase.addPrimaryKeyToTable(tableName, 12)
+        testCase.addPrimaryKeyToTable(tableName, ++id)
+        testCase.addPrimaryKeyToTable(tableName, ++id)
+        testCase.addPrimaryKeyToTable(tableName, ++id)
+        testCase.addPrimaryKeyToTable(tableName, id)
     }
 }

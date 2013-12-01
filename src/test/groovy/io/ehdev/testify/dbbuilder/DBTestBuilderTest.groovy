@@ -1,7 +1,7 @@
 package io.ehdev.testify.dbbuilder
 import org.apache.commons.dbcp.BasicDataSource
 import org.springframework.jdbc.core.JdbcTemplate
-import org.testng.annotations.BeforeTest
+import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
 
 import javax.sql.DataSource
@@ -13,9 +13,9 @@ import static org.mockito.MockitoAnnotations.initMocks
 class DBTestBuilderTest extends MockedConnectionDBTestCaseTest{
 
     def builder
+    synchronized def dbNumber = 0
 
-
-    @BeforeTest
+    @BeforeMethod
     public void setup() {
         initMocks(this)
         setUpMockReturns()
@@ -33,7 +33,7 @@ class DBTestBuilderTest extends MockedConnectionDBTestCaseTest{
 
     @Test
     public void testWithH2DB() throws Exception {
-        JdbcTemplate template = createJdbcTemplate("db1")
+        JdbcTemplate template = createJdbcTemplate()
         createTableForTests(template)
         def tableResults = createDBTestBuilder("db_example1.db", template)
         assertThat(tableResults.getResultsForTableName("table1")).hasSize(3)
@@ -42,18 +42,26 @@ class DBTestBuilderTest extends MockedConnectionDBTestCaseTest{
 
     @Test(expectedExceptions = InvalidDatabaseOperationException.class)
     public void testFailingToOnNonExistentTableInsertId() throws Exception {
-        JdbcTemplate template = createJdbcTemplate("db2")
+        JdbcTemplate template = createJdbcTemplate()
         createTableForTests(template)
         createDBTestBuilder("db_example2.db", template)
     }
 
     @Test
     public void testWithH2AndNamedParameter() throws Exception {
-        JdbcTemplate template = createJdbcTemplate("db3")
+        JdbcTemplate template = createJdbcTemplate()
         createTableForTests(template)
         def tableResults = createDBTestBuilder("example_using_named_value.db", template)
         assertThat(tableResults.getResultsForTableName("table1")).hasSize(1)
         assertThat(tableResults.getResultsForTableName("table2")).hasSize(1)
+    }
+
+    @Test
+    public void testWithNoPrimaryKey() throws Exception {
+        JdbcTemplate template = createJdbcTemplate()
+        template.execute("create table table1 (field1 varchar(255), field2 varchar(255), field3 varchar(255))")
+        def tableResults = createDBTestBuilder("no_primary_key.db", template)
+        assertThat(tableResults.getResultsForTableName("table1")).hasSize(0)
     }
 
     public void createTableForTests(JdbcTemplate template) {
@@ -61,10 +69,10 @@ class DBTestBuilderTest extends MockedConnectionDBTestCaseTest{
         template.execute("create table table2 (id int NOT NULL primary key AUTO_INCREMENT, field1 varchar(255), field2 varchar(255), field3 varchar(255), refId int,  foreign key (refId) references table1(id) )")
     }
 
-    private JdbcTemplate createJdbcTemplate(String name) {
+    private JdbcTemplate createJdbcTemplate() {
         BasicDataSource basicDataSource = new BasicDataSource();
         basicDataSource.setDriverClassName("org.h2.Driver");
-        basicDataSource.setUrl("jdbc:h2:mem:$name;MODE=MySQL;");
+        basicDataSource.setUrl("jdbc:h2:mem:${dbNumber++};MODE=MySQL;");
         def template = new JdbcTemplate(basicDataSource)
         template
     }

@@ -1,6 +1,6 @@
 package io.ehdev.testify.dbbuilder
 import groovy.sql.Sql
-import org.testng.annotations.BeforeTest
+import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
 
 import static org.mockito.MockitoAnnotations.initMocks
@@ -9,7 +9,7 @@ class LargeDBTestCaseTest extends MockedConnectionDBTestCaseTest{
 
     def testCase
 
-    @BeforeTest
+    @BeforeMethod
     public void setup(){
         initMocks(this)
         setUpMockReturns()

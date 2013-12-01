@@ -48,7 +48,12 @@ class DBTestCase {
 
     public Object executeTransactionToDatabase(Map fields, String insertStatement) {
         try {
-            return connection.executeInsert(fields, insertStatement)[0][0]
+            def insertValue = connection.executeInsert(fields, insertStatement)
+            if(null == insertValue[0] || null == insertValue[0][0]){
+                return null
+            } else {
+                return insertValue[0][0]
+            }
         } catch (ex) {
             throw new InvalidDatabaseOperationException(ex)
         }
