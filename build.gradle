@@ -24,3 +24,5 @@ dependencies {
 test {
     useTestNG()
 }
+
+apply from: "publishing.gradle"
