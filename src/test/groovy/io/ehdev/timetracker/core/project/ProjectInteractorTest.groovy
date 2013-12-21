@@ -1,6 +1,5 @@
 package io.ehdev.timetracker.core.project
-
-import io.ehdev.timetracker.core.UserNotAuthorizedException
+import io.ehdev.timetracker.core.UserNotAuthorizedToWriteException
 import io.ehdev.timetracker.core.project.permissions.Permissions
 import io.ehdev.timetracker.core.user.User
 import org.testng.annotations.BeforeMethod
@@ -22,7 +21,7 @@ class ProjectInteractorTest {
     }
 
     private void setupInteractor(User user){
-        project = new Project(permissions: new Permissions(writeAccess: writeUser, readAccess: readUser))
+        project = new ProjectImpl(permissions: new Permissions(writeAccess: [writeUser], readAccess: [readUser]))
         interactor = new ProjectInteractor(user: user, project: project)
     }
 
@@ -33,10 +32,17 @@ class ProjectInteractorTest {
         assertThat(project.getName()).isEqualTo("new name")
     }
 
-    @Test(expectedExceptions = UserNotAuthorizedException.class)
+    @Test(expectedExceptions = UserNotAuthorizedToWriteException.class)
     public void testChangingNameWithReadPermissions() throws Exception {
         setupInteractor(readUser)
         interactor.changeName("new name")
+    }
+
+    @Test
+    public void testAddNewWriteUser() throws Exception {
+        setupInteractor(writeUser)
+        interactor.addWriteUser(readUser)
+        project.getPermissions().canUserWrite(readUser)
     }
 
 
