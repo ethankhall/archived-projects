@@ -5,7 +5,7 @@ import io.ehdev.timetracker.core.UserNotAuthorizedToWriteException
 import io.ehdev.timetracker.core.entry.LineItemEntry
 import io.ehdev.timetracker.core.project.discount.Discount
 import io.ehdev.timetracker.core.project.discount.DiscountFactory
-import io.ehdev.timetracker.core.project.permissions.Permissions
+import io.ehdev.timetracker.core.permissions.BasePermissions
 import io.ehdev.timetracker.core.project.rate.Rate
 import io.ehdev.timetracker.core.user.User
 
@@ -17,7 +17,7 @@ class ProjectImpl implements Project {
     @Delegate
     Discount discount = DiscountFactory.getNoDiscount()
     List<LineItemEntry> lineItems = []
-    Permissions permissions;
+    BasePermissions permissions;
 
     public List<LineItemEntry> getEntries(){
         return lineItems
