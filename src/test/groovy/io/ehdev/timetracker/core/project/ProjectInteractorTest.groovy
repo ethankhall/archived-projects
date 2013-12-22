@@ -47,7 +47,7 @@ class ProjectInteractorTest {
     public void testGetProjectAmount() throws Exception {
         setupInteractor(readUser)
 
-        project.lineItems << create4HourFixedTimeEntry()
+        project.lineItems << createHourFixedTimeEntry(2)
         project.setRate(new FixedBidRate(rate: 1000))
         assertThat(interactor.getCurrentTotal()).isEqualTo(1000.00)
     }
@@ -56,7 +56,7 @@ class ProjectInteractorTest {
     public void testGettingEntries() throws Exception {
         setupInteractor(readUser)
 
-        def entry = create4HourFixedTimeEntry()
+        def entry = createHourFixedTimeEntry(2)
         project.lineItems << entry
         assertThat(interactor.getEntries()).hasSize(1)
         assertThat(interactor.getEntries()).contains(entry)
@@ -66,15 +66,15 @@ class ProjectInteractorTest {
     public void testAddingLineItemThroughInteractor() throws Exception {
         setupInteractor(writeUser)
 
-        def entry = create4HourFixedTimeEntry()
+        def entry = createHourFixedTimeEntry(2)
         interactor.addLineEntry(entry)
         assertThat(interactor.getEntries()).hasSize(1)
         assertThat(interactor.getEntries()).contains(entry)
     }
 
-    static public FixedTimeEntry create4HourFixedTimeEntry() {
+    static public FixedTimeEntry createHourFixedTimeEntry(int offset) {
         def now = DateTime.now()
-        return new FixedTimeEntry(startTime: now.minusHours(2), endTime: now.plusHours(2))
+        return new FixedTimeEntry(startTime: now.minusHours(offset), endTime: now.plusHours(offset))
     }
 
     @Test
@@ -84,6 +84,19 @@ class ProjectInteractorTest {
         def discount = new FixedRateDiscount(10)
         interactor.setDiscount(discount)
         assertThat(interactor.getDiscount()).isEqualTo(discount)
+    }
+
+    @Test
+    public void testRemovingEntry() throws Exception {
+        setupInteractor(writeUser)
+        def fourHourEntry = createHourFixedTimeEntry(2)
+        def twoHourEntry = createHourFixedTimeEntry(1)
+        def sixHourEntry = createHourFixedTimeEntry(3)
+        interactor.addLineEntry(fourHourEntry)
+        interactor.addLineEntry(twoHourEntry)
+        interactor.addLineEntry(sixHourEntry)
+        interactor.deleteEntry(twoHourEntry)
+        assertThat(interactor.getEntries()).containsOnly(fourHourEntry, sixHourEntry)
     }
 
 }

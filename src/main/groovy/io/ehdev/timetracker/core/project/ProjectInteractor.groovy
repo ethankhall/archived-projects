@@ -51,4 +51,10 @@ class ProjectInteractor {
             project.getDiscount()
         }
     }
+
+    public void deleteEntry(entry){
+        project.writeData(user){ project ->
+            project.lineItems.remove(entry)
+        }
+    }
 }
