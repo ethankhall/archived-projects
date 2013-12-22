@@ -33,5 +33,11 @@ class ProjectInteractor {
         }
     }
 
+    public void addLineEntry(LineItemEntry lineItemEntry){
+        project.writeData(user){ project ->
+            project.lineItems << lineItemEntry
+        }
+    }
+
 
 }

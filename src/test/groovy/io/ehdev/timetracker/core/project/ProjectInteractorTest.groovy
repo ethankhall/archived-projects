@@ -46,8 +46,7 @@ class ProjectInteractorTest {
     public void testGetProjectAmount() throws Exception {
         setupInteractor(readUser)
 
-        def now = DateTime.now()
-        project.lineItems.add(new FixedTimeEntry(startTime: now.minusHours(2), endTime: now.plusHours(2)))
+        project.lineItems << create4HourFixedTimeEntry()
         project.setRate(new FixedBidRate(rate: 1000))
         assertThat(interactor.getCurrentTotal()).isEqualTo(1000.00)
     }
@@ -55,13 +54,26 @@ class ProjectInteractorTest {
     @Test
     public void testGettingEntries() throws Exception {
         setupInteractor(readUser)
-        def now = DateTime.now()
 
-        def entry = new FixedTimeEntry(startTime: now.minusHours(2), endTime: now.plusHours(2))
-        project.lineItems.add(entry)
+        def entry = create4HourFixedTimeEntry()
+        project.lineItems << entry
         assertThat(interactor.getEntries()).hasSize(1)
         assertThat(interactor.getEntries()).contains(entry)
     }
 
+    @Test
+    public void testAddingLineItemThroughInteractor() throws Exception {
+        setupInteractor(writeUser)
+
+        def entry = create4HourFixedTimeEntry()
+        interactor.addLineEntry(entry)
+        assertThat(interactor.getEntries()).hasSize(1)
+        assertThat(interactor.getEntries()).contains(entry)
+    }
+
+    static public FixedTimeEntry create4HourFixedTimeEntry() {
+        def now = DateTime.now()
+        return new FixedTimeEntry(startTime: now.minusHours(2), endTime: now.plusHours(2))
+    }
 
 }
