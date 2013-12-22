@@ -1,10 +1,10 @@
 package io.ehdev.timetracker.core.company
 
-import io.ehdev.timetracker.core.permissions.BasePermissions
+import io.ehdev.timetracker.core.permissions.Permissions
 import io.ehdev.timetracker.core.user.User
 
 class Company {
     String name
-    BasePermissions permissions
+    Permissions permissions
     List<User> admin
 }
