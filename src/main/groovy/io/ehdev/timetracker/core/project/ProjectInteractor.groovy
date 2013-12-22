@@ -1,6 +1,7 @@
 package io.ehdev.timetracker.core.project
 
 import io.ehdev.timetracker.core.entry.LineItemEntry
+import io.ehdev.timetracker.core.project.discount.Discount
 import io.ehdev.timetracker.core.user.User
 
 class ProjectInteractor {
@@ -39,5 +40,15 @@ class ProjectInteractor {
         }
     }
 
+    public void setDiscount(Discount discount){
+        project.writeData(user){ project ->
+            project.discount = discount
+        }
+    }
 
+    public Discount getDiscount(){
+        return project.readData(user){ project ->
+            project.getDiscount()
+        }
+    }
 }

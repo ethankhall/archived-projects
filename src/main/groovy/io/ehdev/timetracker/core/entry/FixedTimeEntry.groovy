@@ -5,21 +5,30 @@ import org.joda.time.DateTime
 
 class FixedTimeEntry extends BaseEntry {
 
-    final private def DateTime startTime
-    final private def DateTime endTime
+    private def DateTime startTime
+    private def DateTime endTime
 
     FixedTimeEntry(Map properties){
         startTime = properties['startTime']
         endTime = properties['endTime']
-        if(!startTime || !endTime)
-            throw new RuntimeException("Start or End time was not set")
 
-        if(startTime > endTime)
+        checkThatThereIsAStartTime()
+        checkThatTimesAreInGoodOrder()
+    }
+
+    public void checkThatThereIsAStartTime() {
+        if (!startTime)
+            throw new BadStartTimeException()
+    }
+
+    public void checkThatTimesAreInGoodOrder() {
+        if (endTime && startTime > endTime)
             throw new RuntimeException("Start time was before end time")
     }
 
     public Duration getDuration(){
-        return new Duration(startTime, endTime)
+        def calEndTime = endTime ?: DateTime.now()
+        return new Duration(startTime, calEndTime)
     }
 
     public DateTime getStartTime(){
@@ -28,5 +37,23 @@ class FixedTimeEntry extends BaseEntry {
 
     public DateTime getEndTime() {
         return endTime;
+    }
+
+    public void setEndTime(DateTime endTime){
+        this.endTime = endTime
+        checkThatTimesAreInGoodOrder()
+    }
+
+    public void setStartTime(DateTime startTime){
+        this.startTime = startTime
+        checkThatTimesAreInGoodOrder()
+        checkThatThereIsAStartTime()
+    }
+
+    public void setTimes(DateTime startTime, DateTime endTime){
+        this.startTime = startTime
+        this.endTime = endTime
+        checkThatTimesAreInGoodOrder()
+        checkThatThereIsAStartTime()
     }
 }

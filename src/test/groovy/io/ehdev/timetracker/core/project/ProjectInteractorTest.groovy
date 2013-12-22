@@ -1,6 +1,7 @@
 package io.ehdev.timetracker.core.project
 import io.ehdev.timetracker.core.UserNotAuthorizedToWriteException
 import io.ehdev.timetracker.core.entry.FixedTimeEntry
+import io.ehdev.timetracker.core.project.discount.FixedRateDiscount
 import io.ehdev.timetracker.core.project.permissions.Permissions
 import io.ehdev.timetracker.core.project.rate.FixedBidRate
 import io.ehdev.timetracker.core.user.User
@@ -74,6 +75,15 @@ class ProjectInteractorTest {
     static public FixedTimeEntry create4HourFixedTimeEntry() {
         def now = DateTime.now()
         return new FixedTimeEntry(startTime: now.minusHours(2), endTime: now.plusHours(2))
+    }
+
+    @Test
+    public void testDiscountSetting() throws Exception {
+        setupInteractor(writeUser)
+
+        def discount = new FixedRateDiscount(10)
+        interactor.setDiscount(discount)
+        assertThat(interactor.getDiscount()).isEqualTo(discount)
     }
 
 }
