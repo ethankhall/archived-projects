@@ -4,6 +4,7 @@ import io.ehdev.timetracker.core.UserNotAuthorizedToReadException
 import io.ehdev.timetracker.core.UserNotAuthorizedToWriteException
 import io.ehdev.timetracker.core.entry.LineItemEntry
 import io.ehdev.timetracker.core.project.discount.Discount
+import io.ehdev.timetracker.core.project.discount.DiscountFactory
 import io.ehdev.timetracker.core.project.permissions.Permissions
 import io.ehdev.timetracker.core.project.rate.Rate
 import io.ehdev.timetracker.core.user.User
@@ -14,8 +15,8 @@ class ProjectImpl implements Project {
     @Delegate
     Rate rate
     @Delegate
-    Discount discount
-    List<LineItemEntry> lineItems
+    Discount discount = DiscountFactory.getNoDiscount()
+    List<LineItemEntry> lineItems = []
     Permissions permissions;
 
     public List<LineItemEntry> getEntries(){
@@ -36,7 +37,7 @@ class ProjectImpl implements Project {
 
     public readData(User user, Closure closure){
         if(permissions.canUserRead(user)){
-            return closure.call(user)
+            return closure.call(this)
         } else {
             throw new UserNotAuthorizedToReadException();
         }
