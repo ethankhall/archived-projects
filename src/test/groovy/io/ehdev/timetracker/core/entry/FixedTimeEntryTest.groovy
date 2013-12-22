@@ -30,7 +30,7 @@ class FixedTimeEntryTest {
          DateTimeUtils.setCurrentMillisSystem()
      }
 
-    @Test(expectedExceptions = RuntimeException.class)
+    @Test(expectedExceptions = StartAndEntTimeAreOutOfOrderException.class)
     public void testSettingTheTimesInTheWrongOrder() throws Exception {
         def baseTime = DateTime.now()
         new FixedTimeEntry(startTime: baseTime.plusHours(1), endTime: baseTime)

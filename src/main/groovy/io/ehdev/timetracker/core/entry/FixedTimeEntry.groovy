@@ -23,7 +23,7 @@ class FixedTimeEntry extends BaseEntry {
 
     public void checkThatTimesAreInGoodOrder() {
         if (endTime && startTime > endTime)
-            throw new RuntimeException("Start time was before end time")
+            throw new StartAndEntTimeAreOutOfOrderException()
     }
 
     public Duration getDuration(){
