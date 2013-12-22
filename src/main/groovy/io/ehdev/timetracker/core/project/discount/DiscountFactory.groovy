@@ -9,4 +9,8 @@ public class DiscountFactory {
     public static Discount getPercentDiscount(BigDecimal percent){
         return new PercentDiscount(percent)
     }
+
+    public static Discount getNoDiscount() {
+        return new FixedRateDiscount(0)
+    }
 }

@@ -10,6 +10,10 @@ dependencies {
 
     compile 'org.codehaus.groovy:groovy-all:2.1.9'
     compile 'joda-time:joda-time:2.3'
+    def jooqVersion = '3.2.2'
+    compile group: 'org.jooq', name: 'jooq', version: jooqVersion
+    compile group: 'org.jooq', name: 'jooq-meta', version: jooqVersion
+    compile group: 'org.jooq', name: 'jooq-codegen', version: jooqVersion
 
     testCompile 'org.testng:testng:6.8.7'
     testCompile 'org.easytesting:fest-assert:1.4'
