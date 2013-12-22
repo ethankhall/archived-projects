@@ -1,5 +1,5 @@
 package io.ehdev.timetracker.core.project
-import io.ehdev.timetracker.core.UserNotAuthorizedToWriteException
+import io.ehdev.timetracker.core.user.UserNotAuthorizedToWriteException
 import io.ehdev.timetracker.core.entry.FixedTimeEntry
 import io.ehdev.timetracker.core.project.discount.FixedRateDiscount
 import io.ehdev.timetracker.core.permissions.BasePermissions

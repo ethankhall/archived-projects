@@ -1,6 +1,6 @@
 package io.ehdev.timetracker.core.project
-import io.ehdev.timetracker.core.UserNotAuthorizedToReadException
-import io.ehdev.timetracker.core.UserNotAuthorizedToWriteException
+import io.ehdev.timetracker.core.user.UserNotAuthorizedToReadException
+import io.ehdev.timetracker.core.user.UserNotAuthorizedToWriteException
 import io.ehdev.timetracker.core.entry.LineItemEntry
 import io.ehdev.timetracker.core.permissions.Permissions
 import io.ehdev.timetracker.core.project.discount.Discount
