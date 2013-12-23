@@ -1,20 +1,12 @@
 package io.ehdev.timetracker.storage
 import io.ehdev.timetracker.core.user.User
-import org.hibernate.SessionFactory
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Repository
 
-import javax.transaction.Transactional
+@Repository
+class UserDao extends BaseDao<User>{
 
-@Service
-class UserDao {
-
-    @Autowired
-    private SessionFactory sessionFactory
-
-    @Transactional
-    public void saveUser(User user){
-        sessionFactory.openSession().save(user)
+    @Override
+    Class<User> getBaseType() {
+        return User.class;
     }
-
 }
