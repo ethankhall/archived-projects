@@ -6,7 +6,7 @@ import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-@ComponentScan("io.ehdev.timetracker")
+@ComponentScan(basePackages = "io.ehdev.timetracker")
 class BaseConfig {
 
     private static final Logger log = LoggerFactory.getLogger(BaseConfig.class)

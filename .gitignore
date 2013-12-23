@@ -1,7 +1,13 @@
+# Build folders
 build
 .idea
 .gradle
 
+# Compiled / Generated code
 *.iml
 *.class
 *.jar
+*.war
+
+# Logs
+*.log

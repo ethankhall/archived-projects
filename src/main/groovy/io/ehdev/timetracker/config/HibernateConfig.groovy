@@ -1,5 +1,4 @@
 package io.ehdev.timetracker.config
-
 import com.jolbox.bonecp.BoneCPDataSource
 import org.hibernate.SessionFactory
 import org.slf4j.Logger
@@ -67,8 +66,10 @@ class HibernateConfig {
 
     @Bean
     public SessionFactory getSessionFactory(){
-        return new LocalSessionFactoryBuilder(getDataSource())
-                .addPackage("io.ehdev.timetracker")
-                .buildSessionFactory();
+        def builder = new LocalSessionFactoryBuilder(getDataSource())
+        builder.setProperty("hibernate.hbm2ddl.auto", "update")
+        builder.scanPackages("io.ehdev.timetracker")
+        return builder.buildSessionFactory()
+
     }
 }
