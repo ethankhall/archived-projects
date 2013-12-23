@@ -10,7 +10,14 @@ import javax.transaction.Transactional
 abstract class BaseDao<T> {
 
     @Autowired
-    private SessionFactory sessionFactory
+    SessionFactory sessionFactory
+
+    @Transactional
+    public List<T> query(Closure query){
+        def criteria = sessionFactory.openSession().createCriteria(getBaseType())
+        query.call(criteria)
+        return (List<T>) criteria.list()
+    }
 
     @Transactional
     public void saveUser(T object){

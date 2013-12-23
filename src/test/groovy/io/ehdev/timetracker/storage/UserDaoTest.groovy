@@ -24,5 +24,25 @@ class UserDaoTest extends AbstractTestNGSpringContextTests {
         userDao.saveUser(user)
         def retrieved = userDao.getObjectFromId(user.getId())
         assertThat(user).isEqualTo(retrieved)
+
+        retrieved = userDao.getUserByUUID(user.getUuid()).get()
+        assertThat(user).isEqualTo(retrieved)
+    }
+
+    @Test
+    public void testMultipleInserts_onlyOneFoundById() throws Exception {
+
+        for(i in 0..10){
+            userDao.saveUser(User.newInstance())
+        }
+        def user = User.newInstance()
+        userDao.saveUser(user)
+        for(i in 0..10){
+            userDao.saveUser(User.newInstance())
+        }
+
+        def retrieved = userDao.getUserByUUID(user.getUuid()).get()
+        assertThat(user).isEqualTo(retrieved)
+
     }
 }
