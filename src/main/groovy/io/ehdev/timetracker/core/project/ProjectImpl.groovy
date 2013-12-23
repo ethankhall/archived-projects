@@ -10,11 +10,12 @@ import io.ehdev.timetracker.core.user.User
 
 class ProjectImpl implements Project {
 
-    String name
     @Delegate
     Rate rate
     @Delegate
     Discount discount = DiscountFactory.getNoDiscount()
+
+    String name
     List<LineItemEntry> lineItems = []
     Permissions permissions;
 
