@@ -1,8 +1,7 @@
 package io.ehdev.timetracker.config
 import com.jolbox.bonecp.BoneCPDataSource
+import groovy.util.logging.Slf4j
 import org.hibernate.SessionFactory
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -14,9 +13,8 @@ import javax.sql.DataSource
 
 @Configuration
 @Import([BaseConfig.class, PropertyFileLoader.class])
+@Slf4j
 class HibernateConfig {
-
-    private static final Logger log = LoggerFactory.getLogger(HibernateConfig.class)
 
     @Value('${datasource.driver}')
     String driver
