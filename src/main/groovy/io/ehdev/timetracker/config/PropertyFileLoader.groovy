@@ -14,10 +14,22 @@ class PropertyFileLoader {
     @PropertySource("classpath:test.properties")
     @Profile("test")
     @Slf4j
-    static class Defaults
+    static class TestDefaults
     {
         static {
             log.info("Creating profile: test")
+        }
+
+    }
+
+    @Configuration
+    @PropertySource("classpath:dev.properties")
+    @Profile("dev")
+    @Slf4j
+    static class DevDefaults
+    {
+        static {
+            log.info("Creating profile: dev")
         }
 
     }

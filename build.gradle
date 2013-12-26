@@ -1,11 +1,27 @@
 apply plugin: 'war'
-apply plugin: 'jetty'
 apply plugin: 'groovy'
 apply plugin: 'java'
+apply plugin: 'cargo'
 
 repositories {
     mavenCentral()
 }
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'org.gradle.api.plugins:gradle-cargo-plugin:1.2'
+    }
+}
+
+def versions = [
+    springVersion: '4.0.0.RELEASE',
+    jacksonVersion: '2.3.0',
+    cargo: '1.4.5'
+]
 
 dependencies {
 
@@ -24,24 +40,50 @@ dependencies {
     //Hibernate / DB
     compile 'org.hibernate:hibernate-core:4.3.0.Final'
     compile 'com.jolbox:bonecp-spring:0.8.0.RELEASE'
+    compile 'com.h2database:h2:1.3.174'
+
+    //Jackson
+    compile "com.fasterxml.jackson.core:jackson-databind:${versions['jacksonVersion']}"
+    compile "com.fasterxml.jackson.core:jackson-core:${versions['jacksonVersion']}"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:${versions['jacksonVersion']}"
 
     //Spring
-    compile 'org.springframework:spring-context:4.0.0.RELEASE'
-    compile 'org.springframework:spring-jdbc:4.0.0.RELEASE'
-    compile 'org.springframework:spring-orm:4.0.0.RELEASE'
-    compile 'org.springframework:spring-webmvc:4.0.0.RELEASE'
+    compile "org.springframework:spring-context:${versions['springVersion']}"
+    compile "org.springframework:spring-jdbc:${versions['springVersion']}"
+    compile "org.springframework:spring-orm:${versions['springVersion']}"
+    compile "org.springframework:spring-webmvc:${versions['springVersion']}"
 
+    //This will be provided by the servet container (jetty?)
     providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
 
+    //Woo testing!
     testCompile 'org.testng:testng:6.8.7'
     testCompile 'org.easytesting:fest-assert:1.4'
     testCompile 'org.mockito:mockito-core:1.9.5'
-    testCompile 'org.springframework:spring-test:4.0.0.RELEASE'
-    testCompile 'com.h2database:h2:1.3.174'
+    testCompile "org.springframework:spring-test:${versions['springVersion']}"
+
+    cargo "org.codehaus.cargo:cargo-core-uberjar:${versions['cargo']}",
+          "org.codehaus.cargo:cargo-ant:${versions['cargo']}"
 }
 
 test {
     useTestNG()
+}
+
+cargo {
+
+    containerId = 'jetty8x'
+
+    local {
+        jvmArgs = '-Dspring.profiles.active=dev'
+        logLevel = 'medium'
+
+        installer {
+            installUrl = 'http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/8.1.14.v20131031/jetty-distribution-8.1.14.v20131031.tar.gz'
+            downloadDir = file("$projectDir/jetty/download")
+            extractDir = file("$projectDir/jetty/extract")
+        }
+    }
 }
 
 task wrapper(type: Wrapper){
