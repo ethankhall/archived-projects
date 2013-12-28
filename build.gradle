@@ -1,7 +1,6 @@
 apply plugin: 'war'
 apply plugin: 'groovy'
 apply plugin: 'java'
-apply plugin: 'cargo'
 
 repositories {
     mavenCentral()
@@ -9,6 +8,8 @@ repositories {
 
 buildscript {
     repositories {
+        mavenCentral()
+        maven { url "http://repo.spring.io/libs-snapshot" }
         jcenter()
     }
 
@@ -16,6 +17,8 @@ buildscript {
         classpath 'org.gradle.api.plugins:gradle-cargo-plugin:1.2'
     }
 }
+
+apply plugin: 'cargo'
 
 def versions = [
     springVersion: '4.0.0.RELEASE',
@@ -70,19 +73,12 @@ test {
     useTestNG()
 }
 
-cargo {
 
+cargo {
     containerId = 'jetty8x'
 
-    local {
-        jvmArgs = '-Dspring.profiles.active=dev'
-        logLevel = 'medium'
-
-        installer {
-            installUrl = 'http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/8.1.14.v20131031/jetty-distribution-8.1.14.v20131031.tar.gz'
-            downloadDir = file("$projectDir/jetty/download")
-            extractDir = file("$projectDir/jetty/extract")
-        }
+    remote {
+        hostname = 'localhost'
     }
 }
 
