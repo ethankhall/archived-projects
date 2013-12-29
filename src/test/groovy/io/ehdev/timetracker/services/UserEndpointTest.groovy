@@ -9,18 +9,19 @@ import static org.fest.assertions.Assertions.assertThat
 class UserEndpointTest {
 
     InMemoryUserDao userDao
+    UserEndpoint endpoint
 
     @BeforeMethod
     public void setup(){
         userDao = new InMemoryUserDao()
+        endpoint = new UserEndpoint(userDao: userDao)
     }
 
     @Test
     public void testCreateUser() throws Exception {
         def externalUser = new ExternalUser(email: "some_email@domain.com", name: 'John Doe')
-        def convertedUser = externalUser.convertToUser()
-        def id = userDao.save(convertedUser)
-        assertThat(convertedUser).isEqualTo(userDao.getById(id))
-        assertThat(externalUser).isEqualTo(ExternalUser.convertUser(userDao.getById(id)))
+        endpoint.createUser(externalUser)
+        def key = userDao.storage.keySet().first()
+        assertThat(externalUser).isEqualTo(ExternalUser.convertUser(userDao.getById(key)))
     }
 }

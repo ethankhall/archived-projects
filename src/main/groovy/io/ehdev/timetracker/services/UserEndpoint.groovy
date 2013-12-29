@@ -1,8 +1,9 @@
 package io.ehdev.timetracker.services
+
 import groovy.json.JsonBuilder
 import groovy.util.logging.Slf4j
 import io.ehdev.timetracker.services.external.user.ExternalUser
-import io.ehdev.timetracker.storage.user.UserDaoImpl
+import io.ehdev.timetracker.storage.user.UserDao
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController
 @Slf4j
 class UserEndpoint {
 
-    @Autowired UserDaoImpl userDao
+    @Autowired UserDao userDao
 
     @RequestMapping(method = RequestMethod.POST)
     public def createUser(@RequestBody ExternalUser user){
