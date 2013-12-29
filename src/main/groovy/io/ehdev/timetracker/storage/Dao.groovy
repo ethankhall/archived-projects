@@ -4,7 +4,7 @@ import io.ehdev.timetracker.core.Storable
 
 interface Dao<T extends Storable> {
 
-    public String save(T object);
+    public Integer save(T object);
 
     public T getById(Integer id);
 }

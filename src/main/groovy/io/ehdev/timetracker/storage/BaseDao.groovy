@@ -19,8 +19,8 @@ abstract class BaseDao<T extends Storable> implements Dao<T> {
     }
 
     @Transactional
-    public String save(T object){
-        return sessionFactory.openSession().save(object)
+    public Integer save(T object){
+        return Integer.parseInt((String)sessionFactory.openSession().save(object))
     }
 
     public T getById(Integer id){
