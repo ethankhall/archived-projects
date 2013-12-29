@@ -66,6 +66,7 @@ class HibernateConfig {
     public SessionFactory getSessionFactory(){
         def builder = new LocalSessionFactoryBuilder(getDataSource())
         builder.setProperty("hibernate.hbm2ddl.auto", "update")
+        builder.setProperty("hibernate.show_sql", "true")
         builder.scanPackages("io.ehdev.timetracker")
         return builder.buildSessionFactory()
 

@@ -28,6 +28,6 @@ class UserDaoImpl extends BaseDao<UserImpl> implements UserDao {
 
     @Override
     Class<User> getBaseType() {
-        return User.class;
+        return UserImpl.class;
     }
 }

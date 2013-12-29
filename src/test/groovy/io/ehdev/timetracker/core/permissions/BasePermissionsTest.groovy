@@ -50,7 +50,7 @@ class BasePermissionsTest {
     public void testUserAdmin() throws Exception {
         BasePermissions parent = createPermissionObject(readUser, writeUser)
         BasePermissions permissions = createPermissionObject(null, null)
-        User adminUser = User.newInstance(id: "3")
+        User adminUser = UserImpl.newInstance(id: "3")
         ExtendedPermissions companyPermissions = new ExtendedPermissions(adminAccess: [adminUser])
         parent.parentPermissions = companyPermissions
         permissions.parentPermissions = parent

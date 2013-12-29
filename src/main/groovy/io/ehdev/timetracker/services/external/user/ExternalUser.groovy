@@ -2,7 +2,10 @@ package io.ehdev.timetracker.services.external.user
 import io.ehdev.timetracker.core.user.User
 import io.ehdev.timetracker.core.user.UserImpl
 
-class ExternalUser extends User {
+class ExternalUser implements User {
+
+    String name
+    String email
 
     ExternalUser(){
     }

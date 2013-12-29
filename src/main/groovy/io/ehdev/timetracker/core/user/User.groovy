@@ -1,30 +1,11 @@
 package io.ehdev.timetracker.core.user
 
-import org.apache.commons.lang3.builder.EqualsBuilder
-import org.apache.commons.lang3.builder.HashCodeBuilder
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder
+interface User {
 
-import javax.persistence.Column
-import javax.persistence.MappedSuperclass
+    public String getName()
+    public void setName(String name)
 
-@MappedSuperclass
-abstract class User {
+    public String getEmail()
+    public void setEmail(String email)
 
-    @Column
-    String name
-
-    @Column
-    String email
-
-    public String toString() {
-        return ReflectionToStringBuilder.toString(this);
-    }
-
-    public boolean equals(Object object) {
-        return EqualsBuilder.reflectionEquals(this, object)
-    }
-
-    public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this)
-    }
 }

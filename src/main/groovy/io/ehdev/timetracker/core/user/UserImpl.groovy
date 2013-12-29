@@ -9,7 +9,7 @@ import javax.persistence.*
 
 @Entity
 @Table
-class UserImpl extends User implements Storable {
+class UserImpl implements User, Storable {
 
     @Id
     @GeneratedValue
@@ -17,6 +17,12 @@ class UserImpl extends User implements Storable {
 
     @Column
     String uuid = UUID.randomUUID().toString()
+
+    @Column
+    String name
+
+    @Column
+    String email
 
     public String toString() {
         return ReflectionToStringBuilder.toString(this);
