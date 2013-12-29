@@ -16,4 +16,4 @@ appender("ROOT-LOG", FileAppender) {
         pattern = "%-4relative [%thread] %-5level %logger{35} - %msg%n"
     }
 }
-root(Level.INFO, ["STDOUT", "ROOT-LOG"])
+root(Level.DEBUG, ["STDOUT", "ROOT-LOG"])

@@ -1,4 +1,6 @@
 package io.ehdev.timetracker.core.project
+
+import io.ehdev.timetracker.core.Storable
 import io.ehdev.timetracker.core.user.UserNotAuthorizedToReadException
 import io.ehdev.timetracker.core.user.UserNotAuthorizedToWriteException
 import io.ehdev.timetracker.core.entry.LineItemEntry
@@ -8,10 +10,13 @@ import io.ehdev.timetracker.core.project.discount.DiscountFactory
 import io.ehdev.timetracker.core.project.rate.Rate
 import io.ehdev.timetracker.core.user.User
 
-class ProjectImpl implements Project {
+class ProjectImpl implements Project, Storable {
+
+    Integer id
 
     @Delegate
     Rate rate
+
     @Delegate
     Discount discount = DiscountFactory.getNoDiscount()
 

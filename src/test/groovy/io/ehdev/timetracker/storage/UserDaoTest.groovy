@@ -2,7 +2,7 @@ package io.ehdev.timetracker.storage
 import io.ehdev.timetracker.config.BaseConfig
 import io.ehdev.timetracker.config.HibernateConfig
 import io.ehdev.timetracker.config.PropertyFileLoader
-import io.ehdev.timetracker.core.user.User
+import io.ehdev.timetracker.core.user.UserImpl
 import io.ehdev.timetracker.storage.user.UserDao
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ActiveProfiles
@@ -23,7 +23,7 @@ class UserDaoTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testSaveUser() throws Exception {
-        def user = User.newInstance()
+        def user = UserImpl.newInstance()
         userDao.save(user)
         def retrieved = userDao.getById(user.getId())
         assertThat(user).isEqualTo(retrieved)
@@ -36,12 +36,12 @@ class UserDaoTest extends AbstractTestNGSpringContextTests {
     public void testMultipleInserts_onlyOneFoundById() throws Exception {
 
         for(i in 0..10){
-            userDao.save(User.newInstance())
+            userDao.save(UserImpl.newInstance())
         }
-        def user = User.newInstance()
+        def user = UserImpl.newInstance()
         userDao.save(user)
         for(i in 0..10){
-            userDao.save(User.newInstance())
+            userDao.save(UserImpl.newInstance())
         }
 
         def retrieved = userDao.getUserByUUID(user.getUuid()).get()

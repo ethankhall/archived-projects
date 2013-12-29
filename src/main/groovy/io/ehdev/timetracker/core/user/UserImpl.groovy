@@ -1,20 +1,22 @@
 package io.ehdev.timetracker.core.user
 
+import io.ehdev.timetracker.core.Storable
 import org.apache.commons.lang3.builder.EqualsBuilder
 import org.apache.commons.lang3.builder.HashCodeBuilder
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder
 
-import javax.persistence.Column
-import javax.persistence.MappedSuperclass
+import javax.persistence.*
 
-@MappedSuperclass
-abstract class User {
+@Entity
+@Table
+class UserImpl extends User implements Storable {
+
+    @Id
+    @GeneratedValue
+    Integer id
 
     @Column
-    String name
-
-    @Column
-    String email
+    String uuid = UUID.randomUUID().toString()
 
     public String toString() {
         return ReflectionToStringBuilder.toString(this);

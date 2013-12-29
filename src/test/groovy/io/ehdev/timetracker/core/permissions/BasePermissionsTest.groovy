@@ -1,13 +1,14 @@
 package io.ehdev.timetracker.core.permissions
 import io.ehdev.timetracker.core.user.User
+import io.ehdev.timetracker.core.user.UserImpl
 import org.testng.annotations.Test
 
 import static org.fest.assertions.Assertions.assertThat
 
 class BasePermissionsTest {
 
-    private final static User writeUser = User.newInstance(id: "1")
-    private final static User readUser = User.newInstance(id: "2")
+    private final static User writeUser = UserImpl.newInstance(id: "1")
+    private final static User readUser = UserImpl.newInstance(id: "2")
 
     private BasePermissions createPermissionObject(readUser, writeUser){
         return BasePermissions.newInstance(readAccess: [readUser], writeAccess: [writeUser])

@@ -1,10 +1,12 @@
 package io.ehdev.timetracker.core.project
-import io.ehdev.timetracker.core.user.UserNotAuthorizedToWriteException
+
 import io.ehdev.timetracker.core.entry.FixedTimeEntry
-import io.ehdev.timetracker.core.project.discount.FixedRateDiscount
 import io.ehdev.timetracker.core.permissions.BasePermissions
+import io.ehdev.timetracker.core.project.discount.FixedRateDiscount
 import io.ehdev.timetracker.core.project.rate.FixedBidRate
 import io.ehdev.timetracker.core.user.User
+import io.ehdev.timetracker.core.user.UserImpl
+import io.ehdev.timetracker.core.user.UserNotAuthorizedToWriteException
 import org.joda.time.DateTime
 import org.testng.annotations.Test
 
@@ -12,8 +14,8 @@ import static org.fest.assertions.Assertions.assertThat
 
 class ProjectInteractorTest {
 
-    final private User writeUser = new User();
-    final private User readUser = new User();
+    final private User writeUser = new UserImpl();
+    final private User readUser = new UserImpl();
 
     ProjectInteractor interactor
     private ProjectImpl project

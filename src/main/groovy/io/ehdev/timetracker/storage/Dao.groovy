@@ -1,8 +1,10 @@
 package io.ehdev.timetracker.storage
 
-interface Dao<T> {
+import io.ehdev.timetracker.core.Storable
 
-    public void save(T object);
+interface Dao<T extends Storable> {
+
+    public String save(T object);
 
     public T getById(Integer id);
 }
