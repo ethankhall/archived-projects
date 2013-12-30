@@ -4,6 +4,7 @@ apply plugin: 'java'
 
 repositories {
     mavenCentral()
+    maven { url 'http://repo.spring.io/snapshot' }
 }
 
 buildscript {
@@ -55,6 +56,11 @@ dependencies {
     compile "org.springframework:spring-jdbc:${versions['springVersion']}"
     compile "org.springframework:spring-orm:${versions['springVersion']}"
     compile "org.springframework:spring-webmvc:${versions['springVersion']}"
+
+    //Spring security
+    compile 'org.springframework.security:spring-security-web:3.2.0.RELEASE'
+    compile 'org.springframework.security:spring-security-config:3.2.0.RELEASE'
+    compile 'org.springframework.security:spring-security-openid:3.2.0.RELEASE'
 
     //This will be provided by the servet container (jetty?)
     providedCompile 'javax.servlet:javax.servlet-api:3.1.0'

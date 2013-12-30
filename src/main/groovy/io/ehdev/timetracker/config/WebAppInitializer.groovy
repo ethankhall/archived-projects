@@ -3,6 +3,7 @@ import groovy.util.logging.Slf4j
 import org.springframework.web.WebApplicationInitializer
 import org.springframework.web.context.ContextLoaderListener
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext
+import org.springframework.web.filter.DelegatingFilterProxy
 import org.springframework.web.servlet.DispatcherServlet
 
 import javax.servlet.ServletContext
@@ -19,6 +20,8 @@ class WebAppInitializer implements WebApplicationInitializer {
         rootContext.setConfigLocation("io.ehdev.timetracker.config");
 
         container.addListener(new ContextLoaderListener(rootContext));
+        container.addFilter("springSecurityFilterChain", new DelegatingFilterProxy("springSecurityFilterChain"))
+                .addMappingForUrlPatterns(null, false, "/*");
 
         // Register and map the dispatcher servlet
         ServletRegistration.Dynamic dispatcher =
