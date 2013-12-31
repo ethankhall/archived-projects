@@ -1,6 +1,7 @@
 apply plugin: 'war'
 apply plugin: 'groovy'
 apply plugin: 'java'
+apply plugin: 'tomcat'
 
 repositories {
     mavenCentral()
@@ -15,7 +16,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'org.gradle.api.plugins:gradle-cargo-plugin:1.2'
+        classpath('org.gradle.api.plugins:gradle-cargo-plugin:1.2')
+        classpath("org.gradle.api.plugins:gradle-tomcat-plugin:1.0")
     }
 }
 
@@ -24,10 +26,23 @@ apply plugin: 'cargo'
 def versions = [
     springVersion: '4.0.0.RELEASE',
     jacksonVersion: '2.3.0',
-    cargo: '1.4.5'
+    cargo: '1.4.5',
+    tomcatVersion: '7.0.42'
 ]
 
+tomcatRun {
+    doFirst {
+        System.setProperty("spring.profiles.active", "dev")
+    }
+}
+
 dependencies {
+
+    tomcat "org.apache.tomcat.embed:tomcat-embed-core:${versions['tomcatVersion']}",
+        "org.apache.tomcat.embed:tomcat-embed-logging-juli:${versions['tomcatVersion']}"
+    tomcat("org.apache.tomcat.embed:tomcat-embed-jasper:${versions['tomcatVersion']}") {
+        exclude group: 'org.eclipse.jdt.core.compiler', module: 'ecj'
+    }
 
     //Goovy / util libs
     compile 'org.codehaus.groovy:groovy-all:2.1.9'
@@ -61,9 +76,12 @@ dependencies {
     compile 'org.springframework.security:spring-security-web:3.2.0.RELEASE'
     compile 'org.springframework.security:spring-security-config:3.2.0.RELEASE'
     compile 'org.springframework.security:spring-security-openid:3.2.0.RELEASE'
+    compile 'org.springframework.security:spring-security-taglibs:3.2.0.RELEASE'
 
     //This will be provided by the servet container (jetty?)
     providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
+    providedCompile 'javax.servlet.jsp:jsp-api:2.1'
+    compile "javax.servlet:jstl:1.2"
 
     //Woo testing!
     testCompile 'org.testng:testng:6.8.7'

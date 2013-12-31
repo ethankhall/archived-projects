@@ -14,3 +14,6 @@ build
 
 # Jetty
 jetty
+
+#Mac
+.DS_Store
