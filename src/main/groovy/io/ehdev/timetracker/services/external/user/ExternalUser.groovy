@@ -9,12 +9,13 @@ class ExternalUser implements User {
 
     String name
     String email
+    String UUID
 
     ExternalUser(){
     }
 
-    public static ExternalUser convertUser(User user){
-        return new ExternalUser(name: user.name, email: user.email)
+    public static ExternalUser convertUser(UserImpl user){
+        return new ExternalUser(name: user.name, email: user.email, UUID: user.uuid)
     }
 
     public UserImpl convertToUser(){

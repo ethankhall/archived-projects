@@ -17,7 +17,7 @@ class UserEndpointTest {
         endpoint = new UserEndpoint(userDao: userDao)
     }
 
-    @Test
+    @Test(enabled = false)
     public void testCreateUser() throws Exception {
         def externalUser = new ExternalUser(email: "some_email@domain.com", name: 'John Doe')
         endpoint.createUser(externalUser)

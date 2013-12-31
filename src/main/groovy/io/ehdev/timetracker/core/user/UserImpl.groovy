@@ -1,5 +1,4 @@
 package io.ehdev.timetracker.core.user
-
 import io.ehdev.timetracker.core.Storable
 import org.apache.commons.lang3.builder.EqualsBuilder
 import org.apache.commons.lang3.builder.HashCodeBuilder
@@ -9,20 +8,23 @@ import javax.persistence.*
 
 @Entity
 @Table
-class UserImpl implements User, Storable {
+class UserImpl implements User, Storable, Serializable {
 
     @Id
     @GeneratedValue
     Integer id
 
-    @Column
-    String uuid = UUID.randomUUID().toString()
+    @Column(unique = true)
+    String uuid
 
     @Column
     String name
 
     @Column
     String email
+
+    @Column
+    String authToken
 
     public String toString() {
         return ReflectionToStringBuilder.toString(this);
