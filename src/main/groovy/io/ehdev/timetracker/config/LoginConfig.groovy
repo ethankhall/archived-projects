@@ -3,6 +3,7 @@ package io.ehdev.timetracker.config
 import io.ehdev.timetracker.security.SecuredUserDetailsService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
@@ -21,7 +22,7 @@ class LoginConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/js/**").permitAll()
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/images/**").permitAll()
-                .anyRequest().authenticated()
+                .antMatchers('/api/**').authenticated()
                 .and()
             .openidLogin()
                 .loginPage("/login.jsp")
@@ -61,6 +62,10 @@ class LoginConfig extends WebSecurityConfigurerAdapter {
                     .required(true);
     }
 
+    @Override
+    protected void registerAuthentication(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication().withUser("https://www.google.com/accounts/o8/id?id=AItOawmH3I246RpcDYo1TlJJkxJfoxOxubXO5kk").password("noshing").roles("USER");
+    }
 
     @Bean(name = 'tokenRepo')
     InMemoryTokenRepositoryImpl getTokenRep() {

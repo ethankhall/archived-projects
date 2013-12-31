@@ -5,14 +5,12 @@ import org.hibernate.SessionFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Import
 import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder
 
 import javax.sql.DataSource
 
 @Configuration
-@Import([BaseConfig.class, PropertyFileLoader.class])
 @Slf4j
 class HibernateConfig {
 

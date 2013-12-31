@@ -1,28 +1,34 @@
 package io.ehdev.timetracker.config
+
 import groovy.util.logging.Slf4j
-import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer
+import org.springframework.web.WebApplicationInitializer
+import org.springframework.web.context.ContextLoaderListener
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext
+import org.springframework.web.filter.DelegatingFilterProxy
+import org.springframework.web.servlet.DispatcherServlet
+
+import javax.servlet.ServletContext
+import javax.servlet.ServletRegistration
 
 @Slf4j
-class WebAppInitializer extends AbstractSecurityWebApplicationInitializer {
+class WebAppInitializer implements WebApplicationInitializer {
 
-    WebAppInitializer() {
-        super(WebConfig.class)
+    @Override
+    public void onStartup(ServletContext container) {
+        // Create the 'root' Spring application context
+        AnnotationConfigWebApplicationContext rootContext =
+                new AnnotationConfigWebApplicationContext();
+        rootContext.setConfigLocation("io.ehdev.timetracker.config");
+
+        container.addListener(new ContextLoaderListener(rootContext));
+        container.addFilter("springSecurityFilterChain", new DelegatingFilterProxy("springSecurityFilterChain"))
+                .addMappingForUrlPatterns(null, false, "/*");
+
+        // Register and map the dispatcher servlet
+        ServletRegistration.Dynamic dispatcher =
+                container.addServlet("DispatcherServlet", new DispatcherServlet(rootContext));
+        dispatcher.setLoadOnStartup(1);
+        dispatcher.addMapping("/");
     }
-
-//    @Override
-//    void beforeSpringSecurityFilterChain(ServletContext container) {
-//        // Create the 'root' Spring application context
-//
-//        container.addFilter("springSecurityFilterChain", new DelegatingFilterProxy("springSecurityFilterChain"))
-//                .addMappingForUrlPatterns(null, false, "/*");
-//    }
-
-//    void afterSpringSecurityFilterChain(ServletContext container){
-//        // Register and map the dispatcher servlet
-//        ServletRegistration.Dynamic dispatcher =
-//                container.addServlet("DispatcherServlet", new DispatcherServlet(configurationClasses));
-//        dispatcher.setLoadOnStartup(1);
-//        dispatcher.addMapping("/");
-//    }
 
 }

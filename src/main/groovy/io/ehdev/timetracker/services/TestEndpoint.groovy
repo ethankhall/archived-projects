@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api/test")
 class TestEndpoint {
 
     @RequestMapping(method = RequestMethod.GET)
