@@ -1,10 +1,7 @@
 package io.ehdev.timetracker.core.company
 
-import io.ehdev.timetracker.core.permissions.Permissions
-import io.ehdev.timetracker.core.user.User
+import io.ehdev.timetracker.core.PreformActionBase
 
-class Company {
-    String name
-    Permissions permissions
-    List<User> admin
+interface Company extends PreformActionBase {
+
 }

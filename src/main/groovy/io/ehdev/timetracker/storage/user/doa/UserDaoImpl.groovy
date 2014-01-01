@@ -1,4 +1,4 @@
-package io.ehdev.timetracker.storage.user
+package io.ehdev.timetracker.storage.user.doa
 
 import com.google.common.base.Optional
 import groovy.util.logging.Slf4j

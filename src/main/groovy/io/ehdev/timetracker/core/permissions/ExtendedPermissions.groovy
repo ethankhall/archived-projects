@@ -1,13 +1,48 @@
 package io.ehdev.timetracker.core.permissions
 
 import io.ehdev.timetracker.core.user.User
+import io.ehdev.timetracker.core.user.UserImpl
 
-class ExtendedPermissions extends BasePermissions {
+import javax.persistence.*
 
+@Entity
+@Table
+class ExtendedPermissions implements Permissions {
 
-    def List<User> adminAccess = []
+    @Id
+    @GeneratedValue
+    Integer id
+
+    @ManyToOne
+    ExtendedPermissions parentPermissions = null
+
+    @ManyToMany
+    def List<UserImpl> adminAccess = []
+
+    @ManyToMany
+    def List<UserImpl> readAccess = []
+
+    @ManyToMany
+    def List<UserImpl> writeAccess = []
+
+    boolean canUserWrite(User user){
+        if(parentPermissions?.canUserWrite(user)){
+            return true
+        }
+        return user in writeAccess || canUserAdmin(user)
+    }
+
+    boolean canUserRead(User user){
+        if(parentPermissions?.canUserRead(user)){
+            return true
+        }
+        return canUserWrite(user) || user in readAccess
+    }
 
     boolean canUserAdmin(User user){
+        if(parentPermissions?.canUserAdmin(user)){
+            return true
+        }
         return user in adminAccess
     }
 }

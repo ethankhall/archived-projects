@@ -2,7 +2,7 @@ package io.ehdev.timetracker.security
 import io.ehdev.timetracker.core.user.UserBuilder
 import io.ehdev.timetracker.core.user.UserImpl
 import io.ehdev.timetracker.core.user.UserNotFoundException
-import io.ehdev.timetracker.storage.user.InMemoryUserDao
+import io.ehdev.timetracker.storage.user.doa.InMemoryUserDao
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.openid.OpenIDAttribute

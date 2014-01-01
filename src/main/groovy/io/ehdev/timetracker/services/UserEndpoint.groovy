@@ -2,7 +2,7 @@ package io.ehdev.timetracker.services
 import groovy.util.logging.Slf4j
 import io.ehdev.timetracker.core.user.UserNotFoundException
 import io.ehdev.timetracker.services.external.user.ExternalUser
-import io.ehdev.timetracker.storage.user.UserDao
+import io.ehdev.timetracker.storage.user.doa.UserDao
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.openid.OpenIDAuthenticationToken
 import org.springframework.web.bind.annotation.RequestMapping

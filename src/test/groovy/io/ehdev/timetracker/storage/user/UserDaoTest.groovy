@@ -2,6 +2,9 @@ package io.ehdev.timetracker.storage.user
 import com.google.common.base.Optional
 import io.ehdev.timetracker.core.user.UserBuilder
 import io.ehdev.timetracker.core.user.UserImpl
+import io.ehdev.timetracker.storage.user.doa.InMemoryUserDao
+import io.ehdev.timetracker.storage.user.doa.UserDao
+import io.ehdev.timetracker.storage.user.doa.UserDaoImpl
 import org.h2.jdbcx.JdbcDataSource
 import org.hibernate.SessionFactory
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder

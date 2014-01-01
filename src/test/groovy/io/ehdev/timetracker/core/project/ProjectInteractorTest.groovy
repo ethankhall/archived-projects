@@ -1,6 +1,6 @@
 package io.ehdev.timetracker.core.project
 import io.ehdev.timetracker.core.entry.FixedTimeEntry
-import io.ehdev.timetracker.core.permissions.BasePermissions
+import io.ehdev.timetracker.core.permissions.ExtendedPermissions
 import io.ehdev.timetracker.core.project.discount.DiscountFactory
 import io.ehdev.timetracker.core.project.rate.FixedBidRate
 import io.ehdev.timetracker.core.user.User
@@ -20,7 +20,7 @@ class ProjectInteractorTest {
     private ProjectImpl project
 
     private void setupInteractor(User user){
-        project = new ProjectImpl(permissions: new BasePermissions(writeAccess: [writeUser], readAccess: [readUser]))
+        project = new ProjectImpl(permissions: new ExtendedPermissions(writeAccess: [writeUser], readAccess: [readUser]))
         interactor = new ProjectInteractor(user: user, project: project)
     }
 

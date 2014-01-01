@@ -1,10 +1,7 @@
 package io.ehdev.timetracker.core.project
 
-import io.ehdev.timetracker.core.user.User
+import io.ehdev.timetracker.core.PreformActionBase
 
-interface Project {
-
-    public writeData(User user, Closure closure);
-    public readData(User user, Closure closure);
+interface Project extends PreformActionBase {
     public String getName();
 }
