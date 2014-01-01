@@ -1,18 +1,20 @@
 package io.ehdev.timetracker.core.project.discount
 
+import javax.persistence.DiscriminatorValue
+import javax.persistence.Entity
 import java.math.RoundingMode
 
-class FixedRateDiscount implements Discount{
-
-    BigDecimal value
+@Entity
+@DiscriminatorValue(value="fixed")
+class FixedRateDiscount extends Discount{
 
     FixedRateDiscount(BigDecimal discountRate){
-        value = discountRate
+        discountValue = discountRate
     }
 
     @Override
     BigDecimal getDiscountAmount(BigDecimal preRate){
-        return value.min(preRate).setScale(2, RoundingMode.HALF_EVEN)
+        return discountValue.min(preRate).setScale(2, RoundingMode.HALF_EVEN)
     }
 
 }
