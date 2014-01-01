@@ -25,21 +25,21 @@ class ExtendedPermissions implements Permissions {
     @ManyToMany
     def List<UserImpl> writeAccess = []
 
-    boolean canUserWrite(User user){
+    boolean canUserWrite(UserImpl user){
         if(parentPermissions?.canUserWrite(user)){
             return true
         }
         return user in writeAccess || canUserAdmin(user)
     }
 
-    boolean canUserRead(User user){
+    boolean canUserRead(UserImpl user){
         if(parentPermissions?.canUserRead(user)){
             return true
         }
         return canUserWrite(user) || user in readAccess
     }
 
-    boolean canUserAdmin(User user){
+    boolean canUserAdmin(UserImpl user){
         if(parentPermissions?.canUserAdmin(user)){
             return true
         }

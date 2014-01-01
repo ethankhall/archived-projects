@@ -3,12 +3,12 @@ import org.joda.time.DateTime
 import org.joda.time.Duration
 
 import javax.persistence.Column
+import javax.persistence.DiscriminatorValue
 import javax.persistence.Entity
-import javax.persistence.Table
 
 @Entity
-@Table
-class FixedTimeEntry extends BaseEntry {
+@DiscriminatorValue(value="fixed_time_entry")
+class FixedTimeEntry extends LineItemEntry {
 
     @Column
     DateTime startTime

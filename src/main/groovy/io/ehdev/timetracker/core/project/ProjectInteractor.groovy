@@ -3,11 +3,12 @@ package io.ehdev.timetracker.core.project
 import io.ehdev.timetracker.core.entry.LineItemEntry
 import io.ehdev.timetracker.core.project.discount.Discount
 import io.ehdev.timetracker.core.user.User
+import io.ehdev.timetracker.core.user.UserImpl
 
 class ProjectInteractor {
 
     Project project
-    User user
+    UserImpl user
 
     public void changeName(String newName){
         project.preformWrite(user){ project ->

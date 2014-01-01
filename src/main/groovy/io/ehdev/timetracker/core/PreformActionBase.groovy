@@ -1,9 +1,9 @@
 package io.ehdev.timetracker.core
 
-import io.ehdev.timetracker.core.user.User
+import io.ehdev.timetracker.core.user.UserImpl
 
 interface PreformActionBase {
-    public preformWrite(User user, Closure closure);
-    public preformRead(User user, Closure closure);
-    public preformAdmin(User user, Closure closure);
+    public preformWrite(UserImpl user, Closure closure);
+    public preformRead(UserImpl user, Closure closure);
+    public preformAdmin(UserImpl user, Closure closure);
 }
