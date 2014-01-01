@@ -6,12 +6,16 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy
+import org.springframework.orm.hibernate4.HibernateTransactionManager
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder
+import org.springframework.transaction.PlatformTransactionManager
+import org.springframework.transaction.annotation.EnableTransactionManagement
 
 import javax.sql.DataSource
 
 @Configuration
 @Slf4j
+@EnableTransactionManagement
 class HibernateConfig {
 
     @Value('${datasource.driver}')
@@ -38,12 +42,12 @@ class HibernateConfig {
     String statementCacheSize
 
     @Bean
-    public DataSource getDataSource(){
-        return new LazyConnectionDataSourceProxy(getBoneDataSource());
+    public DataSource dataSource(){
+        return new LazyConnectionDataSourceProxy(boneDataSource());
     }
 
     @Bean(destroyMethod = "close")
-    public BoneCPDataSource getBoneDataSource(){
+    public BoneCPDataSource boneDataSource(){
         def source = new BoneCPDataSource();
         source.setDriverClass(driver)
         source.setUsername(userName)
@@ -61,11 +65,16 @@ class HibernateConfig {
     }
 
     @Bean
-    public SessionFactory getSessionFactory(){
-        def builder = new LocalSessionFactoryBuilder(getDataSource())
+    public SessionFactory sessionFactory(){
+        def builder = new LocalSessionFactoryBuilder(dataSource())
         builder.setProperty("hibernate.hbm2ddl.auto", "update")
         builder.setProperty("hibernate.show_sql", "true")
         builder.scanPackages("io.ehdev.timetracker")
         return builder.buildSessionFactory()
+    }
+
+    @Bean
+    public PlatformTransactionManager transactionManager() {
+        return new HibernateTransactionManager(sessionFactory());
     }
 }

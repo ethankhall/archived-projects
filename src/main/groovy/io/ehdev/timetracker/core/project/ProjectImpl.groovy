@@ -17,6 +17,9 @@ class ProjectImpl extends PreformActionBaseImpl implements Project, Storable {
     @GeneratedValue
     Integer id
 
+    @Column
+    String uuid
+
     @Delegate
     @ManyToOne
     Rate rate

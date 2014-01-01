@@ -4,7 +4,7 @@ import io.ehdev.timetracker.TokenBuilder
 import io.ehdev.timetracker.core.user.UserBuilder
 import io.ehdev.timetracker.core.user.UserNotFoundException
 import io.ehdev.timetracker.services.external.user.ExternalUser
-import io.ehdev.timetracker.storage.user.doa.InMemoryUserDao
+import io.ehdev.timetracker.storage.user.InMemoryUserDao
 import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
 

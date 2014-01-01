@@ -6,7 +6,7 @@ import groovy.util.logging.Slf4j
 import io.ehdev.timetracker.core.user.User
 import io.ehdev.timetracker.core.user.UserImpl
 import io.ehdev.timetracker.core.user.UserNotFoundException
-import io.ehdev.timetracker.storage.user.doa.UserDao
+import io.ehdev.timetracker.storage.user.UserDao
 import org.apache.commons.lang3.StringUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService

@@ -9,7 +9,7 @@ class ExternalUserTest {
 
     @Test
     public void testCreateExternalUser() throws Exception {
-        UserImpl user = new UserImpl(authToken: "123", email: 'user@domain.com', name: 'john doe', uuid: "uuid")
-        assertThat(ExternalUser.convertUser(user)).isEqualTo(new ExternalUser(email: 'user@domain.com', name: 'john doe', uuid: 'uuid'))
+        UserImpl user = new UserImpl(authToken: "123", email: 'user1@domain.com', name: 'john doe', uuid: "uuid")
+        assertThat(ExternalUser.convertUser(user)).isEqualTo(new ExternalUser(email: 'user1@domain.com', name: 'john doe', uuid: 'uuid'))
     }
 }

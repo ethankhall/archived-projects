@@ -14,8 +14,14 @@ class ExternalUser implements User {
     ExternalUser(){
     }
 
+    ExternalUser(UserImpl user){
+        name = user.name
+        email = user.email
+        uuid = user.uuid
+    }
+
     public static ExternalUser convertUser(UserImpl user){
-        return new ExternalUser(name: user.name, email: user.email, uuid: user.uuid)
+        return new ExternalUser(user)
     }
 
     public String toString() {
