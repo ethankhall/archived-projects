@@ -18,7 +18,7 @@ class UserDaoImpl extends BaseDao<UserImpl> implements UserDao {
 
     @Transactional
     public Optional<User> getUserByUUID(String UUID){
-        log.debug("Finding user for UUID: {}", UUID)
+        log.debug("Finding user for uuid: {}", UUID)
         return queryForByExample([uuid: UUID])
     }
 

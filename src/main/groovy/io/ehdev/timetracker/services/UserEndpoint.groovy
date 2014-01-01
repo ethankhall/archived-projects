@@ -1,6 +1,6 @@
 package io.ehdev.timetracker.services
 import groovy.util.logging.Slf4j
-import io.ehdev.timetracker.security.SecureUserDetailsService
+import io.ehdev.timetracker.core.user.UserNotFoundException
 import io.ehdev.timetracker.services.external.user.ExternalUser
 import io.ehdev.timetracker.storage.user.UserDao
 import org.springframework.beans.factory.annotation.Autowired
@@ -17,11 +17,13 @@ class UserEndpoint {
     @Autowired
     UserDao userDao
 
-    @Autowired
-    SecureUserDetailsService userDetailsService
-
     @RequestMapping(method=RequestMethod.GET)
     public def show(OpenIDAuthenticationToken authentication) {
-        ExternalUser.convertUser(userDetailsService.getUser(authentication))
+        def optionUser = userDao.getUserFromToken(authentication)
+        if(optionUser.isPresent()){
+            return ExternalUser.convertUser(optionUser.get())
+        } else {
+            throw new UserNotFoundException('openid', authentication.getIdentityUrl())
+        }
     }
 }
