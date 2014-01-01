@@ -9,7 +9,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder
 import javax.persistence.*
 
 @Entity
-@Table(name = 'company')
+@Table(name = 'companies')
 class CompanyImpl extends PreformActionBaseImpl implements Company, Storable {
 
     @Id
@@ -22,7 +22,7 @@ class CompanyImpl extends PreformActionBaseImpl implements Company, Storable {
     @Column
     String uuid
 
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @Delegate
     ExtendedPermissions permissions
 

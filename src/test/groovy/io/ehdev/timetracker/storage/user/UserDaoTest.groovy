@@ -2,12 +2,7 @@ package io.ehdev.timetracker.storage.user
 import com.google.common.base.Optional
 import io.ehdev.timetracker.core.user.UserBuilder
 import io.ehdev.timetracker.core.user.UserImpl
-import io.ehdev.timetracker.storage.user.doa.InMemoryUserDao
-import io.ehdev.timetracker.storage.user.doa.UserDao
-import io.ehdev.timetracker.storage.user.doa.UserDaoImpl
-import org.h2.jdbcx.JdbcDataSource
-import org.hibernate.SessionFactory
-import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder
+import io.ehdev.timetracker.storage.DaoTestBase
 import org.springframework.security.openid.OpenIDAuthenticationToken
 import org.testng.annotations.DataProvider
 import org.testng.annotations.Test
@@ -16,7 +11,7 @@ import static org.fest.assertions.Assertions.assertThat
 import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.when
 
-class UserDaoTest {
+class UserDaoTest extends DaoTestBase {
 
     @DataProvider(name = "DP")
     public static Object[][] params(){
@@ -24,21 +19,9 @@ class UserDaoTest {
         inMemoryDao.storage.clear()
 
         UserDaoImpl dbUserDao = new UserDaoImpl()
-        dbUserDao.setSessionFactory(getSessionFactory())
+        dbUserDao.setSessionFactory(getSessionFactory("UserDaoTest"))
 
         return [[inMemoryDao], [dbUserDao]];
-    }
-
-    private static SessionFactory getSessionFactory(){
-        JdbcDataSource ds = new JdbcDataSource();
-        ds.setURL("jdbc:h2:mem:UserDaoTest;DB_CLOSE_DELAY=-1");
-
-        def builder = new LocalSessionFactoryBuilder(ds)
-        builder.setProperty("hibernate.hbm2ddl.auto", "create-drop")
-        builder.setProperty("hibernate.show_sql", "true")
-        builder.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect")
-        builder.scanPackages("io.ehdev.timetracker")
-        return builder.buildSessionFactory()
     }
 
     @Test(dataProvider = "DP")

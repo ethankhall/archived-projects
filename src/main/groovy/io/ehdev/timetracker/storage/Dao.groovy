@@ -6,5 +6,8 @@ interface Dao<T extends Storable> {
 
     public Integer save(T object);
 
+    public List<Integer> save(T... object);
+
     public T getById(Integer id);
+    public T getByUuid(String uuid);
 }
