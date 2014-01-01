@@ -49,7 +49,7 @@ class ProjectInteractorTest {
         setupInteractor(readUser)
 
         project.lineItems << createHourFixedTimeEntry(2)
-        project.setRate(new FixedBidRate(rate: 1000))
+        project.setRate(new FixedBidRate(rateValue: 1000))
         assertThat(interactor.getCurrentTotal()).isEqualTo(1000.00)
     }
 

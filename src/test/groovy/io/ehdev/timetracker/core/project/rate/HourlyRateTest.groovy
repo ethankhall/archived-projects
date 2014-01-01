@@ -18,7 +18,7 @@ class HourlyRateTest {
 
     @Test
     public void testGettingTheValueForAHourlyRate() throws Exception {
-        def hourlyRate = new HourlyRate(hourlyRate: 10.00)
+        def hourlyRate = new HourlyRate(rateValue: 10.00)
         def project = new ProjectImpl(lineItems: [ new FixedTimeEntry(startTime: now, endTime: now.plusHours(1))])
         assertThat(hourlyRate.getAmount(project)).isEqualTo(10.00)
         project = new ProjectImpl(lineItems: [ new FixedTimeEntry(startTime: now, endTime: now.plusHours(2))])
