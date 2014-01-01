@@ -11,6 +11,6 @@ public class DiscountFactory {
     }
 
     public static Discount getNoDiscount() {
-        return new FixedRateDiscount(0)
+        return getFlatRateDiscount(0)
     }
 }

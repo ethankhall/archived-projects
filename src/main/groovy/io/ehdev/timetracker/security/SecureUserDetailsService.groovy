@@ -5,6 +5,7 @@ import groovy.json.JsonBuilder
 import groovy.util.logging.Slf4j
 import io.ehdev.timetracker.core.user.User
 import io.ehdev.timetracker.core.user.UserImpl
+import io.ehdev.timetracker.core.user.UserNotFoundException
 import io.ehdev.timetracker.storage.user.UserDao
 import org.apache.commons.lang3.StringUtils
 import org.springframework.beans.factory.annotation.Autowired
@@ -32,10 +33,10 @@ class SecureUserDetailsService implements UserDetailsService, AuthenticationUser
      */
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
         def user = userDao.getUserFromToken(id)
-        if (!user.isPresent()) {
-            throw new UsernameNotFoundException(id);
-        } else {
+        if (user.isPresent()) {
             return new SecureUserDetails(user.get())
+        } else {
+            throw new UsernameNotFoundException(id);
         }
     }
 
@@ -71,7 +72,7 @@ class SecureUserDetailsService implements UserDetailsService, AuthenticationUser
         if (user.isPresent()) {
             return user.get()
         } else {
-            throw new RuntimeException("User not found")
+            throw new UserNotFoundException("oauth", token.identityUrl)
         }
     }
 

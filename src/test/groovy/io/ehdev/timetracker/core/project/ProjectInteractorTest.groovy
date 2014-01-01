@@ -1,7 +1,7 @@
 package io.ehdev.timetracker.core.project
 import io.ehdev.timetracker.core.entry.FixedTimeEntry
 import io.ehdev.timetracker.core.permissions.BasePermissions
-import io.ehdev.timetracker.core.project.discount.FixedRateDiscount
+import io.ehdev.timetracker.core.project.discount.DiscountFactory
 import io.ehdev.timetracker.core.project.rate.FixedBidRate
 import io.ehdev.timetracker.core.user.User
 import io.ehdev.timetracker.core.user.UserBuilder
@@ -82,7 +82,7 @@ class ProjectInteractorTest {
     public void testDiscountSetting() throws Exception {
         setupInteractor(writeUser)
 
-        def discount = new FixedRateDiscount(10)
+        def discount = DiscountFactory.getFlatRateDiscount(10)
         interactor.setDiscount(discount)
         assertThat(interactor.getDiscount()).isEqualTo(discount)
     }
