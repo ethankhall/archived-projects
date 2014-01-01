@@ -37,9 +37,10 @@ class UserDaoImpl extends BaseDao<UserImpl> implements UserDao {
         def results = query() { Criteria criteria ->
             criteria.add(Example.create(new UserImpl(userParams)))
         }
-        if (results.size() >= 1) {
+
+        if (results.size() == 1) {
             return Optional.fromNullable(results[0])
-        } else {
+        }  else {
             return Optional.absent();
         }
     }

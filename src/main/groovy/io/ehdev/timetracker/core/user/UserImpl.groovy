@@ -7,7 +7,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder
 import javax.persistence.*
 
 @Entity
-@Table
+@Table(name = 'user')
 class UserImpl implements User, Storable, Serializable {
 
     @Id

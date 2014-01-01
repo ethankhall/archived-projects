@@ -67,6 +67,5 @@ class HibernateConfig {
         builder.setProperty("hibernate.show_sql", "true")
         builder.scanPackages("io.ehdev.timetracker")
         return builder.buildSessionFactory()
-
     }
 }
