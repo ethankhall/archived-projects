@@ -1,12 +1,20 @@
 package io.ehdev.timetracker.core.entry
-
-import org.joda.time.Duration
 import org.joda.time.DateTime
+import org.joda.time.Duration
 
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.Table
+
+@Entity
+@Table
 class FixedTimeEntry extends BaseEntry {
 
-    private def DateTime startTime
-    private def DateTime endTime
+    @Column
+    DateTime startTime
+
+    @Column
+    DateTime endTime
 
     FixedTimeEntry(Map properties){
         startTime = properties['startTime']
