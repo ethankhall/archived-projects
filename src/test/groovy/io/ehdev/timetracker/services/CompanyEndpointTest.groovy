@@ -5,8 +5,8 @@ import io.ehdev.timetracker.core.user.UserImpl
 import io.ehdev.timetracker.services.external.company.ExternalCompany
 import io.ehdev.timetracker.services.external.company.ExternalCompanyBuilder
 import io.ehdev.timetracker.services.external.user.ExternalUser
+import io.ehdev.timetracker.storage.company.InMemoryCompanyDao
 import io.ehdev.timetracker.storage.user.InMemoryUserDao
-import org.testng.annotations.BeforeClass
 import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
 
@@ -15,19 +15,17 @@ import static org.fest.assertions.Assertions.assertThat
 class CompanyEndpointTest {
     private CompanyEndpoint companyEndpoint
     private InMemoryUserDao userDao
+    private InMemoryCompanyDao companyDao
     private UserImpl user1
     private UserImpl user2
 
-    @BeforeClass
-    public void inMemorySetup() {
-        userDao = new InMemoryUserDao()
-    }
-
     @BeforeMethod
     public void setup(){
-        userDao.storage.clear()
+        userDao = new InMemoryUserDao()
+        companyDao = new InMemoryCompanyDao()
         companyEndpoint = CompanyEndpoint.newInstance()
         companyEndpoint.setUserDao(userDao)
+        companyEndpoint.setCompanyDao(companyDao)
 
         user1 = UserBuilder.createNewUser()
         user2 = UserBuilder.createNewUser()

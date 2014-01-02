@@ -1,5 +1,5 @@
 package io.ehdev.timetracker.core
-import io.ehdev.timetracker.core.permissions.Permissions
+import io.ehdev.timetracker.core.permissions.ExtendedPermissions
 import io.ehdev.timetracker.core.user.UserImpl
 import io.ehdev.timetracker.core.user.UserNotAuthorizedToAdminException
 import io.ehdev.timetracker.core.user.UserNotAuthorizedToReadException
@@ -7,10 +7,17 @@ import io.ehdev.timetracker.core.user.UserNotAuthorizedToWriteException
 
 abstract class PreformActionBaseImpl implements PreformActionBase {
 
-    abstract Permissions getPermissions()
+    abstract List<ExtendedPermissions> getPermissions();
+
+    public ExtendedPermissions findPermissionForUser(UserImpl user){
+        ExtendedPermissions foundPermission = getPermissions().find {
+            it.refUser.uuid == user.uuid
+        }
+        return foundPermission ?: ExtendedPermissions.EMPTY_PERMISSION
+    }
 
     public preformWrite(UserImpl user, Closure closure){
-        if(permissions.canUserWrite(user)){
+        if(findPermissionForUser(user).canUserWrite()){
             return closure.call(this)
         } else {
             throw new UserNotAuthorizedToWriteException()
@@ -18,7 +25,7 @@ abstract class PreformActionBaseImpl implements PreformActionBase {
     }
 
     public preformRead(UserImpl user, Closure closure){
-        if(permissions.canUserRead(user)){
+        if(findPermissionForUser(user).canUserRead()){
             return closure.call(this)
         } else {
             throw new UserNotAuthorizedToReadException()
@@ -26,7 +33,7 @@ abstract class PreformActionBaseImpl implements PreformActionBase {
     }
 
     public preformAdmin(UserImpl user, Closure closure){
-        if(permissions.canUserAdmin(user)){
+        if(findPermissionForUser(user).canUserAdmin()){
             return closure.call(this)
         } else {
             throw new UserNotAuthorizedToAdminException()

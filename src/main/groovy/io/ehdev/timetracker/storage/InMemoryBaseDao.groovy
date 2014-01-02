@@ -4,9 +4,9 @@ import groovy.util.logging.Slf4j
 import io.ehdev.timetracker.core.Storable
 
 @Slf4j
-class InMemoryBaseDao<T extends Storable> implements Dao<T>{
+abstract class InMemoryBaseDao<T extends Storable> implements Dao<T>{
 
-    static HashMap<Integer, T> storage = new HashMap<Integer, T>();
+    abstract public Map<Integer, T> getStorage();
 
     @Override
     Integer save(T object) {

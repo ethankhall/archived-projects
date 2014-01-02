@@ -1,7 +1,7 @@
 package io.ehdev.timetracker.core.company
 import io.ehdev.timetracker.core.PreformActionBaseImpl
 import io.ehdev.timetracker.core.Storable
-import io.ehdev.timetracker.core.permissions.ExtendedPermissions
+import io.ehdev.timetracker.core.permissions.UserCompanyPermissions
 import org.apache.commons.lang3.builder.EqualsBuilder
 import org.apache.commons.lang3.builder.HashCodeBuilder
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder
@@ -22,9 +22,9 @@ class CompanyImpl extends PreformActionBaseImpl implements Company, Storable {
     @Column
     String uuid
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @Delegate
-    ExtendedPermissions permissions
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = 'company_id')
+    List<UserCompanyPermissions> permissions
 
     public String toString() {
         return ReflectionToStringBuilder.toString(this);

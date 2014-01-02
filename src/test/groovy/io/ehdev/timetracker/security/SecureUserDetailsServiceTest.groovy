@@ -35,7 +35,6 @@ class SecureUserDetailsServiceTest {
     public void setup() {
         service = new SecureUserDetailsService()
         userDao = new InMemoryUserDao()
-        userDao.storage.clear()
         service.setUserDao(userDao)
     }
 

@@ -3,53 +3,33 @@ import io.ehdev.timetracker.core.user.UserImpl
 import org.apache.commons.lang3.builder.EqualsBuilder
 import org.apache.commons.lang3.builder.HashCodeBuilder
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder
-import org.hibernate.annotations.LazyCollection
-import org.hibernate.annotations.LazyCollectionOption
 
 import javax.persistence.*
 
-@Entity
-@Table(name = 'permissions')
-class ExtendedPermissions implements Permissions {
+@MappedSuperclass
+abstract class ExtendedPermissions implements Permissions {
 
     @Id
     @GeneratedValue
     Integer id
 
-    @ManyToOne(cascade = [CascadeType.ALL])
-    ExtendedPermissions parentPermissions = null
+    @ManyToOne(cascade = CascadeType.ALL)
+    UserImpl refUser
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @LazyCollection(LazyCollectionOption.FALSE)
-    def List<UserImpl> adminAccess = []
+    boolean readAccess = false
+    boolean writeAccess = false
+    boolean adminAccess = false
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @LazyCollection(LazyCollectionOption.FALSE)
-    def List<UserImpl> readAccess = []
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @LazyCollection(LazyCollectionOption.FALSE)
-    def List<UserImpl> writeAccess = []
-
-    boolean canUserWrite(UserImpl user){
-        if(parentPermissions?.canUserWrite(user)){
-            return true
-        }
-        return user in writeAccess || canUserAdmin(user)
+    boolean canUserWrite(){
+        return writeAccess || canUserAdmin()
     }
 
-    boolean canUserRead(UserImpl user){
-        if(parentPermissions?.canUserRead(user)){
-            return true
-        }
-        return canUserWrite(user) || user in readAccess
+    boolean canUserRead(){
+        return readAccess || canUserWrite()
     }
 
-    boolean canUserAdmin(UserImpl user){
-        if(parentPermissions?.canUserAdmin(user)){
-            return true
-        }
-        return user in adminAccess
+    boolean canUserAdmin(){
+        adminAccess
     }
 
     public String toString() {
@@ -63,4 +43,6 @@ class ExtendedPermissions implements Permissions {
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this)
     }
+
+    final static ExtendedPermissions EMPTY_PERMISSION = new UserProjectPermissions()
 }

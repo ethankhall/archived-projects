@@ -1,8 +1,9 @@
 package io.ehdev.timetracker.core.project
+
 import io.ehdev.timetracker.core.PreformActionBaseImpl
 import io.ehdev.timetracker.core.Storable
 import io.ehdev.timetracker.core.entry.LineItemEntry
-import io.ehdev.timetracker.core.permissions.ExtendedPermissions
+import io.ehdev.timetracker.core.permissions.UserProjectPermissions
 import io.ehdev.timetracker.core.project.discount.Discount
 import io.ehdev.timetracker.core.project.discount.DiscountFactory
 import io.ehdev.timetracker.core.project.rate.Rate
@@ -34,8 +35,8 @@ class ProjectImpl extends PreformActionBaseImpl implements Project, Storable {
     @OneToMany
     List<LineItemEntry> lineItems = []
 
-    @ManyToOne
-    ExtendedPermissions permissions;
+    @OneToMany
+    List<UserProjectPermissions> permissions = [];
 
     public List<LineItemEntry> getEntries(){
         return lineItems
@@ -44,4 +45,5 @@ class ProjectImpl extends PreformActionBaseImpl implements Project, Storable {
     BigDecimal getAmount(){
         return getAmount(lineItems)
     }
+
 }
