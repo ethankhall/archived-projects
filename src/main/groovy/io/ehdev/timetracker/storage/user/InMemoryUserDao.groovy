@@ -2,11 +2,15 @@ package io.ehdev.timetracker.storage.user
 import com.google.common.base.Optional
 import io.ehdev.timetracker.core.user.UserImpl
 import io.ehdev.timetracker.storage.InMemoryBaseDao
+import io.ehdev.timetracker.storage.InMemoryUUIDSearcher
 import org.springframework.security.openid.OpenIDAuthenticationToken
 
 class InMemoryUserDao extends InMemoryBaseDao<UserImpl> implements UserDao{
 
     HashMap<Integer, UserImpl> storage = new HashMap<Integer, UserImpl>();
+
+    @Delegate
+    InMemoryUUIDSearcher<UserImpl> searcher = new InMemoryUUIDSearcher<UserImpl>(this)
 
     @Override
     Optional<UserImpl> getUserByUUID(String UUID) {

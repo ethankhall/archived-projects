@@ -7,6 +7,7 @@ import io.ehdev.timetracker.services.external.company.ExternalCompanyBuilder
 import io.ehdev.timetracker.services.external.user.ExternalUser
 import io.ehdev.timetracker.storage.company.InMemoryCompanyDao
 import io.ehdev.timetracker.storage.user.InMemoryUserDao
+import org.fest.assertions.Fail
 import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
 
@@ -49,6 +50,10 @@ class CompanyEndpointTest {
         assertThat(retrievedCompany).isInstanceOf(ExternalCompany.class)
     }
 
+    @Test
+    public void testGettingCompanies_whereThereWereNoneForUser() throws Exception {
+        Fail.fail()
+    }
     public ExternalCompany createCompanyWithEndpoint(String name, UserImpl user) {
         companyEndpoint.createNewCompany(
                 ExternalCompanyBuilder.createCompany([name: name]),

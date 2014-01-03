@@ -1,4 +1,6 @@
 package io.ehdev.timetracker.core.permissions
+
+import io.ehdev.timetracker.core.Storable
 import io.ehdev.timetracker.core.user.UserImpl
 import org.apache.commons.lang3.builder.EqualsBuilder
 import org.apache.commons.lang3.builder.HashCodeBuilder
@@ -7,7 +9,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder
 import javax.persistence.*
 
 @MappedSuperclass
-abstract class ExtendedPermissions implements Permissions {
+abstract class ExtendedPermissions implements Permissions, Storable {
 
     @Id
     @GeneratedValue

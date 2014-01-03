@@ -46,11 +46,5 @@ abstract class BaseDao<T extends Storable>  implements Dao<T> {
         return (T)getSession().get(getBaseType(), id)
     }
 
-    public T getByUuid(String uuid){
-        def query = getSession().createQuery("from ${getBaseType().getSimpleName()} as obj where obj.uuid = :uuid")
-        query.setParameter("uuid", uuid)
-        return (T)query.uniqueResult()
-    }
-
     abstract Class<T> getBaseType();
 }

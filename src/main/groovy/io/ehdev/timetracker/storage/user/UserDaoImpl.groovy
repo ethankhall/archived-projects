@@ -5,6 +5,7 @@ import groovy.util.logging.Slf4j
 import io.ehdev.timetracker.core.user.User
 import io.ehdev.timetracker.core.user.UserImpl
 import io.ehdev.timetracker.storage.BaseDao
+import io.ehdev.timetracker.storage.UUIDSearcher
 import org.hibernate.Criteria
 import org.hibernate.criterion.Example
 import org.springframework.security.openid.OpenIDAuthenticationToken
@@ -15,6 +16,9 @@ import javax.transaction.Transactional
 @Repository
 @Slf4j
 class UserDaoImpl extends BaseDao<UserImpl> implements UserDao {
+
+    @Delegate
+    UUIDSearcher<UserImpl> searcher = new UUIDSearcher<UserImpl>(this)
 
     @Transactional
     public Optional<User> getUserByUUID(String UUID){
