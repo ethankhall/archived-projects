@@ -31,7 +31,6 @@ abstract class BaseDao<T extends Storable>  implements Dao<T> {
     public Integer save(T object){
         def session = getSession()
         session.saveOrUpdate(object)
-        session.saveOrUpdate(object)
         return object.getId()
     }
 

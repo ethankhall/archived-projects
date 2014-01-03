@@ -1,32 +1,36 @@
 package io.ehdev.timetracker.storage.company
-
 import groovy.util.logging.Slf4j
+import io.ehdev.timetracker.config.HibernateConfig
+import io.ehdev.timetracker.config.PropertyFileLoader
 import io.ehdev.timetracker.core.company.CompanyInteractor
 import io.ehdev.timetracker.core.user.UserBuilder
-import io.ehdev.timetracker.storage.DaoTestBase
-import org.testng.annotations.DataProvider
+import org.hibernate.SessionFactory
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.test.context.ActiveProfiles
+import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests
+import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
 
 import static org.fest.assertions.Assertions.assertThat
 
 @Slf4j
-class CompanyDaoTest extends DaoTestBase {
+@ActiveProfiles("test")
+@ContextConfiguration(classes = [PropertyFileLoader.class, HibernateConfig.class])
+class CompanyDaoTest extends AbstractTransactionalTestNGSpringContextTests {
 
-    @DataProvider(name = "DP")
-    public static Object[][] params(){
-        InMemoryCompanyDao inMemoryDao = new InMemoryCompanyDao()
-        inMemoryDao.storage.clear()
+    @Autowired
+    SessionFactory sessionFactory
 
+    CompanyDao dao
 
-        def factory = getSessionFactory("CompanyDaoTest")
-        CompanyDaoImpl dao = new CompanyDaoImpl()
-        dao.setSessionFactory(factory)
-
-        return [[inMemoryDao], [dao]];
+    @BeforeMethod
+    public void setup(){
+        dao = new CompanyDaoImpl(sessionFactory: sessionFactory)
     }
 
-    @Test(dataProvider = "DP")
-    public void testSaveObject(CompanyDao dao) throws Exception {
+    @Test
+    public void testSaveObject() throws Exception {
         def company1 = CompanyInteractor.createNewCompany(UserBuilder.createNewUser(), 'bla1')
         dao.save(company1)
 

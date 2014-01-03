@@ -1,8 +1,7 @@
 package io.ehdev.timetracker.core.permissions
 import io.ehdev.timetracker.core.company.CompanyImpl
-import org.apache.commons.lang3.builder.EqualsBuilder
-import org.apache.commons.lang3.builder.HashCodeBuilder
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder
+import org.apache.commons.lang3.builder.ToStringStyle
 
 import javax.persistence.CascadeType
 import javax.persistence.Entity
@@ -17,14 +16,27 @@ class UserCompanyPermissions extends ExtendedPermissions {
     CompanyImpl company
 
     public String toString() {
-        return ReflectionToStringBuilder.toString(this);
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
 
-    public boolean equals(Object object) {
-        return EqualsBuilder.reflectionEquals(this, object)
+    boolean equals(o) {
+        if (this.is(o)) return true
+        if (getClass() != o.class) return false
+
+        UserCompanyPermissions that = (UserCompanyPermissions) o
+
+        if (company.uuid != that.company.uuid) return false
+        if (refUser.uuid != that.refUser.uuid) return false
+        if (adminAccess != that.adminAccess) return false
+        if (readAccess != that.readAccess) return false
+        if (writeAccess != that.writeAccess) return false
+
+        return true
     }
 
-    public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this)
+    int hashCode() {
+        int result = super.hashCode()
+        result = 31 * result + company.getUuid().hashCode()
+        return result
     }
 }

@@ -68,12 +68,12 @@ class HibernateConfig {
     public SessionFactory sessionFactory(){
         def builder = new LocalSessionFactoryBuilder(dataSource())
         builder.setProperty("hibernate.hbm2ddl.auto", "update")
-        builder.setProperty("hibernate.show_sql", "true")
+//        builder.setProperty("hibernate.show_sql", "true")
         builder.scanPackages("io.ehdev.timetracker")
         return builder.buildSessionFactory()
     }
 
-    @Bean
+    @Bean(name = "transactionManager")
     public PlatformTransactionManager transactionManager() {
         return new HibernateTransactionManager(sessionFactory());
     }

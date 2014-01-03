@@ -8,6 +8,5 @@ appender("STDOUT", ConsoleAppender) {
     }
 }
 
-//logger("org.hibernate.type", ALL)
-//logger("org.hibernate", DEBUG)
+logger("org.hibernate", Level.WARN)
 root(Level.DEBUG, ["STDOUT"])

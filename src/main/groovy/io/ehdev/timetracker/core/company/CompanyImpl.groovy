@@ -2,8 +2,6 @@ package io.ehdev.timetracker.core.company
 import io.ehdev.timetracker.core.PreformActionBaseImpl
 import io.ehdev.timetracker.core.Storable
 import io.ehdev.timetracker.core.permissions.UserCompanyPermissions
-import org.apache.commons.lang3.builder.EqualsBuilder
-import org.apache.commons.lang3.builder.HashCodeBuilder
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder
 
 import javax.persistence.*
@@ -30,11 +28,28 @@ class CompanyImpl extends PreformActionBaseImpl implements Company, Storable {
         return ReflectionToStringBuilder.toString(this);
     }
 
-    public boolean equals(Object object) {
-        return EqualsBuilder.reflectionEquals(this, object)
+    boolean equals(o) {
+        if (this.is(o)) return true
+        if (!(o instanceof CompanyImpl)) return false
+
+        CompanyImpl company = (CompanyImpl) o
+
+        if (id != company.id) return false
+        if (name != company.name) return false
+        if (permissions != company.permissions) return false
+        if (uuid != company.uuid) return false
+
+        return true
     }
 
-    public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this)
+    int hashCode() {
+        int result
+        result = (id != null ? id.hashCode() : 0)
+        result = 31 * result + (name != null ? name.hashCode() : 0)
+        result = 31 * result + (uuid != null ? uuid.hashCode() : 0)
+        permissions.each {
+            result = 31 * result + it.hashCode()
+        }
+        return result
     }
 }

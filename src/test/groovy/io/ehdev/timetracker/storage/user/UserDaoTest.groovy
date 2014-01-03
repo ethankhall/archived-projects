@@ -1,31 +1,42 @@
 package io.ehdev.timetracker.storage.user
 import com.google.common.base.Optional
+import groovy.util.logging.Slf4j
+import io.ehdev.timetracker.config.HibernateConfig
+import io.ehdev.timetracker.config.PropertyFileLoader
 import io.ehdev.timetracker.core.user.UserBuilder
 import io.ehdev.timetracker.core.user.UserImpl
-import io.ehdev.timetracker.storage.DaoTestBase
+import io.ehdev.timetracker.core.user.UserNotFoundException
+import org.hibernate.SessionFactory
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.openid.OpenIDAuthenticationToken
-import org.testng.annotations.DataProvider
+import org.springframework.test.context.ActiveProfiles
+import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests
+import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
 
 import static org.fest.assertions.Assertions.assertThat
+import static org.fest.assertions.Fail.fail
 import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.when
 
-class UserDaoTest extends DaoTestBase {
+@Slf4j
+@ActiveProfiles("test")
+@ContextConfiguration(classes = [PropertyFileLoader.class, HibernateConfig.class])
+class UserDaoTest extends AbstractTransactionalTestNGSpringContextTests {
 
-    @DataProvider(name = "DP")
-    public static Object[][] params(){
-        InMemoryUserDao inMemoryDao = new InMemoryUserDao()
-        inMemoryDao.storage.clear()
+    @Autowired
+    SessionFactory sessionFactory
 
-        UserDaoImpl dbUserDao = new UserDaoImpl()
-        dbUserDao.setSessionFactory(getSessionFactory("UserDaoTest"))
+    UserDaoImpl userDao
 
-        return [[inMemoryDao], [dbUserDao]];
+    @BeforeMethod
+    public void setup() {
+        userDao = new UserDaoImpl(sessionFactory: sessionFactory)
     }
 
-    @Test(dataProvider = "DP")
-    public void testGettingByUUID(UserDao userDao) throws Exception {
+    @Test
+    public void testGettingByUUID() throws Exception {
         ArrayList<UserImpl> userList = createUserEntries(userDao)
 
         assertThat(userDao.getUserByUUID(userList[1].uuid)).isEqualTo(Optional.of(userList[1]))
@@ -40,22 +51,25 @@ class UserDaoTest extends DaoTestBase {
         userList
     }
 
-    @Test(dataProvider = "DP")
-    public void testGetUserFromToken(UserDao userDao) throws Exception {
+    @Test
+    public void testGetUserFromToken() throws Exception {
         ArrayList<UserImpl> userList = createUserEntries(userDao)
 
-        assertThat(userDao.getUserFromToken(userList[1].authToken)).isEqualTo(Optional.of(userList[1]))
-        assertThat(userDao.getUserFromToken("1").isPresent()).isFalse()
-
-
         def mockedValues = mock(OpenIDAuthenticationToken.class)
-        when(mockedValues.getIdentityUrl()).thenReturn( userList[1].authToken, "1" )
-        assertThat(userDao.getUserFromToken(mockedValues)).isEqualTo(Optional.of(userList[1]))
-        assertThat(userDao.getUserFromToken(mockedValues).isPresent()).isFalse()
+        when(mockedValues.getIdentityUrl()).thenReturn( userList[1].authToken)
+        assertThat(userDao.getUserFromToken(mockedValues)).isEqualTo(userList[1])
     }
 
-    @Test(dataProvider = "DP")
-    public void testGetById(UserDao userDao) throws Exception {
+    @Test(expectedExceptions = UserNotFoundException.class)
+    public void testGettingUser_whereNoneExists() throws Exception {
+        def mockedValues = mock(OpenIDAuthenticationToken.class)
+        when(mockedValues.getIdentityUrl()).thenReturn("1")
+        userDao.getUserFromToken(mockedValues)
+        fail()
+    }
+
+    @Test
+    public void testGetById() throws Exception {
         ArrayList<UserImpl> userList = createUserEntries(userDao)
         assertThat(userDao.getById(userList[0].id)).isEqualTo(userList[0])
     }

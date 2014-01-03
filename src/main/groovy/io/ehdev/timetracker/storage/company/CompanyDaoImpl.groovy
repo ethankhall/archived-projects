@@ -7,11 +7,14 @@ import org.springframework.stereotype.Repository
 @Repository
 class CompanyDaoImpl extends BaseDao<CompanyImpl> implements CompanyDao {
 
-    @Delegate
     UUIDSearcher<CompanyImpl> searcher = new UUIDSearcher<CompanyImpl>(this)
 
     @Override
     Class<CompanyImpl> getBaseType() {
         return CompanyImpl
+    }
+
+    CompanyImpl getByUuid(String uuid){
+        return searcher.getByUuid(uuid)
     }
 }

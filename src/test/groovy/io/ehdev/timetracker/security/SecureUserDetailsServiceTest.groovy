@@ -1,12 +1,19 @@
 package io.ehdev.timetracker.security
+import groovy.util.logging.Slf4j
+import io.ehdev.timetracker.config.HibernateConfig
+import io.ehdev.timetracker.config.PropertyFileLoader
 import io.ehdev.timetracker.core.user.UserBuilder
 import io.ehdev.timetracker.core.user.UserImpl
 import io.ehdev.timetracker.core.user.UserNotFoundException
-import io.ehdev.timetracker.storage.user.InMemoryUserDao
+import io.ehdev.timetracker.storage.user.UserDaoImpl
+import org.hibernate.SessionFactory
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.UserDetails
-import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.openid.OpenIDAttribute
 import org.springframework.security.openid.OpenIDAuthenticationToken
+import org.springframework.test.context.ActiveProfiles
+import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
@@ -16,10 +23,16 @@ import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.when
 import static org.testng.collections.Lists.newArrayList
 
-class SecureUserDetailsServiceTest {
+@Slf4j
+@ActiveProfiles("test")
+@ContextConfiguration(classes = [PropertyFileLoader.class, HibernateConfig.class])
+class SecureUserDetailsServiceTest extends AbstractTransactionalTestNGSpringContextTests {
+
+    @Autowired
+    SessionFactory sessionFactory
 
     SecureUserDetailsService service
-    InMemoryUserDao userDao
+    UserDaoImpl userDao
     OpenIDAuthenticationToken token
 
     @BeforeClass
@@ -34,7 +47,7 @@ class SecureUserDetailsServiceTest {
     @BeforeMethod
     public void setup() {
         service = new SecureUserDetailsService()
-        userDao = new InMemoryUserDao()
+        userDao = new UserDaoImpl( sessionFactory: sessionFactory)
         service.setUserDao(userDao)
     }
 
@@ -42,7 +55,6 @@ class SecureUserDetailsServiceTest {
     public void testLoadUserDetails_whereNoneIsPresent() throws Exception {
         UserDetails details = service.loadUserDetails(token)
         assertThat(details.getUsername()).isSameAs("123")
-        assertThat(userDao.storage).hasSize(1)
     }
 
     @Test
@@ -50,7 +62,6 @@ class SecureUserDetailsServiceTest {
         userDao.save(new UserImpl(uuid: "SOMETHING", authToken: "123"))
         UserDetails details = service.loadUserDetails(token)
         assertThat(details.getUsername()).isSameAs("123")
-        assertThat(userDao.storage).hasSize(1)
     }
 
     @Test
@@ -95,7 +106,7 @@ class SecureUserDetailsServiceTest {
         assertThat(user.getName()).isEqualTo('john doe')
     }
 
-    @Test(expectedExceptions = UsernameNotFoundException.class)
+    @Test(expectedExceptions = UserNotFoundException.class)
     public void testLoadUserByUsername_whereNoUserIsPresent() throws Exception {
         service.loadUserByUsername("123")
     }

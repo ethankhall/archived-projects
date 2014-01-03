@@ -6,6 +6,6 @@ import org.springframework.security.openid.OpenIDAuthenticationToken
 
 interface UserDao extends Dao<UserImpl>{
     public Optional<UserImpl> getUserByUUID(String UUID);
-    public Optional<UserImpl> getUserFromToken(String token);
-    public Optional<UserImpl> getUserFromToken(OpenIDAuthenticationToken token);
+    public UserImpl getUserFromToken(String token);
+    public UserImpl getUserFromToken(OpenIDAuthenticationToken token);
 }

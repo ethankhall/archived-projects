@@ -1,9 +1,6 @@
 package io.ehdev.timetracker.core.permissions
-
 import io.ehdev.timetracker.core.Storable
 import io.ehdev.timetracker.core.user.UserImpl
-import org.apache.commons.lang3.builder.EqualsBuilder
-import org.apache.commons.lang3.builder.HashCodeBuilder
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder
 
 import javax.persistence.*
@@ -38,13 +35,30 @@ abstract class ExtendedPermissions implements Permissions, Storable {
         return ReflectionToStringBuilder.toString(this);
     }
 
-    public boolean equals(Object object) {
-        return EqualsBuilder.reflectionEquals(this, object)
+
+    boolean equals(o) {
+        if (this.is(o)) return true
+        if (!(o instanceof ExtendedPermissions)) return false
+
+        ExtendedPermissions that = (ExtendedPermissions) o
+
+        if (adminAccess != that.adminAccess) return false
+        if (readAccess != that.readAccess) return false
+        if (writeAccess != that.writeAccess) return false
+        if (id != that.id) return false
+        if (refUser != that.refUser) return false
+
+        return true
     }
 
-    public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this)
+    int hashCode() {
+        int result
+        result = (id != null ? id.hashCode() : 0)
+        result = 31 * result + refUser.hashCode()
+        result = 31 * result + (readAccess ? 1 : 0)
+        result = 31 * result + (writeAccess ? 1 : 0)
+        result = 31 * result + (adminAccess ? 1 : 0)
+        return result
     }
-
     final static ExtendedPermissions EMPTY_PERMISSION = new UserProjectPermissions()
 }

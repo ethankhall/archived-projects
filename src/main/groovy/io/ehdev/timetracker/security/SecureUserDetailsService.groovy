@@ -1,18 +1,14 @@
 package io.ehdev.timetracker.security
-
-import com.google.common.base.Optional
 import groovy.json.JsonBuilder
 import groovy.util.logging.Slf4j
 import io.ehdev.timetracker.core.user.User
 import io.ehdev.timetracker.core.user.UserImpl
-import io.ehdev.timetracker.core.user.UserNotFoundException
 import io.ehdev.timetracker.storage.user.UserDao
 import org.apache.commons.lang3.StringUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
-import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.openid.OpenIDAttribute
 import org.springframework.security.openid.OpenIDAuthenticationToken
 import org.springframework.stereotype.Repository
@@ -31,13 +27,8 @@ class SecureUserDetailsService implements UserDetailsService, AuthenticationUser
      * Implementation of {@code UserDetailsService}. We only need this to satisfy the {@code RememberMeServices}
      * requirements.
      */
-    public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
-        def user = userDao.getUserFromToken(id)
-        if (user.isPresent()) {
-            return new SecureUserDetails(user.get())
-        } else {
-            throw new UsernameNotFoundException(id);
-        }
+    public UserDetails loadUserByUsername(String id) {
+        return new SecureUserDetails(userDao.getUserFromToken(id))
     }
 
     /**
@@ -45,16 +36,15 @@ class SecureUserDetailsService implements UserDetailsService, AuthenticationUser
      * {@code Authentication} object. Used by the OpenIDAuthenticationProvider.
      */
     public UserDetails loadUserDetails(OpenIDAuthenticationToken token) {
-        Optional<UserImpl> optionalSecureUser = userDao.getUserFromToken(token);
-
-        if (optionalSecureUser.isPresent()) {
-            return new SecureUserDetails(optionalSecureUser.get());
+        try{
+            UserImpl user = userDao.getUserFromToken(token);
+            return new SecureUserDetails(user)
+        } catch (ignored) {
+            log.info("Creating new user with token: {}", token.getIdentityUrl())
+            UserImpl user = createNewUser(token)
+            SecureUserDetails secureUser = new SecureUserDetails(user);
+            return secureUser;
         }
-
-        UserImpl user = createNewUser(token)
-        SecureUserDetails secureUser = new SecureUserDetails(user);
-
-        return secureUser;
     }
 
     UserImpl createNewUser(OpenIDAuthenticationToken token) {
@@ -68,12 +58,7 @@ class SecureUserDetailsService implements UserDetailsService, AuthenticationUser
     }
 
     public UserImpl getUser(OpenIDAuthenticationToken token) {
-        def user = userDao.getUserFromToken(token)
-        if (user.isPresent()) {
-            return user.get()
-        } else {
-            throw new UserNotFoundException("oauth", token.identityUrl)
-        }
+        return userDao.getUserFromToken(token)
     }
 
     static void populateUserFromOpenId(UserImpl user, List<OpenIDAttribute> openIDAttributes) {

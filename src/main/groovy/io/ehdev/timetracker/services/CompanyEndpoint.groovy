@@ -1,9 +1,9 @@
 package io.ehdev.timetracker.services
-
 import io.ehdev.timetracker.core.company.CompanyInteractor
-import io.ehdev.timetracker.core.user.UserNotAuthorizedToReadException
+import io.ehdev.timetracker.core.company.CompanyNotFoundException
 import io.ehdev.timetracker.services.external.company.ExternalCompany
 import io.ehdev.timetracker.storage.company.CompanyDao
+import io.ehdev.timetracker.storage.permission.UserCompanyPermissionsDao
 import io.ehdev.timetracker.storage.user.UserDao
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.openid.OpenIDAuthenticationToken
@@ -19,10 +19,13 @@ class CompanyEndpoint {
     @Autowired
     CompanyDao companyDao
 
+    @Autowired
+    UserCompanyPermissionsDao userCompanyPermissionsDao
+
     @RequestMapping(method = RequestMethod.POST)
     public def createNewCompany(@RequestBody ExternalCompany externalCompany,
                                 OpenIDAuthenticationToken authentication){
-        def userLoggedIn = userDao.getUserFromToken(authentication).get()
+        def userLoggedIn = userDao.getUserFromToken(authentication)
         def company = CompanyInteractor.createNewCompany(userLoggedIn, externalCompany.getName())
         companyDao.save(company)
         return new ExternalCompany(company)
@@ -34,11 +37,19 @@ class CompanyEndpoint {
         def company = companyDao.getByUuid(uid)
         def user = userDao.getUserFromToken(authentication)
         if(company == null){
-            throw new RuntimeException("Company not found")
-        } else if(!user.isPresent()) {
-            throw new UserNotAuthorizedToReadException()
-        } else if(company.findPermissionForUser(user.get())){
+            throw new CompanyNotFoundException(uid)
+        } else if(company.findPermissionForUser(user)){
             return new ExternalCompany(company)
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public def getAllCompaniesForUser(OpenIDAuthenticationToken authentication){
+        def user = userDao.getUserFromToken(authentication)
+        def companiesFound = userCompanyPermissionsDao.getCompaniesAvailableToUser(user)
+
+        return companiesFound.collect {
+            new ExternalCompany(it)
         }
     }
 
