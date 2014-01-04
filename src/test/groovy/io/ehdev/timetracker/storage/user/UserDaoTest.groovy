@@ -1,5 +1,5 @@
 package io.ehdev.timetracker.storage.user
-import com.google.common.base.Optional
+
 import groovy.util.logging.Slf4j
 import io.ehdev.timetracker.config.HibernateConfig
 import io.ehdev.timetracker.config.PropertyFileLoader
@@ -39,16 +39,12 @@ class UserDaoTest extends AbstractTransactionalTestNGSpringContextTests {
     public void testGettingByUUID() throws Exception {
         ArrayList<UserImpl> userList = createUserEntries(userDao)
 
-        assertThat(userDao.getUserByUUID(userList[1].uuid)).isEqualTo(Optional.of(userList[1]))
-        assertThat(userDao.getUserByUUID("1").isPresent()).isFalse()
+        assertThat(userDao.getUserByUUID(userList[1].uuid)).isEqualTo(userList[1])
     }
 
-    public ArrayList<UserImpl> createUserEntries(userDao) {
-        def userList = [UserBuilder.createNewUser(), UserBuilder.createNewUser(), UserBuilder.createNewUser()]
-        userList.each {
-            userDao.save(it)
-        }
-        userList
+    @Test(expectedExceptions = UserNotFoundException.class)
+    public void testGettingByUUID_whereNoneIsPresent() throws Exception {
+        userDao.getUserByUUID('wont exist')
     }
 
     @Test
@@ -72,5 +68,13 @@ class UserDaoTest extends AbstractTransactionalTestNGSpringContextTests {
     public void testGetById() throws Exception {
         ArrayList<UserImpl> userList = createUserEntries(userDao)
         assertThat(userDao.getById(userList[0].id)).isEqualTo(userList[0])
+    }
+
+    static ArrayList<UserImpl> createUserEntries(userDao) {
+        def userList = [UserBuilder.createNewUser(), UserBuilder.createNewUser(), UserBuilder.createNewUser()]
+        userList.each {
+            userDao.save(it)
+        }
+        userList
     }
 }

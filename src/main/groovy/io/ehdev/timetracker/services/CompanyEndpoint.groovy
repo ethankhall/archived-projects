@@ -1,4 +1,5 @@
 package io.ehdev.timetracker.services
+
 import io.ehdev.timetracker.core.company.CompanyInteractor
 import io.ehdev.timetracker.services.external.company.ExternalCompany
 import io.ehdev.timetracker.storage.company.CompanyDao
@@ -50,4 +51,25 @@ class CompanyEndpoint {
         }
     }
 
+    @RequestMapping(method = RequestMethod.PUT, value = '/{uid}')
+    public void updateCompany(@PathVariable('uid') String uid,
+                              @RequestBody ExternalCompany externalCompany,
+                              OpenIDAuthenticationToken authentication){
+        def company = companyDao.getByUuid(uid)
+        def user = userDao.getUserFromToken(authentication)
+        def companyInteractor = new CompanyInteractor(user, company)
+
+        if(externalCompany.getName()){
+            companyInteractor.setName(externalCompany.getName())
+        }
+        setupPermissions(externalCompany, companyInteractor)
+
+        companyDao.save(company)
+    }
+
+    def setupPermissions(ExternalCompany company, CompanyInteractor interactor) {
+        company.admin.each {
+            interactor.addSetUserAsAdmin(userDao.getUserByUUID(it))
+        }
+    }
 }

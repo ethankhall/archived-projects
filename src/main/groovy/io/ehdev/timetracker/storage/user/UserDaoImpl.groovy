@@ -1,6 +1,5 @@
 package io.ehdev.timetracker.storage.user
 
-import com.google.common.base.Optional
 import groovy.util.logging.Slf4j
 import io.ehdev.timetracker.core.user.User
 import io.ehdev.timetracker.core.user.UserImpl
@@ -22,20 +21,16 @@ class UserDaoImpl extends BaseDao<UserImpl> implements UserDao {
     UUIDSearcher<UserImpl> searcher = new UUIDSearcher<UserImpl>(this)
 
     @Transactional
-    public Optional<User> getUserByUUID(String UUID){
+    public UserImpl getUserByUUID(String UUID){
         log.debug("Finding user for uuid: {}", UUID)
-        return queryForByExample([uuid: UUID])
+        return queryForByExample([uuid: UUID])[0]
     }
 
     @Override
     UserImpl getUserFromToken(String token) {
         log.debug("Finding user for token: {}", token)
         def optionalUser = queryForByExample([authToken: token])
-        if(optionalUser.present){
-            return optionalUser.get()
-        } else {
-            throw new UserNotFoundException("openid", token)
-        }
+        return optionalUser[0]
     }
 
     @Override
@@ -43,15 +38,15 @@ class UserDaoImpl extends BaseDao<UserImpl> implements UserDao {
         return getUserFromToken(token.getIdentityUrl())
     }
 
-    public Optional<UserImpl> queryForByExample(Map userParams) {
+    public List<UserImpl> queryForByExample(Map userParams) {
         def results = query() { Criteria criteria ->
             criteria.add(Example.create(new UserImpl(userParams)))
         }
 
-        if (results.size() == 1) {
-            return Optional.fromNullable(results[0])
+        if (results.size() != 0) {
+            return results
         }  else {
-            return Optional.absent();
+            throw new UserNotFoundException('map', userParams.toString())
         }
     }
 

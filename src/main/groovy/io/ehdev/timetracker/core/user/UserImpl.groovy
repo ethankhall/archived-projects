@@ -1,4 +1,6 @@
 package io.ehdev.timetracker.core.user
+
+import groovy.transform.TupleConstructor
 import io.ehdev.timetracker.core.Storable
 import org.apache.commons.lang3.builder.EqualsBuilder
 import org.apache.commons.lang3.builder.HashCodeBuilder
@@ -8,6 +10,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = 'users')
+@TupleConstructor
 class UserImpl implements User, Storable, Serializable {
 
     @Id

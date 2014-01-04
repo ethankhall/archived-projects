@@ -1,4 +1,6 @@
 package io.ehdev.timetracker.core.company
+
+import groovy.transform.TupleConstructor
 import io.ehdev.timetracker.core.PreformActionBaseImpl
 import io.ehdev.timetracker.core.Storable
 import io.ehdev.timetracker.core.permissions.UserCompanyPermissions
@@ -8,6 +10,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = 'companies')
+@TupleConstructor
 class CompanyImpl extends PreformActionBaseImpl implements Company, Storable {
 
     @Id

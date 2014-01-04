@@ -1,4 +1,6 @@
 package io.ehdev.timetracker.core.permissions
+
+import groovy.transform.TupleConstructor
 import io.ehdev.timetracker.core.company.CompanyImpl
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder
 import org.apache.commons.lang3.builder.ToStringStyle
@@ -10,7 +12,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = 'company_permissions')
-class UserCompanyPermissions extends ExtendedPermissions {
+@TupleConstructor class UserCompanyPermissions extends ExtendedPermissions {
 
     @ManyToOne(cascade = CascadeType.ALL)
     CompanyImpl company

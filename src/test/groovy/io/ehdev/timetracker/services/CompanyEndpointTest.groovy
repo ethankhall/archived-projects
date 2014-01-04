@@ -6,7 +6,6 @@ import io.ehdev.timetracker.core.user.UserBuilder
 import io.ehdev.timetracker.core.user.UserImpl
 import io.ehdev.timetracker.services.external.company.ExternalCompany
 import io.ehdev.timetracker.services.external.company.ExternalCompanyBuilder
-import io.ehdev.timetracker.services.external.user.ExternalUser
 import io.ehdev.timetracker.storage.company.CompanyDaoImpl
 import io.ehdev.timetracker.storage.permission.UserCompanyPermissionsDaoImpl
 import io.ehdev.timetracker.storage.user.UserDaoImpl
@@ -18,6 +17,10 @@ import static org.fest.assertions.Assertions.assertThat
 class CompanyEndpointTest {
     private CompanyEndpoint companyEndpoint
 
+    def userDaoMock
+    def companyDaoMock
+    def userCompanyPermissionsDaoMock
+
     def userDao
     def companyDao
     def userCompanyPermissionsDao
@@ -27,9 +30,9 @@ class CompanyEndpointTest {
 
     @BeforeMethod
     public void setup(){
-        userDao = new MockFor(UserDaoImpl)
-        companyDao = new MockFor(CompanyDaoImpl)
-        userCompanyPermissionsDao = new MockFor(UserCompanyPermissionsDaoImpl)
+        userDaoMock = new MockFor(UserDaoImpl)
+        companyDaoMock = new MockFor(CompanyDaoImpl)
+        userCompanyPermissionsDaoMock = new MockFor(UserCompanyPermissionsDaoImpl)
 
         authorizedUser = UserBuilder.createNewUser()
         otherUser = UserBuilder.createNewUser()
@@ -37,6 +40,7 @@ class CompanyEndpointTest {
 
     @Test
     public void testCreatingACompany() throws Exception {
+        companyDaoMock.demand.save { null }
         setupService()
 
         def company = companyEndpoint.createNewCompany(
@@ -46,14 +50,16 @@ class CompanyEndpointTest {
         assertThat(company.getUuid()).isNotNull()
         assertThat(company.getName()).isEqualTo('something')
         assertThat(company.admin).hasSize(1)
-        assertThat(company.admin).containsOnly(ExternalUser.convertUser(authorizedUser))
+        assertThat(company.admin).containsOnly(authorizedUser.uuid)
+
+        companyDaoMock.verify companyDao
     }
 
     @Test
     public void testGetCompanyForUser_whereExists() throws Exception {
         def company = CompanyInteractor.createNewCompany(authorizedUser, "something")
 
-        companyDao.demand.getByUuid(company.uuid) { company }
+        companyDaoMock.demand.getByUuid(company.uuid) { company }
         setupService()
 
         def retrievedCompany = companyEndpoint.getCompany(company.uuid, null)
@@ -72,26 +78,42 @@ class CompanyEndpointTest {
         def company1 = CompanyInteractor.createNewCompany(authorizedUser, "something")
         def company2 = CompanyInteractor.createNewCompany(authorizedUser, "something2")
 
-        setupCompanyReturns([company1, company2])
+        userCompanyPermissionsDaoMock.demand
+                .getCompaniesAvailableToUser(otherUser) {  [company1, company2] }
         setupService()
 
         def companies = companyEndpoint.getAllCompaniesForUser(null)
-        assertThat(companies).containsOnly(new ExternalCompany(company1), new ExternalCompany(company2))
+        assertThat(companies)
+                .containsOnly(new ExternalCompany(company1), new ExternalCompany(company2))
     }
 
-    private void setupCompanyReturns( authorizedUser ){
-        userCompanyPermissionsDao.demand.getCompaniesAvailableToUser(otherUser) { authorizedUser }
+    @Test
+    public void testUpdateCompany_nameShouldUpdate() throws Exception {
+        def company1 = CompanyInteractor.createNewCompany(authorizedUser, "something")
+        companyDaoMock.demand.with {
+            getByUuid(company1.uuid) { company1 }
+            save { null }
+        }
+        setupService()
+
+        companyEndpoint.updateCompany(company1.uuid, new ExternalCompany(name: 'new name'), null)
+        assertThat(company1.name).isEqualTo('new name')
+
+        companyDaoMock.verify companyDao
     }
 
     private void setupService() {
-        userDao.demand.getUserFromToken { authorizedUser }
-        companyDao.demand.save { null }
-        userCompanyPermissionsDao.demand.getCompaniesAvailableToUser(otherUser) { [] }
+        userDaoMock.demand.getUserFromToken { authorizedUser }
+        userCompanyPermissionsDaoMock.demand.getCompaniesAvailableToUser(otherUser) { [] }
+
+        userDao = userDaoMock.proxyInstance()
+        companyDao = companyDaoMock.proxyInstance()
+        userCompanyPermissionsDao = userCompanyPermissionsDaoMock.proxyInstance()
 
         companyEndpoint = new CompanyEndpoint(
-                userDao: userDao.proxyInstance(),
-                companyDao: companyDao.proxyInstance(),
-                userCompanyPermissionsDao: userCompanyPermissionsDao.proxyInstance()
+                userDao: userDao,
+                companyDao: companyDao,
+                userCompanyPermissionsDao: userCompanyPermissionsDao
         )
     }
 }
