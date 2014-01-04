@@ -32,8 +32,6 @@ class CompanyEndpointTest {
         companyDao = new MockFor(CompanyDaoImpl)
         userCompanyPermissionsDao = new MockFor(UserCompanyPermissionsDaoImpl)
 
-        companyEndpoint = CompanyEndpoint.newInstance()
-
         user1 = UserBuilder.createNewUser()
         user2 = UserBuilder.createNewUser()
     }
@@ -41,10 +39,8 @@ class CompanyEndpointTest {
     @Test
     public void testCreatingACompany() throws Exception {
         userDao.demand.getUserFromToken { user1 }
-        companyEndpoint.setUserDao(userDao.proxyInstance())
-
         companyDao.demand.save { null }
-        companyEndpoint.setCompanyDao(companyDao.proxyInstance())
+        setupService()
 
         def company = createCompanyWithEndpoint('something', user1)
 
@@ -61,8 +57,7 @@ class CompanyEndpointTest {
         userDao.demand.getUserFromToken { user1 }
         companyDao.demand.getByUuid('something') { company }
 
-        companyEndpoint.setUserDao(userDao.proxyInstance())
-        companyEndpoint.setCompanyDao(companyDao.proxyInstance())
+        setupService()
 
         def retrievedCompany = companyEndpoint.getCompany("something", null)
         assertThat(retrievedCompany).isEqualTo(new ExternalCompany(company))
@@ -73,8 +68,7 @@ class CompanyEndpointTest {
         userDao.demand.getUserFromToken { user1 }
         userCompanyPermissionsDao.demand.getCompaniesAvailableToUser(user2) { [] }
 
-        companyEndpoint.setUserDao(userDao.proxyInstance())
-        companyEndpoint.setUserCompanyPermissionsDao(userCompanyPermissionsDao.proxyInstance())
+        setupService()
 
         assertThat(companyEndpoint.getAllCompaniesForUser(null)).isEmpty()
     }
@@ -88,9 +82,7 @@ class CompanyEndpointTest {
         userDao.demand.getUserFromToken { user1 }
         userCompanyPermissionsDao.demand.getCompaniesAvailableToUser(user1) { [company1, company2] }
 
-        companyEndpoint.setUserDao(userDao.proxyInstance())
-        companyEndpoint.setUserCompanyPermissionsDao(userCompanyPermissionsDao.proxyInstance())
-
+        setupService()
 
         def companies = companyEndpoint.getAllCompaniesForUser(null)
         assertThat(companies).containsOnly(new ExternalCompany(company1), new ExternalCompany(company2))
@@ -112,5 +104,13 @@ class CompanyEndpointTest {
         companyEndpoint.createNewCompany(
                 ExternalCompanyBuilder.createCompany([name: name]),
                 TokenBuilder.build(user))
+    }
+
+    private void setupService() {
+        companyEndpoint = new CompanyEndpoint(
+                userDao: userDao.proxyInstance(),
+                companyDao: companyDao.proxyInstance(),
+                userCompanyPermissionsDao: userCompanyPermissionsDao.proxyInstance()
+        )
     }
 }
