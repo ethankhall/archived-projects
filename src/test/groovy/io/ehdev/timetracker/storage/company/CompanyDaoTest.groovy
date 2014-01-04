@@ -3,6 +3,7 @@ import groovy.util.logging.Slf4j
 import io.ehdev.timetracker.config.HibernateConfig
 import io.ehdev.timetracker.config.PropertyFileLoader
 import io.ehdev.timetracker.core.company.CompanyInteractor
+import io.ehdev.timetracker.core.company.CompanyNotFoundException
 import io.ehdev.timetracker.core.user.UserBuilder
 import org.hibernate.SessionFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -39,5 +40,12 @@ class CompanyDaoTest extends AbstractTransactionalTestNGSpringContextTests {
         assertThat(company1.name).isEqualTo(retrievedCompany.name)
         assertThat(company1.uuid).isEqualTo(retrievedCompany.uuid)
         assertThat(company1.permissions.id).isEqualTo(retrievedCompany.permissions.id)
+    }
+
+
+    @Test(expectedExceptions = CompanyNotFoundException.class)
+    public void testGetUuid_whereNoneExists() throws Exception {
+        dao.save(CompanyInteractor.createNewCompany(UserBuilder.createNewUser(), 'bla1'))
+        dao.getByUuid('something')
     }
 }

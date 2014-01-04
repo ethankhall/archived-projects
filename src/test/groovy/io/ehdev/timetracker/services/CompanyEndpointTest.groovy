@@ -50,7 +50,7 @@ class CompanyEndpointTest {
     }
 
     @Test
-    public void testGetCreatedCompany() throws Exception {
+    public void testGetCompanyForUser_whereExists() throws Exception {
         def company = CompanyInteractor.createNewCompany(authorizedUser, "something")
 
         companyDao.demand.getByUuid(company.uuid) { company }
@@ -72,14 +72,14 @@ class CompanyEndpointTest {
         def company1 = CompanyInteractor.createNewCompany(authorizedUser, "something")
         def company2 = CompanyInteractor.createNewCompany(authorizedUser, "something2")
 
-        setupGetCompanyReturns([company1, company2])
+        setupCompanyReturns([company1, company2])
         setupService()
 
         def companies = companyEndpoint.getAllCompaniesForUser(null)
         assertThat(companies).containsOnly(new ExternalCompany(company1), new ExternalCompany(company2))
     }
 
-    private void setupGetCompanyReturns( authorizedUser ){
+    private void setupCompanyReturns( authorizedUser ){
         userCompanyPermissionsDao.demand.getCompaniesAvailableToUser(otherUser) { authorizedUser }
     }
 

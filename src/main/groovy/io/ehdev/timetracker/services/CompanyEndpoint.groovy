@@ -1,6 +1,5 @@
 package io.ehdev.timetracker.services
 import io.ehdev.timetracker.core.company.CompanyInteractor
-import io.ehdev.timetracker.core.company.CompanyNotFoundException
 import io.ehdev.timetracker.services.external.company.ExternalCompany
 import io.ehdev.timetracker.storage.company.CompanyDao
 import io.ehdev.timetracker.storage.permission.UserCompanyPermissionsDao
@@ -36,9 +35,7 @@ class CompanyEndpoint {
                              OpenIDAuthenticationToken authentication){
         def company = companyDao.getByUuid(uid)
         def user = userDao.getUserFromToken(authentication)
-        if(company == null){
-            throw new CompanyNotFoundException(uid)
-        } else if(company.findPermissionForUser(user)){
+        if(company.findPermissionForUser(user)){
             return new ExternalCompany(company)
         }
     }
