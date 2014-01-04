@@ -59,9 +59,7 @@ class CompanyEndpoint {
         def user = userDao.getUserFromToken(authentication)
         def companyInteractor = new CompanyInteractor(user, company)
 
-        if(externalCompany.getName()){
-            companyInteractor.setName(externalCompany.getName())
-        }
+        companyInteractor.setName(externalCompany.getName())
         setupPermissions(externalCompany, companyInteractor)
 
         companyDao.save(company)
@@ -70,6 +68,12 @@ class CompanyEndpoint {
     def setupPermissions(ExternalCompany company, CompanyInteractor interactor) {
         company.admin.each {
             interactor.addSetUserAsAdmin(userDao.getUserByUUID(it))
+        }
+        company.write.each {
+            interactor.addSetUserAsWrite(userDao.getUserByUUID(it))
+        }
+        company.read.each {
+            interactor.addSetUserAsRead(userDao.getUserByUUID(it))
         }
     }
 }

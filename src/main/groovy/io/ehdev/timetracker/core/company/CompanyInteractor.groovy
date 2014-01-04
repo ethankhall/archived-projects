@@ -24,7 +24,9 @@ class CompanyInteractor {
 
     public void setName(String name){
         company.preformWrite(currentUser) { CompanyImpl company ->
-            company.setName(name)
+            if(name){
+                company.setName(name)
+            }
         }
     }
 
