@@ -17,7 +17,7 @@ class UserEndpoint {
     UserDao userDao
 
     @RequestMapping(method=RequestMethod.GET)
-    public def show(OpenIDAuthenticationToken authentication) {
+    public def getExternalUserForLoggedInUser(OpenIDAuthenticationToken authentication) {
         return ExternalUser.convertUser(userDao.getUserFromToken(authentication))
     }
 }
