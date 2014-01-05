@@ -41,6 +41,11 @@ abstract class BaseDao<T extends Storable>  implements Dao<T> {
         }
     }
 
+    @Override
+    public void delete(T object){
+        getSession().delete(object)
+    }
+
     public T getById(Integer id){
         return (T)getSession().get(getBaseType(), id)
     }

@@ -1,5 +1,6 @@
 package io.ehdev.timetracker.services
 import io.ehdev.timetracker.core.company.CompanyInteractor
+import io.ehdev.timetracker.core.user.UserNotAuthorizedToAdminException
 import io.ehdev.timetracker.services.external.company.ExternalCompany
 import io.ehdev.timetracker.storage.company.CompanyDao
 import io.ehdev.timetracker.storage.permission.UserCompanyPermissionsDao
@@ -84,6 +85,16 @@ class CompanyEndpoint {
     @RequestMapping(value ='/{uid}', method = RequestMethod.DELETE)
     public def deleteCompany(@PathVariable String uid,
                                  OpenIDAuthenticationToken authentication){
-
+        def company = companyDao.getByUuid(uid)
+        def user = userDao.getUserFromToken(authentication)
+        def project = projectDao.findProjectsForCompany(company)
+        if(company.findPermissionForUser(user).canUserAdmin()){
+            project.each {
+                projectDao.delete(it)
+            }
+            companyDao.delete(company)
+        } else {
+            throw new UserNotAuthorizedToAdminException(user)
+        }
     }
 }

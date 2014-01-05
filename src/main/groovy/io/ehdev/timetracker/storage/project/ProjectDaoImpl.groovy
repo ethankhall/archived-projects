@@ -1,11 +1,13 @@
 package io.ehdev.timetracker.storage.project
 
+import groovy.util.logging.Slf4j
 import io.ehdev.timetracker.core.company.CompanyImpl
 import io.ehdev.timetracker.core.project.ProjectImpl
 import io.ehdev.timetracker.storage.BaseDao
 import org.springframework.stereotype.Repository
 
 @Repository
+@Slf4j
 class ProjectDaoImpl extends BaseDao<ProjectImpl> implements ProjectDao {
 
     @Override

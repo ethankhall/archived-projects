@@ -9,4 +9,6 @@ interface Dao<T extends Storable> {
     public List<Integer> save(T... object);
 
     public T getById(Integer id);
+
+    public void delete(T object);
 }
