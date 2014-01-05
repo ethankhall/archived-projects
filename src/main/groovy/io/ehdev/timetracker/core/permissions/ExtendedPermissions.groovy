@@ -9,7 +9,7 @@ import javax.persistence.*
 abstract class ExtendedPermissions implements Permissions, Storable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.AUTO)
     Integer id
 
     @ManyToOne(cascade = CascadeType.ALL)

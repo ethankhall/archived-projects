@@ -16,7 +16,7 @@ import javax.persistence.*
 class ProjectImpl extends PreformActionBaseImpl implements Project, Storable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.AUTO)
     Integer id
 
     @Column

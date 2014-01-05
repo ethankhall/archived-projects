@@ -14,7 +14,7 @@ import javax.persistence.*
 class UserImpl implements User, Storable, Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.AUTO)
     Integer id
 
     @Column(unique = true)

@@ -41,7 +41,6 @@ class ProjectDaoImplTest extends AbstractTransactionalTestNGSpringContextTests {
 
         def company = CompanyInteractor.createNewCompany(user1, 'company')
         companyDao.save(company)
-        company = companyDao.getByUuid(company.uuid)
 
         def project1 = ProjectInteractor.createNewProject(company, FixedBidRate.ZERO, 'project 1 name')
         def project2 = ProjectInteractor.createNewProject(company, FixedBidRate.ZERO, 'project 2 name')

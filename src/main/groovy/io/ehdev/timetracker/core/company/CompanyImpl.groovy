@@ -14,7 +14,7 @@ import javax.persistence.*
 class CompanyImpl extends PreformActionBaseImpl implements Company, Storable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.AUTO)
     Integer id
 
     @Column
