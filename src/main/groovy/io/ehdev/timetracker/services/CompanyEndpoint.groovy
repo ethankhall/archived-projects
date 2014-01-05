@@ -66,6 +66,7 @@ class CompanyEndpoint {
     }
 
     def setupPermissions(ExternalCompany company, CompanyInteractor interactor) {
+        interactor.clearPermissions()
         company.admin.each {
             interactor.addSetUserAsAdmin(userDao.getUserByUUID(it))
         }

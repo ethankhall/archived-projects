@@ -80,4 +80,11 @@ class CompanyInteractor {
         company.permissions << permissions
         permissions
     }
+
+    public void clearPermissions() {
+        company.preformAdmin(currentUser) { CompanyImpl company ->
+            company.permissions.clear()
+            company.permissions << new UserCompanyPermissions(refUser: currentUser, company: company, adminAccess: true)
+        }
+    }
 }
