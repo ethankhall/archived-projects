@@ -1,9 +1,9 @@
 package io.ehdev.timetracker.services
-
 import io.ehdev.timetracker.core.company.CompanyInteractor
 import io.ehdev.timetracker.services.external.company.ExternalCompany
 import io.ehdev.timetracker.storage.company.CompanyDao
 import io.ehdev.timetracker.storage.permission.UserCompanyPermissionsDao
+import io.ehdev.timetracker.storage.project.ProjectDao
 import io.ehdev.timetracker.storage.user.UserDao
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.openid.OpenIDAuthenticationToken
@@ -21,6 +21,9 @@ class CompanyEndpoint {
 
     @Autowired
     UserCompanyPermissionsDao userCompanyPermissionsDao
+
+    @Autowired
+    ProjectDao projectDao
 
     @RequestMapping(method = RequestMethod.POST)
     public def createNewCompany(@RequestBody ExternalCompany externalCompany,
@@ -76,5 +79,11 @@ class CompanyEndpoint {
         company.read.each {
             interactor.addSetUserAsRead(userDao.getUserByUUID(it))
         }
+    }
+
+    @RequestMapping(value ='/{uid}', method = RequestMethod.DELETE)
+    public def deleteCompany(@PathVariable String uid,
+                                 OpenIDAuthenticationToken authentication){
+
     }
 }

@@ -1,8 +1,9 @@
 package io.ehdev.timetracker.core.project
-
 import io.ehdev.timetracker.core.PreformActionBaseImpl
 import io.ehdev.timetracker.core.Storable
+import io.ehdev.timetracker.core.company.CompanyImpl
 import io.ehdev.timetracker.core.entry.LineItemEntry
+import io.ehdev.timetracker.core.permissions.ExtendedPermissions
 import io.ehdev.timetracker.core.permissions.UserProjectPermissions
 import io.ehdev.timetracker.core.project.discount.Discount
 import io.ehdev.timetracker.core.project.discount.DiscountFactory
@@ -37,6 +38,17 @@ class ProjectImpl extends PreformActionBaseImpl implements Project, Storable {
 
     @OneToMany
     List<UserProjectPermissions> permissions = [];
+
+    @ManyToOne
+    CompanyImpl companyImpl
+
+    public List<ExtendedPermissions> getPermissions(){
+        if(companyImpl && companyImpl.permissions){
+            return permissions + companyImpl.permissions
+        } else {
+            return permissions
+        }
+    }
 
     public List<LineItemEntry> getEntries(){
         return lineItems
