@@ -39,7 +39,7 @@ class SecureUserDetailsServiceTest {
     }
 
     private void setupService() {
-        service = new SecureUserDetailsService(userDao: userDao.proxyInstance())
+        service = new SecureUserDetailsServiceImpl(userDao: userDao.proxyInstance())
     }
 
     @Test

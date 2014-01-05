@@ -1,7 +1,9 @@
 package io.ehdev.timetracker.config
 import io.ehdev.timetracker.security.SecureUserDetailsService
+import io.ehdev.timetracker.security.SecureUserDetailsServiceImpl
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Import
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
@@ -9,6 +11,7 @@ import org.springframework.security.web.authentication.rememberme.InMemoryTokenR
 
 @Configuration
 @EnableWebSecurity
+@Import(BaseConfig.class)
 class LoginConfig extends WebSecurityConfigurerAdapter {
 
     @Override
@@ -62,11 +65,11 @@ class LoginConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public SecureUserDetailsService secureUserDetailsService() {
-        new SecureUserDetailsService()
+        new SecureUserDetailsServiceImpl()
     }
 
     @Bean(name = 'tokenRepo')
-    InMemoryTokenRepositoryImpl getTokenRep() {
+    InMemoryTokenRepositoryImpl tokenRep() {
         return new InMemoryTokenRepositoryImpl();
     }
 }

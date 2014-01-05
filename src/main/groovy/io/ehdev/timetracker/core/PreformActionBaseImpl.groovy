@@ -20,7 +20,7 @@ abstract class PreformActionBaseImpl implements PreformActionBase {
         if(findPermissionForUser(user).canUserWrite()){
             return closure.call(this)
         } else {
-            throw new UserNotAuthorizedToWriteException()
+            throw new UserNotAuthorizedToWriteException(user)
         }
     }
 
@@ -28,7 +28,7 @@ abstract class PreformActionBaseImpl implements PreformActionBase {
         if(findPermissionForUser(user).canUserRead()){
             return closure.call(this)
         } else {
-            throw new UserNotAuthorizedToReadException()
+            throw new UserNotAuthorizedToReadException(user)
         }
     }
 
@@ -36,7 +36,7 @@ abstract class PreformActionBaseImpl implements PreformActionBase {
         if(findPermissionForUser(user).canUserAdmin()){
             return closure.call(this)
         } else {
-            throw new UserNotAuthorizedToAdminException()
+            throw new UserNotAuthorizedToAdminException(user)
         }
     }
 }

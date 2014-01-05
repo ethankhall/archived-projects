@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Import
 @Configuration
 @ComponentScan("io.ehdev.timetracker")
 @Slf4j
-@Import([HibernateConfig.class, LoginConfig.class, PropertyFileLoader.class, WebConfig.class])
+@Import([HibernateConfig.class, PropertyFileLoader.class, WebConfig.class])
 class BaseConfig {
 
     static {

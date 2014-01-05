@@ -1,4 +1,6 @@
 package io.ehdev.timetracker.core.project.rate
+
+import groovy.transform.TupleConstructor
 import io.ehdev.timetracker.core.entry.LineItemEntry
 
 import javax.persistence.DiscriminatorValue
@@ -7,12 +9,15 @@ import java.math.RoundingMode
 
 @Entity
 @DiscriminatorValue(value="fixed")
+@TupleConstructor
 class FixedBidRate extends Rate {
 
     @Override
     BigDecimal getAmount(List<LineItemEntry> entries) {
         return rateValue.setScale(2, RoundingMode.HALF_EVEN)
     }
+
+    static final FixedBidRate ZERO = new FixedBidRate(rateValue: 0)
 
 }
 

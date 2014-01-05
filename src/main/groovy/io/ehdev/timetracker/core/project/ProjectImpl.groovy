@@ -23,11 +23,11 @@ class ProjectImpl extends PreformActionBaseImpl implements Project, Storable {
     String uuid
 
     @Delegate
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.ALL)
     Rate rate
 
     @Delegate
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.ALL)
     Discount discount = DiscountFactory.getNoDiscount()
 
     @Column
@@ -40,11 +40,12 @@ class ProjectImpl extends PreformActionBaseImpl implements Project, Storable {
     List<UserProjectPermissions> permissions = [];
 
     @ManyToOne
-    CompanyImpl companyImpl
+    @JoinColumn(name = 'company_id')
+    CompanyImpl company
 
     public List<ExtendedPermissions> getPermissions(){
-        if(companyImpl && companyImpl.permissions){
-            return permissions + companyImpl.permissions
+        if(company && company.permissions){
+            return permissions + company.permissions
         } else {
             return permissions
         }

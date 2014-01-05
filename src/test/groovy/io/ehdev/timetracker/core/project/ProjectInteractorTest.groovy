@@ -20,10 +20,9 @@ class ProjectInteractorTest {
     private ProjectImpl project
 
     private void setupInteractor(User user){
-        project = new ProjectImpl()
-        project.permissions << new UserProjectPermissions(project: project, refUser: writeUser, writeAccess: true)
-        project.permissions << new UserProjectPermissions(project: project, refUser: readUser, readAccess: true)
-        interactor = new ProjectInteractor(user: user, project: project)
+        project = ProjectInteractor.createNewProject(writeUser, new FixedBidRate(rateValue: 0), 'name')
+        project.permissions << new UserProjectPermissions(refUser: readUser, project: project, readAccess: true)
+        interactor = new ProjectInteractor(authUser: user, project: this.project)
     }
 
     @Test
