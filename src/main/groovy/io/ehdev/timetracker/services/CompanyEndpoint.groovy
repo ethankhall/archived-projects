@@ -69,15 +69,15 @@ class CompanyEndpoint {
         companyDao.save(company)
     }
 
-    def setupPermissions(ExternalCompany company, CompanyInteractor interactor) {
+    def setupPermissions(ExternalCompany externalCompany, CompanyInteractor interactor) {
         interactor.clearPermissions()
-        company.admin.each {
+        externalCompany.admin.each {
             interactor.addSetUserAsAdmin(userDao.getUserByUUID(it))
         }
-        company.write.each {
+        externalCompany.write.each {
             interactor.addSetUserAsWrite(userDao.getUserByUUID(it))
         }
-        company.read.each {
+        externalCompany.read.each {
             interactor.addSetUserAsRead(userDao.getUserByUUID(it))
         }
     }
