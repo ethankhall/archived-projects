@@ -1,0 +1,57 @@
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+version = '1.0.6-SNAPSHOT'
+group = 'io.ehdev.testify'
+ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
+
+signing {
+    required { isReleaseVersion && gradle.taskGraph.hasTask("uploadArchives") }
+    sign configurations.archives
+}
+
+def sonatypeRepositoryUrl 
+if (ext.isReleaseVersion) {
+    sonatypeRepositoryUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+} else {
+    sonatypeRepositoryUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
+}
+
+afterEvaluate { project ->
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+            repository(url: sonatypeRepositoryUrl) {
+                authentication(userName: mavenUsername, password: mavenPassword)
+            }
+            //repository(url: "file://$rootDir/mvn-repo") 
+
+            pom.project {
+                name 'testify'
+                description 'a project to aid in development requireing databases'
+                url 'https://github.com/ethankhall/testify'
+                scm {
+                    url 'git@github.com/ethankhall/testify.git'
+                    connection 'scm:git:git@github.com/ethankhall/testify.git'
+                    developerConnection 'scm:gitgit@github.com:ethankhall/testify.git'
+                }
+                licenses {
+                    license {
+                        name 'The MIT License (MIT)'
+                        url 'https://github.com/ethankhall/testify/blob/master/LICENSE'
+                        distribution 'repo'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'ethankhall'
+                        name 'Ethan Hall'
+                        email 'maven@ehdev.io'
+                    }
+                }
+            }
+        }
+    }
+}
+}
