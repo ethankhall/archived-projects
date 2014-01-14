@@ -1,0 +1,13 @@
+{
+    "glossary":{
+        "GlossDiv":{
+            "GlossList":{
+                "GlossEntry":{
+                    "GlossDef":{
+                        "GlossSeeAlso": {"type":"JsonValidationEnum","enumValues":["GML", "XML"],"caseSensitive":false,"nullAcceptable":false}
+                    }
+                }
+            }
+        }
+    }
+}

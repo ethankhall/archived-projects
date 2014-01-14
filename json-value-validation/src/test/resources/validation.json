@@ -1,0 +1,11 @@
+{
+    "glossary":{
+        "GlossDiv":{
+            "GlossList":{
+                "GlossEntry":{
+                    "GlossSee":{"type":"JsonValidationInteger","lowValue":5,"highValue":10,"isInclusive":true,"nullAcceptable":false}
+                }
+            }
+        }
+    }
+}
