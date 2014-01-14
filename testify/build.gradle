@@ -1,0 +1,24 @@
+
+subprojects {
+    apply plugin: 'maven'
+    apply plugin: 'java'
+    apply plugin: 'signing'
+
+    task sourceJar (type : Jar) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+
+    task javadocJar (type: Jar, dependsOn: javadoc) { 
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+
+    artifacts {
+        archives jar
+        archives sourceJar
+        archives javadocJar
+    }
+
+    apply from: "$rootDir/publishing.gradle"
+}
