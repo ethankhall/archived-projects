@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TEST</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.js"></script>
+    <script type="text/javascript" src="http://malsup.github.com/jquery.corner.js"></script>
+    <script type="text/javascript" src="js/purl.js"></script>
+    <script type="text/javascript" src="js/backend.js"></script>
+
+    <script type="text/javascript">
+
+        /**
+         * Initialization step
+         */
+        $(document).ready(function() {
+            const teamURL = "http://localhost:8080/PublicShame/api/team/" + purl().param('teamName');
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: teamURL,
+                success: function(data){
+                    $.each(data.sins, function (i, theItem) {
+                        createPostAfter(theItem.sinner, theItem.sin, 'http://placekitten.com/g/50/40');
+                    });
+
+                    setRefreshLink(data.updateLink);
+                }
+            });
+        });
+
+        setInterval(
+                function(){
+                    getAllPostsForTeam();
+                }, 1000);
+
+    </script>
+
+    <link rel="stylesheet" type="text/css" media="screen" href="css/devsin.css" />
+
+</head>
+<body>
+
+    <div id="current-sinner" style="width:95%;overflow:auto;">
+        <div class="author-icon">
+            <img id="current-sinner-icon" src="images/stock/github.png" alt="Default Image" />
+        </div>
+
+            <div class="post" style="float: right">
+                <div class="body" id="current-sinner-body">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make</div>
+                <div class="sinner" id="current-sinner-name">Sinner: John Doe</div>
+            </div>
+    </div>
+    <div id="past-post-list" style="width:95%;text-align:left">
+        <!--
+        <div class="post">
+            <div>
+                <div class="author-icon"><img src="images/stock/github.png" alt="Default Image"/></div>
+                <div class="body">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make</div>
+                <div class="sinner">Sinner: John Doe</div>
+            </div>
+        </div>
+        -->
+    </div>
+
+    <button onclick="createPostAfter('John Doe', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make', 'images/stock/github.png');">add button</button>
+</body>
+</html>

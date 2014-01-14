@@ -1,0 +1,162 @@
+HOST: devsin.ehdev.io
+
+--- DevSin ---
+
+--
+Team Resourses
+The following section contains the operations that can be preformed on the team object
+--
+
+Get all the teams that are avalible
+GET /api/team
+< 200
+< Content-Type: application/json
+[{"key":"qa","name":"QA","count":0},{"key":"umz0i","name":"The A Team","count":0}]
+
+Create a new team with a passphrase to prevent unauthorized writes
+POST /api/team
+> Content-Type: application/json
+{
+"name" : "The A Team",
+"passphrase" : "Shut up, fool."
+}
+< 200
+< Content-Type: application/json
+{"key":"umz0i","name":"The A Team"}
+
+--
+Specific Team Operations
+This section is the contains the operations that can preformed on a specific team
+--
+Get all the posts on a team
+GET /api/team/{teamId}
+< 200
+< Content-Type: application/json
+{
+    "name": "QA",
+    "hasPassphrase": false,
+    "totalCount": 22,
+    "size": 15,
+    "sins": [
+        {
+            "sinner": "ethan",
+            "sin": "broke the build",
+            "id": 5
+        },
+        {
+            "sinner": "ethan",
+            "sin": "broke the build",
+            "id": 6
+        },
+        {
+            "sinner": "ethan",
+            "sin": "broke the build",
+            "id": 7
+        },
+        {
+            "sinner": "ethan",
+            "sin": "broke the build",
+            "id": 8
+        },
+        {
+            "sinner": "ethan",
+            "sin": "broke the build",
+            "id": 9
+        },
+        {
+            "sinner": "ethan",
+            "sin": "broke the build",
+            "id": 10
+        },
+        {
+            "sinner": "ethan",
+            "sin": "broke the build",
+            "id": 11
+        },
+        {
+            "sinner": "ethan",
+            "sin": "broke the build",
+            "id": 12
+        },
+        {
+            "sinner": "ethan",
+            "sin": "broke the build",
+            "id": 13
+        },
+        {
+            "sinner": "ethan",
+            "sin": "broke the build",
+            "id": 14
+        },
+        {
+            "sinner": "ethan",
+            "sin": "broke the build",
+            "id": 15
+        },
+        {
+            "sinner": "ethan",
+            "sin": "broke the build",
+            "id": 16
+        },
+        {
+            "sinner": "ethan",
+            "sin": "broke the build",
+            "id": 17
+        },
+        {
+            "sinner": "ethan",
+            "sin": "broke the build",
+            "id": 18
+        },
+        {
+            "sinner": "ethan",
+            "sin": "broke the build",
+            "id": 19
+        }
+    ],
+    "refreshLink": "http://localhost:8080/PublicShame/api/team/qa?start=4",
+    "next": "http://localhost:8080/PublicShame/api/team/qa?start=19",
+    "prev": "http://localhost:8080/PublicShame/api/team/qa?start=0"
+}
+
+Create a new post on a team with no passphrase needed
+POST /api/team/{teamId}
+> Content-Type: application/json
+{"sinner":"ethan", "sin":"broke the build"}
+< 200
+< Content-Type: application/json
+{"count":1,"refreshLink":"/api/team/{teamId}"}
++++++
+< 403
+< Content-Type: application/json
+{
+    "error": "Passphrase invalid"
+}
++++++
+< 404
+{
+    "error": "Team not found"
+}
+
+--
+Post specific actions. You can delete and get operations
+--
+Get the data for a post
+GET /api/post/{postId}
+< 200
+< Content-type: application/json
+{"sinner":"ethan","sin":"broke the build","id":6}
++++++
+< 404
+< Content-type: application/json
+{"error":"Post not found"}
+
+Deletes a post
+DELETE /api/post/{postId}
+< 200
+< Content-Type: application/json
+{"status":"OK"}
++++++
+< 404
+< Content-Type: application/json
+{"error":"Post not found"}
