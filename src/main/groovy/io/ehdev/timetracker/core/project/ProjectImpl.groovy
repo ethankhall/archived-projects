@@ -1,4 +1,6 @@
 package io.ehdev.timetracker.core.project
+
+import com.fasterxml.jackson.annotation.JsonIgnore
 import io.ehdev.timetracker.core.PreformActionBaseImpl
 import io.ehdev.timetracker.core.Storable
 import io.ehdev.timetracker.core.company.CompanyImpl
@@ -17,6 +19,7 @@ class ProjectImpl extends PreformActionBaseImpl implements Project, Storable {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
+    @JsonIgnore
     Integer id
 
     @Column

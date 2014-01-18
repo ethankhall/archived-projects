@@ -1,4 +1,7 @@
 package io.ehdev.timetracker.core.project.rate
+
+import com.fasterxml.jackson.annotation.JsonTypeName
+import groovy.transform.TupleConstructor
 import io.ehdev.timetracker.core.entry.LineItemEntry
 
 import javax.persistence.DiscriminatorValue
@@ -6,6 +9,8 @@ import javax.persistence.Entity
 
 @Entity
 @DiscriminatorValue(value="hourly")
+@JsonTypeName("HOURLY")
+@TupleConstructor(excludes = 'id', includeSuperFields = true)
 class HourlyRate extends Rate {
 
     @Override

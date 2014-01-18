@@ -1,22 +1,28 @@
 package io.ehdev.timetracker.core.project.discount
 
-import javax.persistence.Column
-import javax.persistence.DiscriminatorColumn
-import javax.persistence.DiscriminatorType
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
-import javax.persistence.Inheritance
-import javax.persistence.Table
+import com.fasterxml.jackson.annotation.JsonAutoDetect
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonSubTypes
+import com.fasterxml.jackson.annotation.JsonTypeInfo
+
+import javax.persistence.*
 
 @Entity
 @Inheritance
 @Table
 @DiscriminatorColumn(name="discount_selector", discriminatorType=DiscriminatorType.STRING)
+
+@JsonAutoDetect()
+@JsonTypeInfo(use=JsonTypeInfo.Id.NAME, include=JsonTypeInfo.As.PROPERTY, property="type")
+@JsonSubTypes([
+    @JsonSubTypes.Type(FixedValueDiscount.class),
+    @JsonSubTypes.Type(PercentDiscount.class)
+])
 abstract class Discount {
 
     @Id
     @GeneratedValue
+    @JsonIgnore
     Integer id
 
     @Column

@@ -4,7 +4,7 @@ import org.testng.annotations.Test
 
 import static org.fest.assertions.Assertions.assertThat
 
-class FixedRateDiscountTest {
+class FixedValueDiscountTest {
 
     @Test
     public void testSubtraction() throws Exception {
