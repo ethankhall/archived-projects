@@ -17,11 +17,6 @@ class FixedTimeEntryTest {
         assertThat(entry.getDuration()).isEqualTo(new Duration(60 * 60 * 1000))
     }
 
-    @Test(expectedExceptions = BadStartTimeException.class)
-    public void testNotSettingStartTime_throwsBadStartTimeException() throws Exception {
-        new FixedTimeEntry(endTime: DateTime.now())
-    }
-
      @Test
      public void testNotSettingEndTime () throws Exception {
          DateTimeUtils.setCurrentMillisFixed(DateTime.now().getMillis())

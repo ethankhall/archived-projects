@@ -1,5 +1,6 @@
 package io.ehdev.timetracker.core.company
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import groovy.transform.TupleConstructor
 import io.ehdev.timetracker.core.PreformActionBaseImpl
 import io.ehdev.timetracker.core.Storable
@@ -15,6 +16,7 @@ class CompanyImpl extends PreformActionBaseImpl implements Company, Storable {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
+    @JsonIgnore
     Integer id
 
     @Column

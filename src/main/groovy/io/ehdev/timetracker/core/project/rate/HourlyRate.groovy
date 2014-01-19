@@ -13,6 +13,12 @@ import javax.persistence.Entity
 @TupleConstructor(excludes = 'id', includeSuperFields = true)
 class HourlyRate extends Rate {
 
+    HourlyRate(BigDecimal value) {
+        this.rateValue = value
+    }
+
+    HourlyRate() { }
+
     @Override
     BigDecimal getAmount(List<LineItemEntry> entries) {
         BigDecimal value = BigDecimal.ZERO

@@ -1,5 +1,6 @@
 package io.ehdev.timetracker.core.permissions
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import io.ehdev.timetracker.core.project.ProjectImpl
 import org.apache.commons.lang3.builder.EqualsBuilder
 import org.apache.commons.lang3.builder.HashCodeBuilder
@@ -14,6 +15,7 @@ import javax.persistence.Table
 class UserProjectPermissions extends ExtendedPermissions{
 
     @ManyToOne
+    @JsonIgnore
     ProjectImpl project
 
     public String toString() {

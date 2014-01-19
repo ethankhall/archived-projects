@@ -1,4 +1,6 @@
 package io.ehdev.timetracker.core.permissions
+
+import com.fasterxml.jackson.annotation.JsonIgnore
 import io.ehdev.timetracker.core.Storable
 import io.ehdev.timetracker.core.user.UserImpl
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder
@@ -10,6 +12,7 @@ abstract class ExtendedPermissions implements Permissions, Storable {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
+    @JsonIgnore
     Integer id
 
     @ManyToOne(cascade = CascadeType.ALL)

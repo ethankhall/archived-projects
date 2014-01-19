@@ -1,4 +1,7 @@
 package io.ehdev.timetracker.core.entry
+
+import com.fasterxml.jackson.annotation.JsonTypeName
+import groovy.transform.TupleConstructor
 import org.joda.time.DateTime
 import org.joda.time.Duration
 
@@ -8,6 +11,8 @@ import javax.persistence.Entity
 
 @Entity
 @DiscriminatorValue(value="fixed_time_entry")
+@JsonTypeName("HOURLY")
+@TupleConstructor(excludes = 'id', includeSuperFields = true)
 class FixedTimeEntry extends LineItemEntry {
 
     @Column
@@ -15,14 +20,6 @@ class FixedTimeEntry extends LineItemEntry {
 
     @Column
     DateTime endTime
-
-    FixedTimeEntry(Map properties){
-        startTime = properties['startTime']
-        endTime = properties['endTime']
-
-        checkThatThereIsAStartTime()
-        checkThatTimesAreInGoodOrder()
-    }
 
     public void checkThatThereIsAStartTime() {
         if (!startTime)
@@ -54,14 +51,17 @@ class FixedTimeEntry extends LineItemEntry {
 
     public void setStartTime(DateTime startTime){
         this.startTime = startTime
-        checkThatTimesAreInGoodOrder()
-        checkThatThereIsAStartTime()
+        validateData()
     }
 
     public void setTimes(DateTime startTime, DateTime endTime){
         this.startTime = startTime
         this.endTime = endTime
-        checkThatTimesAreInGoodOrder()
+        validateData()
+    }
+
+    void validateData() {
         checkThatThereIsAStartTime()
+        checkThatTimesAreInGoodOrder()
     }
 }
