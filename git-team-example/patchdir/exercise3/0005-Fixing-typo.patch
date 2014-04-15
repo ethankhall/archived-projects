@@ -1,0 +1,36 @@
+From 6b277bf57efb7619919f4fbfff060f2fc016cfcc Mon Sep 17 00:00:00 2001
+From: Ethan Hall <ehall@grubhub.com>
+Date: Fri, 27 Sep 2013 14:24:03 -0500
+Subject: [PATCH] switching the - to a +
+
+---
+ src/main/java/com/example/git/SomeClass.java     | 2 +-
+ src/test/java/com/example/git/SomeClassTest.java | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/main/java/com/example/git/SomeClass.java b/src/main/java/com/example/git/SomeClass.java
+index b84b18c..5a3e6c3 100644
+--- a/src/main/java/com/example/git/SomeClass.java
++++ b/src/main/java/com/example/git/SomeClass.java
+@@ -3,6 +3,6 @@ package com.example.git;
+ public class SomeClass {
+ 
+     public static int addTwoValue(int val1, int val2) {
+-        return val1 - val2;
++        return val1 + val2;
+     }
+ }
+diff --git a/src/test/java/com/example/git/SomeClassTest.java b/src/test/java/com/example/git/SomeClassTest.java
+index 707f0fa..39ba757 100644
+--- a/src/test/java/com/example/git/SomeClassTest.java
++++ b/src/test/java/com/example/git/SomeClassTest.java
+@@ -10,5 +10,6 @@ public class SomeClassTest {
+     public void testAddTwo() throws Exception {
+         assertEquals(0, SomeClass.addTwoValue(0, 0));
+         assertEquals(2, SomeClass.addTwoValue(2, 0));
++        assertEquals(4, SomeClass.addTwoValue(2, 2));
+     }
+ }
+-- 
+1.8.4
+
