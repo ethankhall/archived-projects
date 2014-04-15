@@ -1,0 +1,545 @@
+﻿/* ==========================================================================
+   Misc
+   ========================================================================== */
+
+body{
+	color:#333;
+	font-family: 'Open Sans', sans-serif;
+	margin:0;
+}
+
+.fll{
+	float:left;	
+}
+
+.flr{
+	float:right;	
+}
+
+.alignr{
+	text-align:right;
+}
+
+.alignc{
+	text-align:center;
+}
+
+.clear{
+	clear:both;
+}
+
+.hidden{
+	display:none;
+	visibility:hidden;
+}
+
+.shown{
+	display:block;
+	visibility:visible;
+}
+
+table {
+	border-collapse: collapse;
+	font-size:12px;
+}
+
+th{
+	background:#e8f1fa;
+	font-weight:600;	
+}
+
+th, td {
+	padding: 8px;
+	text-align: left;
+	border: 1px solid #e8e8e8;
+}
+
+
+.cover-image{
+	background-image: url(../img/temporary-bg.jpg);
+	background-repeat: no-repeat;
+	background-position: center top;
+	background-size: cover;
+	height:100%;
+}
+
+/* ==========================================================================
+   Main Login Page
+   ========================================================================== */
+   
+.home h1{
+	font-family: 'Damion', cursive;
+	color:#fff;
+	font-size:80px;
+	font-weight:400;
+	text-align: center;	
+	margin-top:4rem;
+	text-shadow: 0px 3px 5px rgba(0,0,0,0.75);
+}
+
+h2{
+	font-family: 'Open Sans', sans-serif;
+	font-size:22px;
+	font-weight:300;
+	display:block;
+	text-align:center;
+	margin: 0 0 20px 0;
+}
+h2 span{
+	font-weight:700;
+}
+
+.login-container{
+	max-width:300px;
+	width:100%;
+	margin: 0 auto;	
+}
+
+.login-box{
+	background:#fff;
+	border-top: 6px solid Dodgerblue;
+	max-width:300px;
+	width:100%;
+	border-radius:5px;
+	padding:20px;
+	margin-bottom:6px;
+}
+
+.login-box ul{
+	margin:0;
+	padding:0;
+}
+
+.login-box a{
+	color:#9fb7ce;
+	text-decoration:none;
+	font-size:12px;
+	float:right;
+	position:relative;
+	top:-5px;
+}
+.login-box a:hover{
+	color:#276098;
+	text-decoration:underline;
+}
+   
+input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #CCC;
+    font-family: inherit;
+	font-size:16px;
+	font-weight:600;	
+}
+
+input[type="email"],input[type="password"] {
+    margin-bottom: 10px;
+	height:42px;
+	color:#333;
+
+}   
+input[type="submit"] {
+    width: 100%;
+	background:Dodgerblue;
+	color:#fff;
+	border-bottom:3px solid #1c7ddc;
+	margin-top:14px;
+	cursor:pointer;
+}
+input[type="submit"]:hover {
+	background:#44a1fc;
+}
+
+.slide-in {
+    transform: translate(-180px, 0);
+    -webkit-transform: translate(-180px, 0);
+    -ms-transform: translate(-180px, 0);
+}
+
+.slid {
+    transform: translate(180px, 0);
+    -webkit-transform: translate(180px, 0);
+    -ms-transform: translate(180px, 0);
+}
+
+/* ==========================================================================
+   Dashboard
+   ========================================================================== */
+
+.sidebar {
+	width: 180px;
+	height: 100%;
+	position: fixed;
+	background: #333;
+	z-index:1;
+}
+   
+aside  h1{
+	font-family: 'Damion', sans-serif;
+	color:#fff;
+	background:#333;
+	font-size:26px;
+	font-weight:400;
+	display:block;
+	width:100%;
+	text-align:center;
+	padding:0;
+	height:50px;
+	line-height:50px;
+	margin:0;
+	position:absolute;
+	bottom:0;
+}
+
+.sidebar-list{
+	padding:17px 0 20px 0;
+	margin:0;
+	width:100%;	
+}
+.sidebar-list li{
+
+}
+.sidebar-list li a{
+	display:block;
+	color:#fff;
+	font-weight:700;
+	text-decoration:none;
+	height:30px;
+	line-height:30px;
+	padding: 0 30px 0 30px;
+	position:relative;
+}
+.sidebar-list li a:hover{
+	background: rgba(0,0,0,0.15);
+}
+
+.sidebar-list-bottom{
+	position:absolute;
+	bottom:50px;
+}
+
+.count{
+	font-size:12px;
+	background: rgba(255,255,255,0.3);
+	border-radius:2px;
+	height:21px;
+	min-width:20px;
+	padding: 0 4px;
+	line-height:21px;
+	text-align:center;
+	color:#fff;
+	display:block;
+	position:absolute;
+	right:30px;
+	top:4px;
+}
+
+.shade-red{
+	background:#ff5c40;
+}
+.shade-green{
+	background:#46c97a;
+}
+.shade-blue{
+	background:#469cc9;
+}
+.shade-yellow{
+	background:#eede2f;
+}
+.shade-gray{
+	background:#c8c8c8;
+}
+.shade-soot{
+	background:#222;
+}
+.shade-orange{
+	background:#ff9e40;
+}
+
+.container{
+	width:100%;
+	z-index:3;
+}
+
+.container > header{
+	height:50px;
+	-webkit-box-shadow: 0px 0px 4px 0px rgba(102,102,102,0.5);
+	box-shadow: 0px 0px 4px 0px rgba(102,102,102,0.5);
+	line-height:50px;
+	padding: 10px 20px;
+	position:fixed;
+	width:100%;
+	background:#fff;
+}
+
+.container > header a{
+	margin-right:20px;
+}
+
+.container > header .button{
+	font-size:14px;
+	line-height:30px;
+	height:30px;
+	text-align:left;
+	float:left;
+	padding: 0 30px 0 10px;
+	position:relative;
+}
+
+.container > header .button i{
+	position:absolute;
+	right:0;
+	top:0;
+	display:block;
+	height:30px;
+	width:30px;
+	line-height:30px;
+	text-align:center;
+	border-top-right-radius: 2px;
+	border-bottom-right-radius: 2px;
+	
+}
+.container > header .button:hover{
+	background:#464646;	
+}
+
+.button{
+	text-decoration:none;
+	display:block;
+	color:#fff;
+	font-weight:700;
+	border-radius:2px;
+}
+
+.toggle-aside{
+	float:left;
+	display:block;
+	width:30px;
+	height:30px;
+	line-height:30px;
+	border-radius:2px;
+	text-align:center;
+	color:#fff;	
+}
+.toggle-aside i{
+	font-size:18px;
+	position:relative;
+	left:-1px;	
+}
+
+.icon-alerts{
+	color:#fff;
+	display:block;
+	width:30px;
+	height:30px;
+	float:left;
+	line-height:30px;	
+	font-size:16px;
+	font-weight:700;
+	border-radius:2px;
+	text-align:center;
+	cursor:pointer;
+}
+
+.container{
+	height:auto;	
+}
+
+.page{
+	padding:60px 0 20px 0;
+	background:#eee;
+	height:100%;
+	z-index:3;
+}
+
+.page > section{
+	-webkit-box-shadow: 0px 0px 5px -2px rgba(0,0,0,0.45);
+	box-shadow: 0px 0px 5px -2px rgba(0,0,0,0.45);
+	margin: 0 0 10px 10px;
+	z-index:3;
+}
+
+.page > div{
+	background:#fff;
+	-webkit-box-shadow: 0px 0px 5px -2px rgba(0,0,0,0.45);
+	box-shadow: 0px 0px 5px -2px rgba(0,0,0,0.45);
+	margin: 0 0 10px 10px;	
+	z-index:3;
+}
+
+/* ==========================================================================
+   Quick Info Boxes
+   ========================================================================== */
+.quick-info{
+	min-width:200px;
+	float:left;
+	min-height:80px;
+}
+.quick-info p{
+	text-transform:uppercase;
+	display:block;
+	margin:0;
+	padding:10px;
+}
+.quick-info h4{
+	display:block;
+	padding:10px;
+	margin:0;
+	font-size:14px;
+	color:#fff;
+	font-weight: 700;
+}
+.quick-text{
+	color: #333;
+	font-weight:600;
+	font-size:24px;
+}
+.quick-text em{
+	color:#646464;
+	display:block;
+	font-size:13px;
+	font-weight:300;
+}
+
+/* ==========================================================================
+   Notification Box
+   ========================================================================== */
+
+.notifications{
+	background:#fff;
+	padding:0;
+	margin:0;
+	border-radius:4px;
+	position:absolute;
+	top:44px;
+	left:45px;
+	min-width:220px;
+	-webkit-box-shadow: 0px 0px 15px -2px rgba(0,0,0,0.45);
+	box-shadow: 0px 0px 15px -2px rgba(0,0,0,0.45);
+	z-index:99;
+}
+.notifications li{
+	display:block;
+	padding: 5px 10px;
+	position:relative;	
+}
+.notifications li:not(:last-child){
+	border-bottom:1px solid #dfdfdf;
+}
+.notifications li:hover{
+	background:#eee;
+}
+
+.notifications li p{
+	margin:0;
+	padding:0;
+}
+.notification-name{
+	font-size:13px;
+	font-weight:700;
+	text-transform:uppercase;
+	height:25px;
+	line-height:25px;	
+}
+.notification-date{
+	font-size:11px;
+	color:#959595;
+	text-transform:uppercase;
+	position:relative;
+	top:-4px;
+	height:15px;
+	line-height:15px;	
+}
+.notification-status{
+	padding:4px;
+	text-align:center;
+	font-size:11px;
+	font-weight:700;
+	color:#fff;
+	border-radius:4px;
+	height:23px;
+	line-height:15px;
+	position:absolute;
+	right:10px;
+	top:14px;
+}
+
+.notification-green{
+	background: #65c946;
+}
+.notification-red{
+	background: #f92e2e;
+}
+
+.notification-arrow{
+	width: 0;
+	height: 0; 
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	border-bottom: 10px solid white;
+	position:absolute;
+	top:-10px;
+	left:30px;	
+}
+   
+/* ==========================================================================
+   Invoice
+   ========================================================================== */
+   
+.invoice{
+	border: 1px solid #eee;
+	max-width:800px;
+	width:100%;
+	padding:40px 30px 10px 30px;
+	font-size:13px;
+	background:#fff;
+	margin-right:25px;
+	clear:both;	
+}
+.invoice:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.invoice header{
+	min-height:90px;
+	margin-bottom:25px;
+}
+
+.invoice header div{
+	max-width:280px;
+	width:100%;
+}
+.invoice header div img{
+	max-width:100%;
+}
+
+.invoice footer{
+	color:#a7a7a7;
+	font-size:12px;
+	margin-top:40px;
+}
+
+.invoice-text{
+	color:#c7c7c7;
+	font-weight:700;
+	font-size:26px;
+}
+
+.contact-info:after {
+	content: "";
+	display: table;
+	clear: both;
+	margin:30px;
+}
+
+.invoice-info-table tr th{
+	padding-right:35px;
+}
+
+.pricing-table tr td:not(:first-child),.pricing-table tr th:not(:first-child){
+	width:10%;
+	text-align:right;
+}

@@ -1,0 +1,4 @@
+language: groovy
+notifications:
+  webhooks:
+    - https://quorum.slack.com/services/hooks/travis?token=GjF5AsF9bdAST78GicY9rZgg
